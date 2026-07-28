@@ -1106,16 +1106,33 @@ var SIX_DEFAULT = "W30";
     }
     svg+='<line x1="'+padL+'" y1="'+(padT+plotH).toFixed(1)+'" x2="'+(W-padR)+'" y2="'+(padT+plotH).toFixed(1)+'" stroke="#cbd5e1" stroke-width="1"/>';
 
+    function clampY(yy){ return Math.max(padT, Math.min(padT+plotH, yy)); }
     series.forEach(function(s){
-      var d=''; var started=false;
+      // 拆分为连续分段（遇 null 断开），每段做平滑曲线
+      var runs=[], cur=null;
       for(var i=0;i<n;i++){
         var v=s.vals[i];
-        if(v==null){ started=false; continue; }
-        var x=xAt(i), y=yAt(v);
-        if(!started){ d+='M'+x.toFixed(1)+' '+y.toFixed(1)+' '; started=true; }
-        else { d+='L'+x.toFixed(1)+' '+y.toFixed(1)+' '; }
+        if(v==null){ if(cur){ runs.push(cur); cur=null; } continue; }
+        if(!cur) cur=[];
+        cur.push({x:xAt(i), y:yAt(v)});
       }
-      if(d) svg+='<path d="'+d+'" fill="none" stroke="'+s.color+'" stroke-width="'+s.width+'" stroke-linejoin="round" stroke-linecap="round" opacity="0.92"/>';
+      if(cur) runs.push(cur);
+      runs.forEach(function(pts){
+        if(pts.length<2) return;                       // 单点仅由圆点表示
+        if(pts.length===2){                            // 两点仍用直线
+          svg+='<path d="M'+pts[0].x.toFixed(1)+' '+pts[0].y.toFixed(1)+' L'+pts[1].x.toFixed(1)+' '+pts[1].y.toFixed(1)+'" fill="none" stroke="'+s.color+'" stroke-width="'+s.width+'" stroke-linejoin="round" stroke-linecap="round" opacity="0.92"/>';
+          return;
+        }
+        // Catmull-Rom → 三次贝塞尔，得到经过所有数据点的平滑曲线
+        var d='M'+pts[0].x.toFixed(1)+' '+pts[0].y.toFixed(1)+' ';
+        for(var k=0;k<pts.length-1;k++){
+          var p0=pts[k-1]||pts[k], p1=pts[k], p2=pts[k+1], p3=pts[k+2]||p2;
+          var c1x=p1.x+(p2.x-p0.x)/6, c1y=clampY(p1.y+(p2.y-p0.y)/6);
+          var c2x=p2.x-(p3.x-p1.x)/6, c2y=clampY(p2.y-(p3.y-p1.y)/6);
+          d+='C'+c1x.toFixed(1)+' '+c1y.toFixed(1)+' '+c2x.toFixed(1)+' '+c2y.toFixed(1)+' '+p2.x.toFixed(1)+' '+p2.y.toFixed(1)+' ';
+        }
+        svg+='<path d="'+d+'" fill="none" stroke="'+s.color+'" stroke-width="'+s.width+'" stroke-linejoin="round" stroke-linecap="round" opacity="0.92"/>';
+      });
       for(var i2=0;i2<n;i2++){
         var v2=s.vals[i2];
         if(v2==null) continue;
