@@ -909,22 +909,23 @@ var SIX_DEFAULT = "W31";
     var lag  = dims.slice().sort(function(a,b){return (a.v-a.sz)-(b.v-b.sz);})[0];
 
     var effGap = x.eff - hn.eff;
-    var mom = +(((x.W[3]-x.W[2])/x.W[2])*100).toFixed(1);
+    var _n = x.W.length;
+    var mom = +(((x.W[_n-1]-x.W[_n-2])/x.W[_n-2])*100).toFixed(1);
     var candB = [
       {tag:'店效', title:'店效领先大区', w:effGap, detail:'单店店效 <b>'+x.eff.toFixed(1)+'</b>，高于华南大区 '+hn.eff.toFixed(1)+'（'+p1(effGap)+'pp）、深圳均值 '+sz.eff.toFixed(1)+'。'},
-      {tag:'锁单动量', title:'锁单四周持续爬坡', w:mom/2, detail:'周锁单 W1→W2→W3→W4 = '+x.W.join('→')+'，W4 环比 <b>+'+mom+'%</b>，连续四周上行。'}
+      {tag:'锁单动量', title:'锁单周度动量', w:mom, detail:'周锁单 '+x.W.map(function(v,i){return 'W'+(i+1);}).join('→')+' = '+x.W.join('→')+'，最新周(W'+_n+') 环比 <b>'+(mom>=0?'+':'')+mom+'%</b>'+(mom>=0?' 回升':' 回落')+'。'}
     ];
     var bestB = candB.slice().sort(function(a,b){return b.w-a.w;})[0];
 
     var gapPct = +(100 - x.lock).toFixed(1);
     var below = L.stores.filter(function(s){return s.lock < sz.lock;});
     var storeGap = below.length ? +(below.reduce(function(a,s){return a+(sz.lock-s.lock);},0)/below.length).toFixed(1) : 0;
-    var drops = L.stores.map(function(s){return {n:s.name, m:+(((s.W[3]-s.W[2])/s.W[2])*100).toFixed(1)};}).filter(function(o){return o.m<0;});
+    var drops = L.stores.map(function(s){var _sn=s.W.length; return {n:s.name, m:+(((s.W[_sn-1]-s.W[_sn-2])/s.W[_sn-2])*100).toFixed(1)};}).filter(function(o){return o.m<0;});
     var maxDrop = drops.length ? Math.min.apply(null, drops.map(function(o){return o.m;})) : 0;
     var candE = [
       {tag:'锁单缺口', title:'锁单目标缺口仍大', w:gapPct, detail:'锁单达成率仅 <b>'+x.lock.toFixed(1)+'%</b>，目标还剩 <b>'+gapPct+'%</b> 未达成（缺口 '+(x.lockTgt-x.lockAct)+' 台）。'},
       {tag:'门店分化', title: below.length+' 家门店锁单低于深圳均值', w:storeGap, detail: below.length ? below.map(function(s){return shortName(s.name);}).join('、')+' 锁单达成低于深圳均值 '+sz.lock.toFixed(1)+'%（平均低 '+storeGap+'pp）。' : '—'},
-      {tag:'W4回落', title:'部分门店 W4 锁单回落', w:Math.abs(maxDrop), detail: maxDrop<0 ? drops.map(function(o){return shortName(o.n)+' '+o.m+'%';}).join('、')+'。' : '—'}
+      {tag:'末周回落', title:'部分门店最新周锁单回落', w:Math.abs(maxDrop), detail: maxDrop<0 ? drops.map(function(o){return shortName(o.n)+' '+o.m+'%';}).join('、')+'。' : '—'}
     ];
     var worstE = candE.slice().sort(function(a,b){return b.w-a.w;})[0];
 
@@ -976,9 +977,10 @@ var SIX_DEFAULT = "W31";
       var rates=calcRates(v);
       var wow = vp[0]>0 ? +(((v[0]-vp[0])/vp[0])*100).toFixed(2) : null;
       var lockPct=s.lock, delPct=s.del, batchPct=s.batch, eff=s.eff, W=s.W;
+      var _n = W.length, _latest = W[_n-1], _prev = W[_n-2];
       var sumW = W.reduce(function(a,b){return a+b;},0);
       var stdTarget = lockPct>0 ? Math.round(sumW/(lockPct/100)) : 0;
-      var mom = +(100*(W[3]-W[2])/W[2]).toFixed(1);
+      var mom = +((_latest-_prev)/_prev*100).toFixed(1);
 
       // ---- diagnosis candidates ----
       var hi=[], lo=[];
@@ -987,7 +989,7 @@ var SIX_DEFAULT = "W31";
       if(rates[3]!=null&&szRates[3]!=null&&rates[3]>=szRates[3]) hi.push({w:rates[3]-szRates[3], t:'到店锁单率 <b>'+rates[3].toFixed(2)+'%</b> 优于深圳均值 '+szRates[3].toFixed(2)+'%（+'+(rates[3]-szRates[3]).toFixed(2)+'pp）'});
       if(rates[4]!=null&&szRates[4]!=null&&rates[4]>=szRates[4]) hi.push({w:rates[4]-szRates[4], t:'试驾锁单率 <b>'+rates[4].toFixed(2)+'%</b> 优于深圳均值 '+szRates[4].toFixed(2)+'%（+'+(rates[4]-szRates[4]).toFixed(2)+'pp）'});
       if(rates[5]!=null&&szRates[5]!=null&&rates[5]>=szRates[5]) hi.push({w:rates[5]-szRates[5], t:'潜客锁单率 <b>'+rates[5].toFixed(2)+'%</b> 优于深圳均值 '+szRates[5].toFixed(2)+'%（+'+(rates[5]-szRates[5]).toFixed(2)+'pp）'});
-      if(mom>0) hi.push({w:mom/3, t:'W4 锁单 '+W[2]+'→'+W[3]+'，环比 <b>+'+mom+'%</b> 回升'});
+      if(mom>0) hi.push({w:mom/3, t:'最新周(W'+_n+') 锁单 '+_prev+'→'+_latest+'，环比 <b>+'+mom+'%</b> 回升'});
 
       if(lockPct<hnB.lock) lo.push({w:hnB.lock-lockPct, t:'锁单达成 <b>'+lockPct.toFixed(1)+'%</b> 低于华南均值 '+hnB.lock.toFixed(1)+'%、深圳 '+szB.lock.toFixed(1)+'%'});
       else if(lockPct<szB.lock) lo.push({w:szB.lock-lockPct, t:'锁单达成 <b>'+lockPct.toFixed(1)+'%</b> 低于深圳均值 '+szB.lock.toFixed(1)+'%（-'+(szB.lock-lockPct).toFixed(1)+'pp）'});
@@ -995,7 +997,7 @@ var SIX_DEFAULT = "W31";
       if(rates[3]!=null&&szRates[3]!=null&&rates[3]<szRates[3]) lo.push({w:szRates[3]-rates[3], t:'到店锁单率 <b>'+rates[3].toFixed(2)+'%</b> 弱于深圳均值 '+szRates[3].toFixed(2)+'%（-'+(szRates[3]-rates[3]).toFixed(2)+'pp）'});
       if(rates[4]!=null&&szRates[4]!=null&&rates[4]<szRates[4]) lo.push({w:szRates[4]-rates[4], t:'试驾锁单率 <b>'+rates[4].toFixed(2)+'%</b> 弱于深圳均值 '+szRates[4].toFixed(2)+'%（-'+(szRates[4]-rates[4]).toFixed(2)+'pp）'});
       if(rates[5]!=null&&szRates[5]!=null&&rates[5]<szRates[5]) lo.push({w:szRates[5]-rates[5], t:'潜客锁单率 <b>'+rates[5].toFixed(2)+'%</b> 弱于深圳均值 '+szRates[5].toFixed(2)+'%（-'+(szRates[5]-rates[5]).toFixed(2)+'pp）'});
-      if(W[3]<W[2]) lo.push({w:W[2]-W[3], t:'W4 锁单回落 '+W[2]+'→'+W[3]+'（<b>-'+Math.abs(mom)+'%</b>）'});
+      if(_latest<_prev) lo.push({w:_prev-_latest, t:'最新周(W'+_n+') 锁单回落 '+_prev+'→'+_latest+'（<b>-'+Math.abs(mom)+'%</b>）'});
       hi.sort(function(a,b){return b.w-a.w;}); lo.sort(function(a,b){return b.w-a.w;});
       var hiTxt = hi.length ? hi.slice(0,2).map(function(h,i){ return (i+1)+'、'+h.t; }).join('<br>') : '本期无显著正面表现。';
       var loTxt = lo.length ? lo.slice(0,2).map(function(l,i){ return (i+1)+'、'+l.t; }).join('<br>') : '本期无显著风险点。';
@@ -1003,7 +1005,7 @@ var SIX_DEFAULT = "W31";
       // ---- 锁交批 column ----
       var lockCol = ''
         + '<div class="sd-kv"><span class="k">净增锁单(实/标)</span><span class="v">'+sumW+' / '+stdTarget+'</span></div>'
-        + '<div class="sd-kv"><span class="k">锁单周趋势 W1-W4</span><span class="v">'+W.join('→')+'　<span class="'+(mom>=0?'r-good':'r-bad')+'">'+(mom>=0?'+':'')+mom+'%</span></span></div>'
+        + '<div class="sd-kv"><span class="k">锁单周趋势 W1-W'+_n+'</span><span class="v">'+W.join('→')+'　<span class="'+(mom>=0?'r-good':'r-bad')+'">'+(mom>=0?'+':'')+mom+'%</span></span></div>'
         + '<div class="sd-kv"><span class="k">交付达成</span><span class="v '+rc(delPct,szB.del)+'">'+delPct.toFixed(1)+'%（深圳 '+szB.del.toFixed(1)+'%）</span></div>'
         + '<div class="sd-kv"><span class="k">批售达成</span><span class="v '+rc(batchPct,szB.batch)+'">'+batchPct.toFixed(1)+'%（深圳 '+szB.batch.toFixed(1)+'%）</span></div>';
 
