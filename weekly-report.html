@@ -399,7 +399,7 @@
         </thead>
       <tbody>
 <tr>
-            <td>华南大区（全量）· 大区均值</td><td class="num">131</td><td class="num">57.7</td>
+            <td>华南大区（全量）· 大区均值</td><td class="num">103</td><td class="num">73.4</td>
             <td class="num">7564 / 10481</td><td class="num" style="font-weight:700">72.2%</td><td class="num" style="font-weight:700">69.1%</td><td class="num" style="font-weight:700">105.2%</td>
             
 <tr>
@@ -614,7 +614,7 @@
 
 <script>
 (function(){
-      var LOCK_DATA = {"bench": {"华南": {"stores": 131, "eff": 57.7, "lock": 72.2, "del": 69.1, "batch": 105.2}, "深圳": {"stores": 14, "eff": 59.7, "lock": 63.7, "del": 64.5, "batch": 110.3}}, "xyt": {"stores": 6, "eff": 73.8, "lockAct": 443.0, "lockTgt": 673.0, "lock": 65.8, "del": 57.0, "batch": 115.2, "W": [73, 100, 124, 96, 62]}, "stores": [{"name": "深圳体验中心杰鹏车城店", "eff": 3.8, "lock": 78.9, "del": 66.1, "batch": 123.5, "W": [5, 11, 11, 11, 7], "lockAct": 45.0}, {"name": "深圳体验中心龙华中心店", "eff": 6.2, "lock": 69.4, "del": 60.9, "batch": 82.6, "W": [14, 19, 17, 17, 9], "lockAct": 75.0}, {"name": "深圳零跑中心万国城旗舰店", "eff": 6.8, "lock": 102.5, "del": 100.6, "batch": 231.0, "W": [17, 14, 27, 19, 8], "lockAct": 82.0}, {"name": "深圳零跑中心光明车城店", "eff": 6.9, "lock": 59.3, "del": 54.7, "batch": 107.5, "W": [16, 19, 27, 16, 10], "lockAct": 83.0}, {"name": "深圳零跑中心宝运达汽车城店", "eff": 6.4, "lock": 52.0, "del": 42.0, "batch": 104.9, "W": [8, 16, 25, 16, 15], "lockAct": 77.0}, {"name": "深圳零跑中心远望车城店", "eff": 6.8, "lock": 57.9, "del": 46.2, "batch": 120.2, "W": [13, 21, 17, 17, 13], "lockAct": 81.0}]};
+      var LOCK_DATA = {"bench": {"华南": {"stores": 103, "eff": 73.4, "lock": 72.2, "del": 69.1, "batch": 105.2}, "深圳": {"stores": 14, "eff": 59.7, "lock": 63.7, "del": 64.5, "batch": 110.3}}, "xyt": {"stores": 6, "eff": 73.8, "lockAct": 443.0, "lockTgt": 673.0, "lock": 65.8, "del": 57.0, "batch": 115.2, "W": [73, 100, 124, 96, 62]}, "stores": [{"name": "深圳体验中心杰鹏车城店", "eff": 3.8, "lock": 78.9, "del": 66.1, "batch": 123.5, "W": [5, 11, 11, 11, 7], "lockAct": 45.0}, {"name": "深圳体验中心龙华中心店", "eff": 6.2, "lock": 69.4, "del": 60.9, "batch": 82.6, "W": [14, 19, 17, 17, 9], "lockAct": 75.0}, {"name": "深圳零跑中心万国城旗舰店", "eff": 6.8, "lock": 102.5, "del": 100.6, "batch": 231.0, "W": [17, 14, 27, 19, 8], "lockAct": 82.0}, {"name": "深圳零跑中心光明车城店", "eff": 6.9, "lock": 59.3, "del": 54.7, "batch": 107.5, "W": [16, 19, 27, 16, 10], "lockAct": 83.0}, {"name": "深圳零跑中心宝运达汽车城店", "eff": 6.4, "lock": 52.0, "del": 42.0, "batch": 104.9, "W": [8, 16, 25, 16, 15], "lockAct": 77.0}, {"name": "深圳零跑中心远望车城店", "eff": 6.8, "lock": 57.9, "del": 46.2, "batch": 120.2, "W": [13, 21, 17, 17, 13], "lockAct": 81.0}]};
   // 各门店 交付/批售/库存/深度 实绩（来源：城市经理简报 2026-08-01 门店明细）
       var STORES_ACTUAL = {"深圳体验中心杰鹏车城店": {"short": "杰鹏", "del": 39.0, "batch": 63.0, "stock": 65, "depth": 1.67}, "深圳体验中心龙华中心店": {"short": "龙华", "del": 75.0, "batch": 95.0, "stock": 137, "depth": 1.83}, "深圳零跑中心万国城旗舰店": {"short": "万国城", "del": 75.0, "batch": 97.0, "stock": 79, "depth": 1.05}, "深圳零跑中心光明车城店": {"short": "光明", "del": 81.0, "batch": 115.0, "stock": 131, "depth": 1.62}, "深圳零跑中心宝运达汽车城店": {"short": "宝运达", "del": 67.0, "batch": 128.0, "stock": 185, "depth": 2.76}, "深圳零跑中心远望车城店": {"short": "远望", "del": 67.0, "batch": 131.0, "stock": 151, "depth": 2.25}};
   function storeShort(n){
