@@ -1058,9 +1058,9 @@
     .pp-mtx tr.pp-gtotal td{background:#e6ffed;font-weight:700}
     .pp-mtx td.pp-tot{font-weight:700;background:rgba(0,0,0,0.02)}
     .pp-note{font-size:12px;color:#94a3b8;margin:8px 0 0}
-    .pp-stacked-wrap{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
-    .pp-stacked-left{flex:1 1 420px;min-width:380px}
-    .pp-mtx-mini{flex:1 1 300px;min-width:280px;border-collapse:collapse;font-size:12px;background:#fff;border:1px solid #eef2f7;border-radius:8px;overflow:hidden}
+    .pp-stacked-wrap{display:flex;flex-direction:column;gap:16px;align-items:stretch}
+    .pp-stacked-left{width:100%}
+    .pp-mtx-mini{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border:1px solid #eef2f7;border-radius:8px;overflow:hidden}
     .pp-mtx-mini th,.pp-mtx-mini td{padding:5px 9px;border-bottom:1px solid #f1f5f9;text-align:right;white-space:nowrap}
     .pp-mtx-mini th{color:#64748b;font-weight:600;border-bottom:2px solid #e2e8f0;background:#f8fafc}
     .pp-mtx-mini td.ch{text-align:left;font-weight:600;color:#334155}
@@ -1082,10 +1082,7 @@
 
   <div class="sub-pane active" id="sub-overview">
     <div class="pp-kpi" id="pp-kpi"></div>
-    <div class="pp-charts">
-      <div class="pp-chart"><h4>各集团渠道占比（按有效潜客）</h4><div id="pp-chart-qike"></div></div>
-      <div class="pp-chart"><h4>各渠道潜客锁单率（红虚线＝深圳均值）</h4><div id="pp-chart-rate"></div></div>
-    </div>
+    <div class="pp-chart full"><h4>各集团渠道占比（按有效潜客）</h4><div id="pp-chart-qike"></div></div>
     <div id="pp-detail"></div>
     <div id="pp-analysis"></div>
   </div>
@@ -1853,7 +1850,7 @@ var SIX_DEFAULT = "W31";
   // 横向 100% 堆积图：每个集团一行，按有效潜客占比切分渠道；右侧附「集团×渠道占比」数据表
   function escAttr(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function stackedGroups(groups, orderedChs){
-    var labW = 80, barX = labW + 10, barMax = 660, rowH = 38, pad = 10, rightPad = 92;
+    var labW = 80, barX = labW + 10, barMax = 780, rowH = 38, pad = 10, rightPad = 96;
     var H = groups.length*rowH + pad*2;
     var W = barX + barMax + rightPad;
     var s = '<svg viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit;font-size:12px">';
@@ -1982,11 +1979,6 @@ var SIX_DEFAULT = "W31";
     szSegs.forEach(function(seg){ seg.pct = szTotal>0 ? seg.value/szTotal*100 : 0; seg.fill = chColor(seg.idx); });
     groups.push({name:'深圳市', segs:szSegs, total:szTotal, isAvg:true});
     document.getElementById('pp-chart-qike').innerHTML = stackedGroups(groups, orderedChs);
-
-    var rateItems = rows.filter(function(r){ return r.rates[5]!=null; })
-      .map(function(r){ return {label:r.ch, value:r.rates[5], disp:fmtP2(r.rates[5]), fill: r.rates[5]>=szRates[5]?'#10b981':'#ef4444'}; })
-      .sort(function(a,b){ return b.value-a.value; });
-    document.getElementById('pp-chart-rate').innerHTML = hbar(rateItems, {bench: szRates[5]});
 
     document.getElementById('pp-detail').innerHTML = buildChannelTable(rows, szRates, szV);
     document.getElementById('pp-analysis').innerHTML = buildAnalysis(rows, szRates, szV, wow);
