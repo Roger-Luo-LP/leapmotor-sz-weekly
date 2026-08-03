@@ -1058,6 +1058,15 @@
     .pp-mtx tr.pp-gtotal td{background:#e6ffed;font-weight:700}
     .pp-mtx td.pp-tot{font-weight:700;background:rgba(0,0,0,0.02)}
     .pp-note{font-size:12px;color:#94a3b8;margin:8px 0 0}
+    .pp-stacked-wrap{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+    .pp-stacked-left{flex:1 1 420px;min-width:380px}
+    .pp-mtx-mini{flex:1 1 300px;min-width:280px;border-collapse:collapse;font-size:12px;background:#fff;border:1px solid #eef2f7;border-radius:8px;overflow:hidden}
+    .pp-mtx-mini th,.pp-mtx-mini td{padding:5px 9px;border-bottom:1px solid #f1f5f9;text-align:right;white-space:nowrap}
+    .pp-mtx-mini th{color:#64748b;font-weight:600;border-bottom:2px solid #e2e8f0;background:#f8fafc}
+    .pp-mtx-mini td.ch{text-align:left;font-weight:600;color:#334155}
+    .pp-mtx-mini td.ch i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:middle}
+    .pp-mtx-mini tr.total td{font-weight:700;border-top:2px solid #e2e8f0;background:#f8fafc}
+    .pp-mtx-mini td .v{color:#94a3b8;font-size:10.5px;margin-left:4px;font-weight:400}
     @media(max-width:760px){.pp-kpi{grid-template-columns:repeat(2,1fr)}}
   </style>
 
@@ -1841,10 +1850,10 @@ var SIX_DEFAULT = "W31";
   var CH_PALETTE = ['#4f8cff','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899','#84cc16','#f97316','#64748b'];
   function chColor(idx){ return CH_PALETTE[idx % CH_PALETTE.length]; }
 
-  // 横向 100% 堆积图：每个集团一行，按有效潜客占比切分渠道
+  // 横向 100% 堆积图：每个集团一行，按有效潜客占比切分渠道；右侧附「集团×渠道占比」数据表
   function escAttr(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function stackedGroups(groups, orderedChs){
-    var labW = 80, barX = labW + 10, barMax = 430, rowH = 36, pad = 10, rightPad = 110;
+    var labW = 80, barX = labW + 10, barMax = 660, rowH = 38, pad = 10, rightPad = 92;
     var H = groups.length*rowH + pad*2;
     var W = barX + barMax + rightPad;
     var s = '<svg viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit;font-size:12px">';
@@ -1863,7 +1872,7 @@ var SIX_DEFAULT = "W31";
         s += '<rect x="'+x.toFixed(2)+'" y="'+(y+6)+'" width="'+bw.toFixed(2)+'" height="'+(rowH-14)+'" fill="'+seg.fill+'" '
            + 'data-grp="'+escAttr(g.name)+'" data-ch="'+escAttr(seg.ch)+'" data-pct="'+pctTxt+'" data-val="'+fmtInt(seg.value)+'">'
            + '<title>'+tip+'</title></rect>';
-        if(bw >= 34){
+        if(bw >= 22){
           s += '<text x="'+(x+bw/2).toFixed(2)+'" y="'+(y+rowH/2+4)+'" fill="#ffffff" font-weight="600" text-anchor="middle" pointer-events="none">'+pctTxt+'</text>';
         }
         x += bw;
@@ -1877,8 +1886,20 @@ var SIX_DEFAULT = "W31";
       legend += '<span class="pp-leg"><i style="background:'+chColor(i)+'"></i>'+ch+'</span>';
     });
     legend += '</div>';
-    legend += '<p class="pp-note">深圳市（基准）行为全市渠道占比，可与三大集团对比；鼠标移至色块查看渠道明细。</p>';
-    return s + legend;
+    // 右侧数据表：集团 × 渠道占比（每行 = 一个集团，列 = 渠道），数值直接可见
+    var tbl = '<table class="pp-mtx-mini"><thead><tr><th class="ch">集团＼渠道</th>';
+    orderedChs.forEach(function(ch, i){ tbl += '<th><span style="color:'+chColor(i)+'">●</span>'+escAttr(ch)+'</th>'; });
+    tbl += '<th>合计</th></tr></thead><tbody>';
+    groups.forEach(function(g){
+      tbl += '<tr><td class="ch">'+(g.isAvg?'<b>'+escAttr(g.name)+'（基准）</b>':escAttr(g.name))+'</td>';
+      g.segs.forEach(function(seg){
+        tbl += '<td>'+seg.pct.toFixed(1)+'%<span class="v">'+fmtInt(seg.value)+'</span></td>';
+      });
+      tbl += '<td>'+fmtInt(g.total)+'</td></tr>';
+    });
+    tbl += '</tbody></table>';
+    legend += '<p class="pp-note">深圳市（基准）行为全市渠道占比，可与三大集团对比；右侧表为各集团各渠道的占比与有效潜客（台），鼠标移至色块亦可查看明细。</p>';
+    return '<div class="pp-stacked-wrap"><div class="pp-stacked-left">'+s+'</div>'+tbl+'</div>' + legend;
   }
 
   function hbar(items, opts){
