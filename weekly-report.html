@@ -1848,7 +1848,7 @@ var SIX_DEFAULT = "W31";
       s += '<text x="0" y="'+(y+rowH/2+4)+'" fill="#334155" font-weight="600">'+g.name+'</text>';
       var x = barX;
       g.segs.forEach(function(seg){
-        var bw = seg.pct * barMax;
+        var bw = (seg.pct / 100) * barMax;
         s += '<rect x="'+x.toFixed(2)+'" y="'+(y+6)+'" width="'+bw.toFixed(2)+'" height="'+(rowH-14)+'" fill="'+seg.fill+'"></rect>';
         if(bw >= 34){
           s += '<text x="'+(x+bw/2).toFixed(2)+'" y="'+(y+rowH/2+4)+'" fill="#ffffff" font-weight="600" text-anchor="middle">'+seg.pct.toFixed(1)+'%</text>';
