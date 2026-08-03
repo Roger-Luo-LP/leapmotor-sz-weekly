@@ -1071,7 +1071,7 @@
   </style>
 
   <div class="pp-bar">
-    <span><label>周期类型</label><select id="pp-ptype"><option value="week">周度</option><option value="month">月度</option></select></span>
+    <span><label>周期类型</label><select id="pp-ptype"><option value="week">周度</option><option value="month" selected>月度</option></select></span>
     <span><label>周期</label><select id="pp-period"></select></span>
   </div>
 
@@ -1819,8 +1819,8 @@ var SIX_DEFAULT = "W31";
   if(typeof SIX==='undefined' || typeof SIX_CHANNELS==='undefined') return;
 
   var ppWeek = (function(){
-    var wk = SIX_PERIODS.filter(function(p){return p.type==='week';});
-    return wk.length ? wk[wk.length-1].key : SIX_DEFAULT;
+    var mo = SIX_PERIODS.filter(function(p){return p.type==='month';});
+    return mo.length ? mo[mo.length-1].key : SIX_DEFAULT;
   })();
   function ppPrev(){ return prevPeriodKey(ppWeek); }
 
@@ -2121,8 +2121,8 @@ var SIX_DEFAULT = "W31";
     });
   });
 
-  // 初始渲染
-  ppWeek = latestOf('week'); fillPeriod(); renderAll();
+  // 初始渲染（默认当月数据：月度最新月）
+  ppWeek = latestOf('month'); fillPeriod(); renderAll();
 
   // 渠道占比图悬停提示（事件委托，重渲染后仍有效）
   (function(){
