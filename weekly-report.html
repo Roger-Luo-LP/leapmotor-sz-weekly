@@ -1820,7 +1820,7 @@ var SIX_DEFAULT = "W31";
 
   var ppWeek = (function(){
     var mo = SIX_PERIODS.filter(function(p){return p.type==='month';});
-    return mo.length ? mo[mo.length-1].key : SIX_DEFAULT;
+    return mo.length ? mo[0].key : SIX_DEFAULT;   // 月度数组倒序，首项为最新月
   })();
   function ppPrev(){ return prevPeriodKey(ppWeek); }
 
@@ -2100,7 +2100,11 @@ var SIX_DEFAULT = "W31";
   var ppt = document.getElementById('pp-ptype');
   var ppp = document.getElementById('pp-period');
   function ppOptions(type){ return SIX_PERIODS.filter(function(p){return p.type===type;}); }
-  function latestOf(type){ var l=ppOptions(type); return l.length?l[l.length-1].key:SIX_DEFAULT; }
+  function latestOf(type){
+    var l=ppOptions(type);
+    if(!l.length) return SIX_DEFAULT;
+    return l[0].key;   // SIX_PERIODS 周/月均为倒序（最新在前），取首项即最新
+  }
   function fillPeriod(){
     var type=ppt.value; ppp.innerHTML='';
     ppOptions(type).forEach(function(p){ var o=document.createElement('option'); o.value=p.key; o.textContent=p.opt; ppp.appendChild(o); });
