@@ -239,6 +239,7 @@
       <button class="tab-btn" data-tab="six">六量六率分析</button>
       <button class="tab-btn" data-tab="store">门店分析</button>
       <button class="tab-btn" data-tab="person">人员情况</button>
+      <button class="tab-btn" data-tab="prospect">潜客分析</button>
     </div>
 
     <section class="tab-pane active" id="tab-lock">
@@ -1013,10 +1014,73 @@
       </div>
     </section>
 
+<section class="tab-pane" id="tab-prospect">
+  <div class="section-title">潜客分析 · 渠道维度</div>
+  <div class="sub-title">数据口径：深圳市 14 家门店（含平湖万达，不含信义汽车城）；潜客＝门店有效潜客；转化率以「深圳市均值」为基准（≥绿 / ＜红）。周期随下方选择。</div>
+  <style>
+    .pp-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:14px 0 6px}
+    .pp-bar label{font-size:13px;color:#475569;margin-right:4px}
+    .pp-bar select{font-size:13px;padding:5px 8px;border:1px solid #d6deea;border-radius:8px;background:#fff;color:#0f172a}
+    .pp-subtabs{display:flex;gap:6px;margin:10px 0 4px}
+    .pp-subtab{padding:7px 16px;border:1px solid #e2e8f0;background:#fff;border-radius:20px;cursor:pointer;font-size:13px;color:#64748b}
+    .pp-subtab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;font-weight:600}
+    .pp-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:14px 0}
+    .pp-kpi-card{border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;background:#fff}
+    .pp-kpi-t{font-size:12.5px;color:#64748b}
+    .pp-kpi-v{font-size:26px;font-weight:700;margin:4px 0 2px;color:#0f172a}
+    .pp-kpi-s{font-size:11.5px;color:#94a3b8}
+    .pp-kpi-card.pp-good .pp-kpi-v{color:#10b981}
+    .pp-kpi-card.pp-bad .pp-kpi-v{color:#ef4444}
+    .pp-charts{display:flex;flex-wrap:wrap;gap:18px;margin:10px 0}
+    .pp-chart{flex:1;min-width:340px;background:#fff;border:1px solid #e8edf3;border-radius:10px;padding:12px 14px}
+    .pp-chart h4{margin:0 0 8px;font-size:14px;color:#0f172a}
+    .pp-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+    .pp-tbl th,.pp-tbl td{padding:7px 9px;border-bottom:1px solid #f1f5f9;text-align:center}
+    .pp-tbl th{color:#64748b;font-weight:600;background:#f8fafc;border-bottom:2px solid #e2e8f0}
+    .pp-tbl th:first-child,.pp-tbl td.pp-ch{text-align:left}
+    .pp-tbl .pp-total td{background:#eef6ff;font-weight:700;color:#0f172a}
+    .pp-tbl .rate-cell.r-good{color:#10b981;font-weight:600}
+    .pp-tbl .rate-cell.r-bad{color:#ef4444;font-weight:600}
+    .pp-analysis{background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #1d4ed8;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14px;line-height:1.7;color:#0f172a}
+    .pp-mtx{width:100%;border-collapse:collapse;font-size:12.5px}
+    .pp-mtx th,.pp-mtx td{padding:6px 7px;border:1px solid #eef2f7;text-align:center;white-space:nowrap}
+    .pp-mtx th{background:#f8fafc;color:#64748b;font-weight:600}
+    .pp-mtx th:first-child{position:sticky;left:0;z-index:2;background:#f8fafc}
+    .pp-mtx td.pp-store{text-align:left;font-weight:600;position:sticky;left:0;background:#fff;z-index:1}
+    .pp-mtx tr.pp-grp td{background:#eef2ff;font-weight:700;text-align:left;color:#1e3a8a}
+    .pp-mtx tr.pp-gtotal td{background:#e6ffed;font-weight:700}
+    .pp-mtx td.pp-tot{font-weight:700;background:rgba(0,0,0,0.02)}
+    .pp-note{font-size:12px;color:#94a3b8;margin:8px 0 0}
+    @media(max-width:760px){.pp-kpi{grid-template-columns:repeat(2,1fr)}}
+  </style>
 
+  <div class="pp-bar">
+    <span><label>周期类型</label><select id="pp-ptype"><option value="week">周度</option><option value="month">月度</option></select></span>
+    <span><label>周期</label><select id="pp-period"></select></span>
+  </div>
 
+  <div class="pp-subtabs">
+    <button class="pp-subtab active" data-sub="overview">渠道总览</button>
+    <button class="pp-subtab" data-sub="matrix">门店 × 渠道</button>
+  </div>
 
+  <div class="sub-pane active" id="sub-overview">
+    <div class="pp-kpi" id="pp-kpi"></div>
+    <div class="pp-charts">
+      <div class="pp-chart"><h4>各渠道有效潜客分布</h4><div id="pp-chart-qike"></div></div>
+      <div class="pp-chart"><h4>各渠道潜客锁单率（红虚线＝深圳均值）</h4><div id="pp-chart-rate"></div></div>
+    </div>
+    <div id="pp-detail"></div>
+    <div id="pp-analysis"></div>
+  </div>
 
+  <div class="sub-pane" id="sub-matrix">
+    <div class="pp-bar">
+      <span><label>矩阵指标</label><select id="pp-metric"><option value="qike">有效潜客</option><option value="lock">锁单</option><option value="rate">潜客锁单率</option></select></span>
+    </div>
+    <div id="pp-matrix"></div>
+  </div>
+</section>
 <script>
 (function(){
       var LOCK_DATA = {"bench": {"华南": {"stores": 103, "eff": 73.4, "lock": 72.2, "del": 69.1, "batch": 105.2}, "深圳": {"stores": 12, "eff": 69.6, "lock": 63.6, "del": 64.3, "batch": 110.3}}, "xyt": {"stores": 6, "eff": 73.8, "lockAct": 443.0, "lockTgt": 673.0, "lock": 65.8, "del": 57.0, "batch": 115.2, "W": [73, 100, 124, 96, 107]}, "stores": [{"name": "深圳体验中心杰鹏车城店", "eff": 3.8, "lock": 78.9, "del": 66.1, "batch": 123.5, "W": [5, 11, 11, 11, 11], "lockAct": 45.0}, {"name": "深圳体验中心龙华中心店", "eff": 6.2, "lock": 69.4, "del": 60.9, "batch": 82.6, "W": [14, 19, 17, 17, 15], "lockAct": 75.0}, {"name": "深圳零跑中心万国城旗舰店", "eff": 6.8, "lock": 102.5, "del": 100.6, "batch": 231.0, "W": [17, 14, 27, 19, 18], "lockAct": 82.0}, {"name": "深圳零跑中心光明车城店", "eff": 6.9, "lock": 59.3, "del": 54.7, "batch": 107.5, "W": [16, 19, 27, 16, 20], "lockAct": 83.0}, {"name": "深圳零跑中心宝运达汽车城店", "eff": 6.4, "lock": 52.0, "del": 42.0, "batch": 104.9, "W": [8, 16, 25, 16, 23], "lockAct": 77.0}, {"name": "深圳零跑中心远望车城店", "eff": 6.8, "lock": 57.9, "del": 46.2, "batch": 120.2, "W": [13, 21, 17, 17, 20], "lockAct": 81.0}]};
@@ -1735,6 +1799,244 @@ var SIX_DEFAULT = "W31";
   }
   ['sd-ch'].forEach(function(id){ document.getElementById(id).addEventListener('change', renderStoreDiag); });
   document.getElementById('sd-reset').addEventListener('click', function(){ document.getElementById('sd-ch').value='全部'; renderStoreDiag(); });
+
+
+/* ===== 潜客分析 tab（新增）===== */
+(function(){
+  if(typeof SIX==='undefined' || typeof SIX_CHANNELS==='undefined') return;
+
+  var ppWeek = (function(){
+    var wk = SIX_PERIODS.filter(function(p){return p.type==='week';});
+    return wk.length ? wk[wk.length-1].key : SIX_DEFAULT;
+  })();
+  function ppPrev(){ return prevPeriodKey(ppWeek); }
+
+  var GSET = {'深圳市':1,'新易腾':1,'九兴':1,'标特':1};
+  var PSS = Object.keys(SIX).filter(function(k){ return !GSET[k]; });
+  function grpOf(n){ return STORE_GROUP_MAP[n] ? STORE_GROUP_MAP[n] : '九兴'; }
+  var GORD = ['新易腾','九兴','标特'];
+  PSS.sort(function(a,b){
+    var ga=GORD.indexOf(grpOf(a)), gb=GORD.indexOf(grpOf(b));
+    if(ga!==gb) return ga-gb;
+    return (STORE_SHORT[a]||a).localeCompare(STORE_SHORT[b]||b,'zh');
+  });
+
+  var PP_METRICS = [
+    {k:'qike', label:'有效潜客', idx:0, pct:false},
+    {k:'lock', label:'锁单', idx:5, pct:false},
+    {k:'rate', label:'潜客锁单率', idx:5, pct:true}
+  ];
+
+  function fmtP2(v){ return v==null?'—':v.toFixed(2)+'%'; }
+  function rcls(v, bench){ if(v==null||bench==null) return ''; return v>=bench?'r-good':'r-bad'; }
+
+  function hbar(items, opts){
+    opts = opts||{};
+    var labW = opts.labW||96, barX = labW+10, barMax = opts.barMax||440, rowH = 30, pad = 10;
+    var vals = items.map(function(i){return i.value;});
+    if(opts.bench!=null) vals.push(opts.bench);
+    var max = opts.max || Math.max.apply(null, vals.concat([1]));
+    var H = items.length*rowH + pad*2;
+    var W = barX + barMax + 86;
+    var s = '<svg viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit;font-size:12px">';
+    items.forEach(function(it,idx){
+      var y = pad + idx*rowH;
+      var bw = max>0 ? (it.value/max*barMax) : 0;
+      var fill = it.fill || '#4f8cff';
+      s += '<text x="0" y="'+(y+rowH/2+4)+'" fill="#334155">'+it.label+'</text>';
+      s += '<rect x="'+barX+'" y="'+(y+5)+'" width="'+bw+'" height="'+(rowH-13)+'" rx="3" fill="'+fill+'"></rect>';
+      s += '<text x="'+(barX+bw+6)+'" y="'+(y+rowH/2+4)+'" fill="#334155" font-weight="600">'+it.disp+'</text>';
+    });
+    if(opts.bench!=null){
+      var bx = barX + (opts.bench/max*barMax);
+      s += '<line x1="'+bx+'" y1="'+pad+'" x2="'+bx+'" y2="'+(H-pad)+'" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"></line>';
+      s += '<text x="'+bx+'" y="'+(pad-3)+'" fill="#ef4444" font-size="10" text-anchor="middle">深圳均值 '+opts.bench.toFixed(2)+'%</text>';
+    }
+    s += '</svg>';
+    return s;
+  }
+
+  function chAgg(ch, week){
+    var v = sumScope('深圳市', week, ch, '全部');
+    var rates = calcRates(v);
+    var pv = sumScope('深圳市', prevPeriodKey(week), ch, '全部');
+    var wow = pv[0]>0 ? +(((v[0]-pv[0])/pv[0])*100).toFixed(2) : null;
+    return {ch:ch, v:v, rates:rates, wow:wow};
+  }
+  function channelRows(week){
+    return SIX_CHANNELS.map(function(ch){ return chAgg(ch, week); })
+      .filter(function(r){ return r.v[0]>0; });
+  }
+
+  function renderOverview(){
+    var rows = channelRows(ppWeek);
+    var szV = sumScope('深圳市', ppWeek, '全部','全部');
+    var szPrev = sumScope('深圳市', ppPrev(), '全部','全部');
+    var szRates = calcRates(szV);
+    var wow = szPrev[0]>0 ? +(((szV[0]-szPrev[0])/szPrev[0])*100).toFixed(2) : null;
+
+    var wcls = wow==null?'pp-neu':(wow>=0?'pp-good':'pp-bad');
+    var wt = wow==null?'—':(wow>=0?'+':'')+wow.toFixed(2)+'%';
+    var kpi = ''
+      + ppCard('总有效潜客', fmtInt(szV[0]), '全市 14 店累计', '')
+      + ppCard('总锁单', fmtInt(szV[5]), '当期净增锁单', '')
+      + ppCard('整体潜客锁单率', fmtP2(szRates[5]), '锁单 / 有效潜客', '')
+      + ppCard('潜客环比', wt, periodLabel(ppWeek)+' vs '+periodLabel(ppPrev()), wcls);
+    document.getElementById('pp-kpi').innerHTML = kpi;
+
+    var qikeItems = rows.map(function(r){ return {label:r.ch, value:r.v[0], disp:fmtInt(r.v[0])}; })
+      .sort(function(a,b){ return b.value-a.value; });
+    document.getElementById('pp-chart-qike').innerHTML = hbar(qikeItems, {});
+
+    var rateItems = rows.filter(function(r){ return r.rates[5]!=null; })
+      .map(function(r){ return {label:r.ch, value:r.rates[5], disp:fmtP2(r.rates[5]), fill: r.rates[5]>=szRates[5]?'#10b981':'#ef4444'}; })
+      .sort(function(a,b){ return b.value-a.value; });
+    document.getElementById('pp-chart-rate').innerHTML = hbar(rateItems, {bench: szRates[5]});
+
+    document.getElementById('pp-detail').innerHTML = buildChannelTable(rows, szRates, szV);
+    document.getElementById('pp-analysis').innerHTML = buildAnalysis(rows, szRates, szV, wow);
+  }
+
+  function ppCard(t,v,sub,cls){
+    return '<div class="pp-kpi-card '+cls+'"><div class="pp-kpi-t">'+t+'</div><div class="pp-kpi-v">'+v+'</div><div class="pp-kpi-s">'+sub+'</div></div>';
+  }
+
+  function buildChannelTable(rows, szRates, szV){
+    var sorted = rows.slice().sort(function(a,b){ return b.v[0]-a.v[0]; });
+    var h = '<div class="table-wrap"><table class="pp-tbl"><thead><tr>'
+      + '<th>渠道</th><th class="num">有效潜客</th><th class="num">邀约</th><th class="num">核销</th><th class="num">到店</th><th class="num">试驾</th><th class="num">锁单</th>'
+      + '<th class="num">排程核销率</th><th class="num">潜客到店率</th><th class="num">到店试驾率</th><th class="num">到店锁单率</th><th class="num">试驾锁单率</th><th class="num">潜客锁单率</th><th class="num">潜客环比</th>'
+      + '</tr></thead><tbody>';
+    sorted.forEach(function(r){
+      var v=r.v, rt=r.rates;
+      h += '<tr><td class="pp-ch">'+r.ch+'</td>';
+      for(var i=0;i<6;i++) h += '<td class="num">'+fmtInt(v[i])+'</td>';
+      rt.forEach(function(rv,idx){ h += '<td class="num rate-cell '+rcls(rv, szRates[idx])+'">'+fmtP2(rv)+'</td>'; });
+      var wcls = r.wow==null?'r-neu':(r.wow>=0?'r-good':'r-bad');
+      h += '<td class="num rate-cell '+wcls+'">'+(r.wow==null?'—':(r.wow>=0?'+':'')+r.wow.toFixed(2)+'%')+'</td>';
+      h += '</tr>';
+    });
+    h += '<tr class="pp-total"><td>深圳市合计</td>';
+    for(var i=0;i<6;i++) h += '<td class="num">'+fmtInt(szV[i])+'</td>';
+    szRates.forEach(function(rv,idx){ h += '<td class="num rate-cell">'+fmtP2(rv)+'</td>'; });
+    h += '<td class="num">—</td></tr>';
+    h += '</tbody></table></div>';
+    return h;
+  }
+
+  function buildAnalysis(rows, szRates, szV, wow){
+    var byLock = rows.slice().sort(function(a,b){return b.v[5]-a.v[5];});
+    var byQike = rows.slice().sort(function(a,b){return b.v[0]-a.v[0];});
+    var byRate = rows.filter(function(r){return r.rates[5]!=null;}).sort(function(a,b){return a.rates[5]-b.rates[5];});
+    var top = byLock[0], flow = byQike[0];
+    var weak = byRate.filter(function(r){return r.v[0]>=20;})[0];
+    var grow = rows.filter(function(r){return r.v[5]>=2 && r.wow!=null;}).sort(function(a,b){return (b.wow||0)-(a.wow||0);})[0];
+    var parts = [];
+    parts.push('主力成交渠道：<b>'+top.ch+'</b> 锁单 '+top.v[5]+' 台（占全市锁单 '+Math.round(top.v[5]/szV[5]*100)+'%）');
+    if(flow.ch!==top.ch) parts.push('最大流量入口：<b>'+flow.ch+'</b> 有效潜客 '+flow.v[0]+'（占全市 '+Math.round(flow.v[0]/szV[0]*100)+'%）');
+    if(weak) parts.push('转化最弱：<b>'+weak.ch+'</b> 潜客 '+weak.v[0]+' 仅锁单 '+weak.v[5]+' 台（潜客锁单率 '+fmtP2(weak.rates[5])+'）');
+    if(grow) parts.push('<b>'+grow.ch+'</b> 潜客环比 '+(grow.wow>=0?'+':'')+grow.wow+'%（增速最快）');
+    return '<div class="pp-analysis">'+parts.join('；')+'。</div>';
+  }
+
+  function renderMatrix(){
+    var metric = document.getElementById('pp-metric').value;
+    var M = PP_METRICS.filter(function(m){return m.k===metric;})[0];
+    function cell(store, ch){
+      var v = sumScope(store, ppWeek, ch, '全部');
+      if(M.pct){ return calcRates(v)[M.idx]; }
+      return v[M.idx];
+    }
+    function storeTotal(store){
+      var v = sumScope(store, ppWeek, '全部','全部');
+      if(M.pct){ return calcRates(v)[M.idx]; }
+      return v[M.idx];
+    }
+    var maxv=0;
+    PSS.forEach(function(s){ SIX_CHANNELS.forEach(function(ch){ var c=cell(s,ch); if(c!=null && c>maxv) maxv=c; }); });
+    PSS.forEach(function(s){ var t=storeTotal(s); if(t!=null && t>maxv) maxv=t; });
+    if(maxv<=0) maxv=1;
+    function bg(v){
+      if(v==null) return '';
+      var a = 0.06 + 0.5*(v/maxv);
+      return M.pct ? 'background:rgba(16,185,129,'+a.toFixed(3)+')' : 'background:rgba(79,140,255,'+a.toFixed(3)+')';
+    }
+    function disp(v){ if(v==null) return '—'; return M.pct? v.toFixed(2)+'%' : fmtInt(v); }
+
+    var h = '<div class="table-wrap" style="overflow-x:auto"><table class="pp-mtx"><thead><tr><th>集团 / 门店</th>';
+    SIX_CHANNELS.forEach(function(ch){ h+='<th class="num">'+ch+'</th>'; });
+    h += '<th class="num pp-tot">合计</th></tr></thead><tbody>';
+
+    GORD.forEach(function(g){
+      var stores = PSS.filter(function(s){ return grpOf(s)===g; });
+      if(!stores.length) return;
+      var gch = {}; SIX_CHANNELS.forEach(function(ch){ gch[ch]=0; });
+      var gTot=0;
+      stores.forEach(function(s){
+        SIX_CHANNELS.forEach(function(ch){ var c=cell(s,ch); if(!M.pct && c!=null) gch[ch]+=c; });
+        var st=storeTotal(s); if(!M.pct && st!=null) gTot+=st;
+      });
+      h += '<tr class="pp-grp"><td>'+g+'集团</td>';
+      SIX_CHANNELS.forEach(function(ch){ h += M.pct? '<td></td>' : '<td class="num">'+fmtInt(gch[ch])+'</td>'; });
+      h += '<td class="num pp-tot">'+(M.pct?'—':fmtInt(gTot))+'</td></tr>';
+      stores.forEach(function(s){
+        h += '<tr><td class="pp-store">'+shortName(s)+'</td>';
+        var rowSum = M.pct? null : 0;
+        SIX_CHANNELS.forEach(function(ch){
+          var c = cell(s,ch);
+          h += '<td class="num" style="'+bg(c)+'">'+disp(c)+'</td>';
+          if(!M.pct && c!=null) rowSum += c;
+        });
+        var tot = M.pct ? storeTotal(s) : rowSum;
+        h += '<td class="num pp-tot" style="'+bg(tot)+'">'+disp(tot)+'</td>';
+        h += '</tr>';
+      });
+    });
+    h += '<tr class="pp-gtotal"><td>深圳市合计</td>';
+    SIX_CHANNELS.forEach(function(ch){
+      var c = sumScope('深圳市', ppWeek, ch, '全部');
+      var val = M.pct ? calcRates(c)[M.idx] : c[M.idx];
+      h += '<td class="num" style="'+bg(val)+'">'+disp(val)+'</td>';
+    });
+    var szV = sumScope('深圳市', ppWeek, '全部','全部');
+    var szTot = M.pct ? calcRates(szV)[M.idx] : szV[M.idx];
+    h += '<td class="num pp-tot" style="'+bg(szTot)+'">'+disp(szTot)+'</td>';
+    h += '</tr>';
+    h += '</tbody></table></div>';
+    h += '<p class="pp-note">单元格 = 各门店在各渠道的'+M.label+'；颜色越深数值越大。'+M.label+'合计行为该门店 / 全市汇总（率指标集团行不汇总）。</p>';
+    document.getElementById('pp-matrix').innerHTML = h;
+  }
+
+  function renderAll(){ renderOverview(); renderMatrix(); }
+
+  // 周期控件
+  var ppt = document.getElementById('pp-ptype');
+  var ppp = document.getElementById('pp-period');
+  function ppOptions(type){ return SIX_PERIODS.filter(function(p){return p.type===type;}); }
+  function latestOf(type){ var l=ppOptions(type); return l.length?l[l.length-1].key:SIX_DEFAULT; }
+  function fillPeriod(){
+    var type=ppt.value; ppp.innerHTML='';
+    ppOptions(type).forEach(function(p){ var o=document.createElement('option'); o.value=p.key; o.textContent=p.opt; ppp.appendChild(o); });
+    ppp.value=ppWeek;
+  }
+  ppt.addEventListener('change', function(){ ppWeek=latestOf(ppt.value); fillPeriod(); renderAll(); });
+  ppp.addEventListener('change', function(){ ppWeek=ppp.value; renderAll(); });
+  document.getElementById('pp-metric').addEventListener('change', renderMatrix);
+
+  // 子标签切换（独立，不干扰其它 tab）
+  document.querySelectorAll('#tab-prospect .pp-subtab').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#tab-prospect .pp-subtab').forEach(function(x){ x.classList.remove('active'); });
+      document.querySelectorAll('#tab-prospect .sub-pane').forEach(function(p){ p.classList.remove('active'); });
+      b.classList.add('active');
+      var t=document.getElementById('sub-'+b.dataset.sub);
+      if(t) t.classList.add('active');
+    });
+  });
+
+  // 初始渲染
+  ppWeek = latestOf('week'); fillPeriod(); renderAll();
+})();
 
 })();
 var STORE_REPORTS = {
