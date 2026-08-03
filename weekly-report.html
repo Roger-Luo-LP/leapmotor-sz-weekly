@@ -193,6 +193,10 @@
     .trend-tip-row { display:flex; align-items:center; gap:7px; line-height:1.85; white-space:nowrap; }
     .trend-tip-row .tt-dot { width:9px; height:9px; border-radius:50%; display:inline-block; flex:none; }
     .trend-tip-row b { margin-left:auto; font-variant-numeric:tabular-nums; }
+    .pp-tip { position:fixed; display:none; pointer-events:none; z-index:9999; background:rgba(15,23,42,.95); border:1px solid rgba(255,255,255,.15); border-radius:8px; padding:8px 11px; font-size:12px; color:#e2e8f0; box-shadow:0 6px 20px rgba(0,0,0,.3); max-width:240px; line-height:1.6; }
+    .pp-tip .pp-tip-ch { color:#fff; font-weight:700; margin-bottom:3px; display:block; }
+    .pp-tip .pp-tip-row { display:flex; gap:16px; }
+    .pp-tip .pp-tip-row b { margin-left:auto; font-variant-numeric:tabular-nums; color:#fff; }
 
   /* ===== 门店分析（新易腾） ===== */
   .store-report{ font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,sans-serif; color:#0f172a; line-height:1.65; }
@@ -1838,25 +1842,33 @@ var SIX_DEFAULT = "W31";
   function chColor(idx){ return CH_PALETTE[idx % CH_PALETTE.length]; }
 
   // 横向 100% 堆积图：每个集团一行，按有效潜客占比切分渠道
+  function escAttr(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function stackedGroups(groups, orderedChs){
-    var labW = 64, barX = labW + 10, barMax = 460, rowH = 36, pad = 10, rightPad = 96;
+    var labW = 80, barX = labW + 10, barMax = 430, rowH = 36, pad = 10, rightPad = 110;
     var H = groups.length*rowH + pad*2;
     var W = barX + barMax + rightPad;
     var s = '<svg viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit;font-size:12px">';
     groups.forEach(function(g, idx){
       var y = pad + idx*rowH;
-      s += '<text x="0" y="'+(y+rowH/2+4)+'" fill="#334155" font-weight="600">'+g.name+'</text>';
+      // 深圳市基准行：上方加分隔虚线
+      if(g.isAvg){
+        s += '<line x1="'+barX+'" y1="'+(y-5)+'" x2="'+(barX+barMax)+'" y2="'+(y-5)+'" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5 3"></line>';
+      }
+      s += '<text x="0" y="'+(y+rowH/2+4)+'" fill="'+(g.isAvg?'#0f172a':'#334155')+'" font-weight="700">'+escAttr(g.name)+(g.isAvg?'（基准）':'')+'</text>';
       var x = barX;
       g.segs.forEach(function(seg){
         var bw = (seg.pct / 100) * barMax;
-        s += '<rect x="'+x.toFixed(2)+'" y="'+(y+6)+'" width="'+bw.toFixed(2)+'" height="'+(rowH-14)+'" fill="'+seg.fill+'"></rect>';
+        var pctTxt = seg.pct.toFixed(1)+'%';
+        var tip = escAttr(g.name)+' · '+escAttr(seg.ch)+'\n占比 '+pctTxt+'\n有效潜客 '+fmtInt(seg.value)+' 台';
+        s += '<rect x="'+x.toFixed(2)+'" y="'+(y+6)+'" width="'+bw.toFixed(2)+'" height="'+(rowH-14)+'" fill="'+seg.fill+'" '
+           + 'data-grp="'+escAttr(g.name)+'" data-ch="'+escAttr(seg.ch)+'" data-pct="'+pctTxt+'" data-val="'+fmtInt(seg.value)+'">'
+           + '<title>'+tip+'</title></rect>';
         if(bw >= 34){
-          s += '<text x="'+(x+bw/2).toFixed(2)+'" y="'+(y+rowH/2+4)+'" fill="#ffffff" font-weight="600" text-anchor="middle">'+seg.pct.toFixed(1)+'%</text>';
+          s += '<text x="'+(x+bw/2).toFixed(2)+'" y="'+(y+rowH/2+4)+'" fill="#ffffff" font-weight="600" text-anchor="middle" pointer-events="none">'+pctTxt+'</text>';
         }
         x += bw;
       });
-      // 右端合计
-      s += '<text x="'+(barX+barMax+8)+'" y="'+(y+rowH/2+4)+'" fill="#334155" font-weight="600">'+fmtInt(g.total)+' 潜客</text>';
+      s += '<text x="'+(barX+barMax+8)+'" y="'+(y+rowH/2+4)+'" fill="'+(g.isAvg?'#0f172a':'#334155')+'" font-weight="600">'+fmtInt(g.total)+' 潜客</text>';
     });
     s += '</svg>';
     // 图例
@@ -1865,6 +1877,7 @@ var SIX_DEFAULT = "W31";
       legend += '<span class="pp-leg"><i style="background:'+chColor(i)+'"></i>'+ch+'</span>';
     });
     legend += '</div>';
+    legend += '<p class="pp-note">深圳市（基准）行为全市渠道占比，可与三大集团对比；鼠标移至色块查看渠道明细。</p>';
     return s + legend;
   }
 
@@ -1939,6 +1952,14 @@ var SIX_DEFAULT = "W31";
       segs.forEach(function(seg){ seg.pct = total>0 ? seg.value/total*100 : 0; seg.fill = chColor(seg.idx); });
       return {name:g, segs:segs, total:total};
     });
+    // 深圳市基准（全市渠道占比，作为三大集团的均值参照）
+    var szSegs = orderedChs.map(function(ch, i){
+      var v = sumScope('深圳市', ppWeek, ch, '全部')[0];
+      return {ch:ch, value:v, idx:i};
+    }).filter(function(seg){ return seg.value>0; });
+    var szTotal = szSegs.reduce(function(a,seg){ return a+seg.value; }, 0);
+    szSegs.forEach(function(seg){ seg.pct = szTotal>0 ? seg.value/szTotal*100 : 0; seg.fill = chColor(seg.idx); });
+    groups.push({name:'深圳市', segs:szSegs, total:szTotal, isAvg:true});
     document.getElementById('pp-chart-qike').innerHTML = stackedGroups(groups, orderedChs);
 
     var rateItems = rows.filter(function(r){ return r.rates[5]!=null; })
@@ -2089,6 +2110,30 @@ var SIX_DEFAULT = "W31";
 
   // 初始渲染
   ppWeek = latestOf('week'); fillPeriod(); renderAll();
+
+  // 渠道占比图悬停提示（事件委托，重渲染后仍有效）
+  (function(){
+    var box = document.getElementById('pp-chart-qike');
+    if(!box) return;
+    var tip = document.createElement('div'); tip.className='pp-tip'; tip.style.display='none'; document.body.appendChild(tip);
+    box.addEventListener('mousemove', function(e){
+      var t = e.target;
+      if(t && t.tagName && t.tagName.toLowerCase()==='rect' && t.getAttribute && t.getAttribute('data-ch')){
+        var grp=t.getAttribute('data-grp'), ch=t.getAttribute('data-ch'), pct=t.getAttribute('data-pct'), val=t.getAttribute('data-val');
+        tip.innerHTML='<span class="pp-tip-ch">'+grp+'</span>'
+          + '<div class="pp-tip-row">渠道<b>'+ch+'</b></div>'
+          + '<div class="pp-tip-row">渠道占比<b>'+pct+'</b></div>'
+          + '<div class="pp-tip-row">有效潜客<b>'+val+'</b></div>';
+        tip.style.display='block';
+        var tw=tip.offsetWidth, th=tip.offsetHeight;
+        var left=e.clientX+14, top=e.clientY+14;
+        if(left+tw>window.innerWidth) left=e.clientX-tw-14;
+        if(top+th>window.innerHeight) top=e.clientY-th-14;
+        tip.style.left=left+'px'; tip.style.top=top+'px';
+      } else { tip.style.display='none'; }
+    });
+    box.addEventListener('mouseleave', function(){ tip.style.display='none'; });
+  })();
 })();
 
 })();
