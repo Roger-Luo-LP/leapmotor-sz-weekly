@@ -1083,7 +1083,7 @@
   <div class="sub-pane active" id="sub-overview">
     <div class="pp-kpi" id="pp-kpi"></div>
     <div class="pp-chart full"><h4>各集团渠道占比（按有效潜客）</h4><div id="pp-chart-qike"></div></div>
-    <div class="pp-chart full"><h4>各集团渠道占比（按锁单 / 订单）</h4><div id="pp-chart-conv"></div><p class="pp-note">数据源：六量六率大表「当期净增锁单数」（按渠道大类，v&#91;5&#93;）。占比＝该集团各渠道锁单 / 该集团锁单合计；深圳市（基准）行为全市各渠道锁单占比。对比上方「按有效潜客」图，可直观看出各集团渠道结构在「流量→成交」环节是否扭曲（例如某渠道潜客占比高但锁单占比低，提示转化漏斗在该渠道泄漏）。</p></div>
+    <div class="pp-chart full"><h4>各集团渠道占比（按锁单）</h4><div id="pp-chart-conv"></div><p class="pp-note">数据源：六量六率大表「当期净增锁单数」（按渠道大类，v&#91;5&#93;）。占比＝该集团各渠道锁单 / 该集团锁单合计；深圳市（基准）行为全市各渠道锁单占比。对比上方「按有效潜客」图，可直观看出各集团渠道结构在「流量→成交」环节是否扭曲（例如某渠道潜客占比高但锁单占比低，提示转化漏斗在该渠道泄漏）。</p></div>
     <div id="pp-detail"></div>
     <div id="pp-analysis"></div>
   </div>
@@ -1849,9 +1849,9 @@ var SIX_DEFAULT = "W31";
   var CH_PALETTE = ['#4f8cff','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899','#84cc16','#f97316','#64748b'];
   function chColor(idx){ return CH_PALETTE[idx % CH_PALETTE.length]; }
 
-  // 横向 100% 堆积图：每个集团一行，按有效潜客占比切分渠道；右侧附「集团×渠道占比」数据表
+  // 横向 100% 堆积图：每个集团一行，按某指标（潜客/锁单）占比切分渠道；右侧附「集团×渠道占比」数据表
   function escAttr(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-  function stackedGroups(groups, orderedChs){
+  function stackedGroups(groups, orderedChs, metricLabel){
     var labW = 80, barX = labW + 10, barMax = 780, rowH = 38, pad = 10, rightPad = 96;
     var H = groups.length*rowH + pad*2;
     var W = barX + barMax + rightPad;
@@ -1867,7 +1867,7 @@ var SIX_DEFAULT = "W31";
       g.segs.forEach(function(seg){
         var bw = (seg.pct / 100) * barMax;
         var pctTxt = seg.pct.toFixed(1)+'%';
-        var tip = escAttr(g.name)+' · '+escAttr(seg.ch)+'\n占比 '+pctTxt+'\n有效潜客 '+fmtInt(seg.value)+' 台';
+        var tip = escAttr(g.name)+' · '+escAttr(seg.ch)+'\n占比 '+pctTxt+'\n'+(metricLabel||'有效潜客')+' '+fmtInt(seg.value)+' 台';
         s += '<rect x="'+x.toFixed(2)+'" y="'+(y+6)+'" width="'+bw.toFixed(2)+'" height="'+(rowH-14)+'" fill="'+seg.fill+'" '
            + 'data-grp="'+escAttr(g.name)+'" data-ch="'+escAttr(seg.ch)+'" data-pct="'+pctTxt+'" data-val="'+fmtInt(seg.value)+'">'
            + '<title>'+tip+'</title></rect>';
@@ -1876,7 +1876,7 @@ var SIX_DEFAULT = "W31";
         }
         x += bw;
       });
-      s += '<text x="'+(barX+barMax+8)+'" y="'+(y+rowH/2+4)+'" fill="'+(g.isAvg?'#0f172a':'#334155')+'" font-weight="600">'+fmtInt(g.total)+' 潜客</text>';
+      s += '<text x="'+(barX+barMax+8)+'" y="'+(y+rowH/2+4)+'" fill="'+(g.isAvg?'#0f172a':'#334155')+'" font-weight="600">'+fmtInt(g.total)+' '+(metricLabel||'有效潜客')+'</text>';
     });
     s += '</svg>';
     // 图例
@@ -1897,7 +1897,7 @@ var SIX_DEFAULT = "W31";
       tbl += '<td>'+fmtInt(g.total)+'</td></tr>';
     });
     tbl += '</tbody></table>';
-    legend += '<p class="pp-note">深圳市（基准）行为全市渠道占比，可与三大集团对比；右侧表为各集团各渠道的占比与有效潜客（台），鼠标移至色块亦可查看明细。</p>';
+    legend += '<p class="pp-note">深圳市（基准）行为全市渠道占比，可与三大集团对比；右侧表为各集团各渠道的占比与'+(metricLabel||'有效潜客')+'（台），鼠标移至色块亦可查看明细。</p>';
     return '<div class="pp-stacked-wrap"><div class="pp-stacked-left">'+s+'</div>'+tbl+'</div>' + legend;
   }
 
@@ -1966,8 +1966,8 @@ var SIX_DEFAULT = "W31";
   }
 
   function renderConv(){
-    var built = buildGroups(5); // 锁单 / 订单（v[5] = 当期净增锁单）
-    document.getElementById('pp-chart-conv').innerHTML = stackedGroups(built.groups, built.orderedChs);
+    var built = buildGroups(5); // 锁单（v[5] = 当期净增锁单）
+    document.getElementById('pp-chart-conv').innerHTML = stackedGroups(built.groups, built.orderedChs, '锁单');
   }
 
   function renderOverview(){
