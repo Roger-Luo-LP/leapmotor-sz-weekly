@@ -251,7 +251,7 @@
         <button class="subtab-btn active" data-sub="current">当月（实时）</button>
         <button class="subtab-btn" data-sub="july">2026年7月（留存）</button>
       </div>
-                  <div class="sub-pane active" id="sub-current">
+                        <div class="sub-pane active" id="sub-current">
 
 
     <section>
@@ -260,7 +260,7 @@
           <div class="kpi-info">
             <div class="kpi-title">当期净增锁单</div>
             <div class="kpi-actual" style="color:#3b82f6">152</div>
-            <div class="kpi-target">#3b82f6</div>
+            <div class="kpi-target">实际 152 / 目标 677</div>
             <div class="kpi-rate" style="color:#3b82f6">达成率 22.5%</div>
             <div class="kpi-time">时间进度 100%</div>
           </div>
@@ -277,7 +277,7 @@
           <div class="kpi-info">
             <div class="kpi-title">交付</div>
             <div class="kpi-actual" style="color:#f59e0b">125</div>
-            <div class="kpi-target">#f59e0b</div>
+            <div class="kpi-target">实际 125 / 目标 613</div>
             <div class="kpi-rate" style="color:#f59e0b">达成率 20.4%</div>
             <div class="kpi-time">时间进度 100%</div>
           </div>
@@ -294,7 +294,7 @@
           <div class="kpi-info">
             <div class="kpi-title">批售</div>
             <div class="kpi-actual" style="color:#10b981">92</div>
-            <div class="kpi-target">#10b981</div>
+            <div class="kpi-target">实际 92 / 目标 588</div>
             <div class="kpi-rate" style="color:#10b981">达成率 15.6%</div>
             <div class="kpi-time">时间进度 100%</div>
           </div>
@@ -311,7 +311,7 @@
           <div class="kpi-info">
             <div class="kpi-title">总库存（深度 5.70）</div>
             <div class="kpi-actual" style="color:#ef4444">714</div>
-            <div class="kpi-target">#ef4444</div>
+            <div class="kpi-target">库存 714 台</div>
             <div class="kpi-rate" style="color:#ef4444">—</div>
             <div class="kpi-time">时间进度 100%</div>
           </div>
@@ -488,6 +488,12 @@
       </div>
     </section>
       </div><!-- /sub-current -->
+      <script>
+(function(){
+  function tp(){ var d=new Date(); var y=d.getFullYear(),m=d.getMonth(),day=d.getDate(); var dim=new Date(y,m+1,0).getDate(); var p=day/dim*100; var el=document.querySelectorAll('#sub-current .kpi-time'); el.forEach(function(e){ e.textContent='时间进度 '+p.toFixed(1)+'%'; }); }
+  if(document.readyState!=='loading') tp(); else document.addEventListener('DOMContentLoaded', tp);
+})();
+</script>
       <script>
 (function(){
   function tp(){ var d=new Date(); var y=d.getFullYear(),m=d.getMonth(),day=d.getDate(); var dim=new Date(y,m+1,0).getDate(); var p=day/dim*100; var el=document.querySelectorAll('#sub-current .kpi-time'); el.forEach(function(e){ e.textContent='时间进度 '+p.toFixed(1)+'%'; }); }
