@@ -262,7 +262,7 @@
             <div class="kpi-actual" style="color:#3b82f6">152</div>
             <div class="kpi-target">实际 152 / 目标 677</div>
             <div class="kpi-rate" style="color:#3b82f6">达成率 22.5%</div>
-            <div class="kpi-time" id="kt-current">时间进度 100%</div>
+            <div class="kpi-time">时间进度 100%</div>
           </div>
       <div class="kpi-gauge">
         <svg viewBox="0 0 72 72" width="72" height="72">
@@ -279,7 +279,7 @@
             <div class="kpi-actual" style="color:#f59e0b">125</div>
             <div class="kpi-target">实际 125 / 目标 613</div>
             <div class="kpi-rate" style="color:#f59e0b">达成率 20.4%</div>
-            <div class="kpi-time" id="kt-current">时间进度 100%</div>
+            <div class="kpi-time">时间进度 100%</div>
           </div>
       <div class="kpi-gauge">
         <svg viewBox="0 0 72 72" width="72" height="72">
@@ -296,7 +296,7 @@
             <div class="kpi-actual" style="color:#10b981">92</div>
             <div class="kpi-target">实际 92 / 目标 588</div>
             <div class="kpi-rate" style="color:#10b981">达成率 15.6%</div>
-            <div class="kpi-time" id="kt-current">时间进度 100%</div>
+            <div class="kpi-time">时间进度 100%</div>
           </div>
       <div class="kpi-gauge">
         <svg viewBox="0 0 72 72" width="72" height="72">
@@ -313,7 +313,7 @@
             <div class="kpi-actual" style="color:#ef4444">1254<span style="font-size:16px;font-weight:500"> 台</span></div>
             <div class="kpi-target">库存 1254 台</div>
             <div class="kpi-rate" style="color:#ef4444">—</div>
-            <div class="kpi-time" id="kt-current">时间进度 100%</div>
+            <div class="kpi-time">时间进度 100%</div>
           </div>
       <div class="kpi-gauge">
         <svg viewBox="0 0 72 72" width="72" height="72">
@@ -578,6 +578,7 @@
 
 
 
+    id="sub-current">
 
 
     <section>
@@ -964,7 +965,7 @@
 
     <section class="tab-pane" id="tab-store">
       <div class="section-title">门店分析 · 新易腾 6 家门店</div>
-      <div class="sub-title">选择门店查看其 8 月经营诊断（达成 / 六量六率 / 渠道 / 车型 / 趋势 / 改善方案）；默认展示达成率最低的门店</div>
+      <div class="sub-title">选择门店查看其 7 月经营诊断（达成 / 六量六率 / 渠道 / 车型 / 趋势 / 改善方案）；默认展示达成率最低的门店</div>
       <div class="sr-sel">
         <label>选择门店：
           <select id="sr-store"></select>
@@ -1111,7 +1112,7 @@
 (function(){
       var LOCK_DATA = {"bench": {"华南": {"stores": 141, "eff": 15.6, "lock": 19.5, "del": 18.0, "batch": 18.0}, "深圳": {"stores": 12, "eff": 22.2, "lock": 20.3, "del": 16.9, "batch": 16.1}}, "xyt": {"stores": 6, "eff": 25.3, "lockAct": 152.0, "lockTgt": 677.0, "lock": 22.5, "del": 20.4, "batch": 15.6, "W": [107, 109, 0, 0, 0]}, "stores": [{"name": "深圳体验中心杰鹏车城店", "eff": 1.0, "lock": 17.9, "del": 11.7, "batch": 21.7, "W": [11, 9, 0, 0, 0], "lockAct": 12.0}, {"name": "深圳体验中心龙华中心店", "eff": 1.7, "lock": 17.9, "del": 17.0, "batch": 12.8, "W": [15, 14, 0, 0, 0], "lockAct": 20.0}, {"name": "深圳零跑中心万国城旗舰店", "eff": 1.8, "lock": 20.2, "del": 24.7, "batch": 11.6, "W": [18, 12, 0, 0, 0], "lockAct": 22.0}, {"name": "深圳零跑中心光明车城店", "eff": 3.1, "lock": 28.9, "del": 22.9, "batch": 19.0, "W": [20, 28, 0, 0, 0], "lockAct": 37.0}, {"name": "深圳零跑中心宝运达汽车城店", "eff": 2.8, "lock": 25.0, "del": 25.8, "batch": 16.4, "W": [23, 26, 0, 0, 0], "lockAct": 34.0}, {"name": "深圳零跑中心远望车城店", "eff": 2.2, "lock": 21.6, "del": 15.8, "batch": 13.9, "W": [20, 20, 0, 0, 0], "lockAct": 27.0}]};
   // 各门店 交付/批售/库存/深度 实绩（来源：城市经理简报 2026-08-01 门店明细）
-      var STORES_ACTUAL = {"深圳体验中心杰鹏车城店": {"short": "杰鹏", "del": 7, "batch": 13, "stock": 70, "depth": 1.17}, "深圳体验中心龙华中心店": {"short": "龙华", "del": 17, "batch": 12, "stock": 129, "depth": 1.29}, "深圳零跑中心万国城旗舰店": {"short": "万国城", "del": 23, "batch": 11, "stock": 69, "depth": 0.74}, "深圳零跑中心光明车城店": {"short": "光明", "del": 27, "batch": 22, "stock": 127, "depth": 1.08}, "深圳零跑中心宝运达汽车城店": {"short": "宝运达", "del": 33, "batch": 20, "stock": 177, "depth": 1.38}, "深圳零跑中心远望车城店": {"short": "远望", "del": 18, "batch": 14, "stock": 142, "depth": 1.25}};
+      var STORES_ACTUAL = {"深圳体验中心杰鹏车城店": {"short": "杰鹏车城店", "del": 7, "batch": 13, "stock": 70, "depth": 1.17}, "深圳体验中心龙华中心店": {"short": "龙华中心店", "del": 17, "batch": 12, "stock": 129, "depth": 1.29}, "深圳零跑中心万国城旗舰店": {"short": "万国城旗舰店", "del": 23, "batch": 11, "stock": 69, "depth": 0.74}, "深圳零跑中心光明车城店": {"short": "光明车城店", "del": 27, "batch": 22, "stock": 127, "depth": 1.08}, "深圳零跑中心宝运达汽车城店": {"short": "宝运达汽车城店", "del": 33, "batch": 20, "stock": 177, "depth": 1.38}, "深圳零跑中心远望车城店": {"short": "远望车城店", "del": 18, "batch": 14, "stock": 142, "depth": 1.25}};
   function storeShort(n){
     if(STORES_ACTUAL[n] && STORES_ACTUAL[n].short) return STORES_ACTUAL[n].short;
     for(var i=0;i<OTHERS_STORES.length;i++){ if(OTHERS_STORES[i].name===n) return OTHERS_STORES[i].short; }
@@ -1119,7 +1120,7 @@
   }
 
   // 深圳其他门店（九兴3 + 标特3，平湖万达不列入排名，启创并入百世）· 来源：城市经理简报 2026-08-10
-var OTHERS_STORES = [{"name": "深圳体验中心锦龙大道店", "short": "锦龙", "lock": 5.0, "del": 9, "batch": 4, "stock": 53, "depth": 0.95, "lockAct": 3}, {"name": "深圳体验中心龙岗信义店", "short": "信义", "lock": 25.6, "del": 9, "batch": 12, "stock": 65, "depth": 0.9, "lockAct": 20}, {"name": "深圳零跑中心百世汽车城店", "short": "百世", "lock": 15.4, "del": 20, "batch": 18, "stock": 120, "depth": 0.88, "lockAct": 24}, {"name": "深圳体验中心福田瑞鹏达店", "short": "福田", "lock": 18.5, "del": 10, "batch": 11, "stock": 80, "depth": 1.04, "lockAct": 17}, {"name": "深圳零跑中心芙蓉路店", "short": "芙蓉", "lock": 12.9, "del": 7, "batch": 21, "stock": 89, "depth": 1.16, "lockAct": 12}, {"name": "深圳零跑中心南山嘉进隆店", "short": "南山", "lock": 24.1, "del": 20, "batch": 29, "stock": 133, "depth": 0.86, "lockAct": 39}];
+var OTHERS_STORES = [{"name": "深圳体验中心锦龙大道店", "short": "锦龙大道店", "lock": 5.0, "del": 9, "batch": 4, "stock": 53, "depth": 0.95, "lockAct": 3}, {"name": "深圳体验中心龙岗信义店", "short": "龙岗信义店", "lock": 25.6, "del": 9, "batch": 12, "stock": 65, "depth": 0.9, "lockAct": 20}, {"name": "深圳零跑中心百世汽车城店", "short": "百世汽车城店", "lock": 15.4, "del": 20, "batch": 18, "stock": 120, "depth": 0.88, "lockAct": 24}, {"name": "深圳体验中心福田瑞鹏达店", "short": "福田瑞鹏达店", "lock": 18.5, "del": 10, "batch": 11, "stock": 80, "depth": 1.04, "lockAct": 17}, {"name": "深圳零跑中心芙蓉路店", "short": "芙蓉路店", "lock": 12.9, "del": 7, "batch": 21, "stock": 89, "depth": 1.16, "lockAct": 12}, {"name": "深圳零跑中心南山嘉进隆店", "short": "南山嘉进隆店", "lock": 24.1, "del": 20, "batch": 29, "stock": 133, "depth": 0.86, "lockAct": 39}];
   // KPI 红框下方 · 新易腾 6 店横向柱状图（4 图，由高到低）
   function renderStoreBars(){
     var xytRows = LOCK_DATA.stores.map(function(s){
@@ -1161,23 +1162,6 @@ var OTHERS_STORES = [{"name": "深圳体验中心锦龙大道店", "short": "锦
     document.getElementById('bc-batch').insertAdjacentHTML('beforeend', build('batch',' 台', 0));
     document.getElementById('bc-depth').insertAdjacentHTML('beforeend', build('depth','', 2));
   }
-  // 动态更新当月时间进度（基于当前日期）
-  (function(){
-    function updateTimeProgress(){
-      var now = new Date();
-      var day = now.getDate();
-      // 当月总天数
-      var year = now.getFullYear();
-      var month = now.getMonth(); // 0-indexed
-      var daysInMonth = new Date(year, month + 1, 0).getDate();
-      var pct = Math.min(100, ((day / daysInMonth) * 100)).toFixed(1);
-      document.querySelectorAll('#kt-current').forEach(function(el){
-        el.textContent = '时间进度 ' + pct + '%';
-      });
-    }
-    updateTimeProgress();
-  })();
-
 
   var btns=document.querySelectorAll('.tab-btn');
   btns.forEach(function(b){ b.addEventListener('click',function(){ btns.forEach(x=>x.classList.remove('active')); document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active')); b.classList.add('active'); document.getElementById('tab-'+b.dataset.tab).classList.add('active'); }); });
