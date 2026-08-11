@@ -251,7 +251,7 @@
         <button class="subtab-btn active" data-sub="current">当月（实时）</button>
         <button class="subtab-btn" data-sub="july">2026年7月（留存）</button>
       </div>
-                                    <div class="sub-pane active" id="sub-current">
+                                          <div class="sub-pane active" id="sub-current">
 
 
     <section>
@@ -309,7 +309,7 @@
       </div>
         </div><div class="kpi-card" style="border-top-color:#ef4444">
           <div class="kpi-info">
-            <div class="kpi-title">总库存（深度 1.20）</div>
+            <div class="kpi-title">总库存（深度 1.64）</div>
             <div class="kpi-actual" style="color:#ef4444">714</div>
             <div class="kpi-target">库存 714 台</div>
             <div class="kpi-rate" style="color:#ef4444">—</div>
@@ -318,10 +318,10 @@
       <div class="kpi-gauge">
         <svg viewBox="0 0 72 72" width="72" height="72">
           <circle cx="36" cy="36" r="30" fill="none" stroke="#e5e7eb" stroke-width="8"/>
-          <circle cx="36" cy="36" r="30" fill="none" stroke="#ef4444" stroke-width="8" stroke-dasharray="113.1 188.5" stroke-linecap="round"/>
+          <circle cx="36" cy="36" r="30" fill="none" stroke="#ef4444" stroke-width="8" stroke-dasharray="154.9 188.5" stroke-linecap="round"/>
           <path d="M 58 36 A 22 22 0 1 1 51.06 19.96" fill="none" stroke="#334155" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round"/>
           <circle cx="51.06" cy="19.96" r="3" fill="#334155"/>
-          <text x="36" y="36" text-anchor="middle" dominant-baseline="central" fill="#ef4444">1.20</text>
+          <text x="36" y="36" text-anchor="middle" dominant-baseline="central" fill="#ef4444">1.64</text>
         </svg>
       </div>
         </div>      </div>
@@ -488,6 +488,12 @@
       </div>
     </section>
       </div><!-- /sub-current -->
+      <script>
+(function(){
+  function tp(){ var d=new Date(); var y=d.getFullYear(),m=d.getMonth(),day=d.getDate(); var dim=new Date(y,m+1,0).getDate(); var p=day/dim*100; var el=document.querySelectorAll('#sub-current .kpi-time'); el.forEach(function(e){ e.textContent='时间进度 '+p.toFixed(1)+'%'; }); }
+  if(document.readyState!=='loading') tp(); else document.addEventListener('DOMContentLoaded', tp);
+})();
+</script>
       <script>
 (function(){
   function tp(){ var d=new Date(); var y=d.getFullYear(),m=d.getMonth(),day=d.getDate(); var dim=new Date(y,m+1,0).getDate(); var p=day/dim*100; var el=document.querySelectorAll('#sub-current .kpi-time'); el.forEach(function(e){ e.textContent='时间进度 '+p.toFixed(1)+'%'; }); }
@@ -1041,7 +1047,7 @@
 (function(){
       var LOCK_DATA = {"bench": {"华南": {"stores": 104, "eff": 21.1, "lock": 19.5, "del": 18.0, "batch": 18.0}, "深圳": {"stores": 12, "eff": 22.2, "lock": 20.4, "del": 17.0, "batch": 16.1}}, "xyt": {"stores": 6, "eff": 25.3, "lockAct": 152, "lockTgt": 677, "lock": 22.5, "del": 20.4, "batch": 15.6, "W": [104, 109, 0, 0, 0]}, "stores": [{"name": "深圳体验中心杰鹏车城店", "eff": 2.0, "lock": 17.9, "del": 11.7, "batch": 21.7, "W": [10, 9, 0, 0, 0], "lockAct": 12}, {"name": "深圳体验中心龙华中心店", "eff": 3.3, "lock": 17.9, "del": 17.0, "batch": 12.8, "W": [14, 14, 0, 0, 0], "lockAct": 20}, {"name": "深圳零跑中心万国城旗舰店", "eff": 3.7, "lock": 20.2, "del": 24.7, "batch": 11.6, "W": [18, 12, 0, 0, 0], "lockAct": 22}, {"name": "深圳零跑中心光明车城店", "eff": 6.2, "lock": 28.9, "del": 22.9, "batch": 19.0, "W": [19, 28, 0, 0, 0], "lockAct": 37}, {"name": "深圳零跑中心宝运达汽车城店", "eff": 5.7, "lock": 25.0, "del": 25.8, "batch": 16.4, "W": [23, 26, 0, 0, 0], "lockAct": 34}, {"name": "深圳零跑中心远望车城店", "eff": 4.5, "lock": 21.6, "del": 15.8, "batch": 13.9, "W": [20, 20, 0, 0, 0], "lockAct": 27}]};
   // 各门店 交付/批售/库存/深度 实绩（来源：城市经理简报 2026-08-10 门店明细）
-      var STORES_ACTUAL = {"深圳体验中心杰鹏车城店": {"short": "杰鹏", "del": 7, "batch": 13, "stock": 70, "depth": 1.2}, "深圳体验中心龙华中心店": {"short": "龙华", "del": 17, "batch": 12, "stock": 129, "depth": 1.3}, "深圳零跑中心万国城旗舰店": {"short": "万国城", "del": 23, "batch": 11, "stock": 69, "depth": 0.7}, "深圳零跑中心光明车城店": {"short": "光明", "del": 27, "batch": 22, "stock": 127, "depth": 1.1}, "深圳零跑中心宝运达汽车城店": {"short": "宝运达", "del": 33, "batch": 20, "stock": 177, "depth": 1.4}, "深圳零跑中心远望车城店": {"short": "远望", "del": 18, "batch": 14, "stock": 142, "depth": 1.2}};
+      var STORES_ACTUAL = {"深圳体验中心杰鹏车城店": {"short": "杰鹏", "del": 7, "batch": 13, "stock": 70, "depth": 2.0}, "深圳体验中心龙华中心店": {"short": "龙华", "del": 17, "batch": 12, "stock": 129, "depth": 1.6}, "深圳零跑中心万国城旗舰店": {"short": "万国城", "del": 23, "batch": 11, "stock": 69, "depth": 1.0}, "深圳零跑中心光明车城店": {"short": "光明", "del": 27, "batch": 22, "stock": 127, "depth": 1.4}, "深圳零跑中心宝运达汽车城店": {"short": "宝运达", "del": 33, "batch": 20, "stock": 177, "depth": 2.1}, "深圳零跑中心远望车城店": {"short": "远望", "del": 18, "batch": 14, "stock": 142, "depth": 1.9}};
   function storeShort(n){
     if(STORES_ACTUAL[n] && STORES_ACTUAL[n].short) return STORES_ACTUAL[n].short;
     for(var i=0;i<OTHERS_STORES.length;i++){ if(OTHERS_STORES[i].name===n) return OTHERS_STORES[i].short; }
@@ -1050,7 +1056,7 @@
 
   // 深圳其他门店（九兴 4 + 标特 3，平湖万达按需求不列入排名）· 来源：城市经理简报 2026-08-01
   //   批售/库存/深度 当前无数据源 → null 显示"—"；周报模板填值后告诉我重跑同步
-      var OTHERS_STORES = [{"name": "深圳体验中心锦龙大道店", "short": "锦龙", "lock": 5.0, "del": 9, "batch": 4, "stock": 53, "depth": 0.9, "lockAct": 3}, {"name": "深圳体验中心龙岗信义店", "short": "信义", "lock": 25.6, "del": 9, "batch": 12, "stock": 65, "depth": 0.9, "lockAct": 20}, {"name": "深圳零跑中心百世汽车城店", "short": "百世", "lock": 16.4, "del": 20, "batch": 18, "stock": 120, "depth": 0.9, "lockAct": 24}, {"name": "深圳体验中心福田瑞鹏达店", "short": "福田", "lock": 18.5, "del": 10, "batch": 11, "stock": 80, "depth": 1.0, "lockAct": 17}, {"name": "深圳零跑中心芙蓉路店", "short": "芙蓉", "lock": 12.9, "del": 7, "batch": 21, "stock": 89, "depth": 1.2, "lockAct": 12}, {"name": "深圳零跑中心南山嘉进隆店", "short": "南山", "lock": 24.1, "del": 20, "batch": 29, "stock": 133, "depth": 0.9, "lockAct": 39}, {"name": "深圳体验中心启创汽车城店", "short": "启创", "lock": 0.0, "del": 0, "batch": 0, "stock": 6, "depth": 0.9, "lockAct": 0}];
+      var OTHERS_STORES = [{"name": "深圳体验中心锦龙大道店", "short": "锦龙", "lock": 5.0, "del": 9, "batch": 4, "stock": 53, "depth": 1.4, "lockAct": 3}, {"name": "深圳体验中心龙岗信义店", "short": "信义", "lock": 25.6, "del": 9, "batch": 12, "stock": 65, "depth": 1.4, "lockAct": 20}, {"name": "深圳零跑中心百世汽车城店", "short": "百世", "lock": 16.4, "del": 20, "batch": 18, "stock": 120, "depth": 1.1, "lockAct": 24}, {"name": "深圳体验中心福田瑞鹏达店", "short": "福田", "lock": 18.5, "del": 10, "batch": 11, "stock": 80, "depth": 1.3, "lockAct": 17}, {"name": "深圳零跑中心芙蓉路店", "short": "芙蓉", "lock": 12.9, "del": 7, "batch": 21, "stock": 89, "depth": 1.7, "lockAct": 12}, {"name": "深圳零跑中心南山嘉进隆店", "short": "南山", "lock": 24.1, "del": 20, "batch": 29, "stock": 133, "depth": 1.1, "lockAct": 39}, {"name": "深圳体验中心启创汽车城店", "short": "启创", "lock": 0.0, "del": 0, "batch": 0, "stock": 6, "depth": 2.2, "lockAct": 0}];
   // KPI 红框下方 · 新易腾 6 店横向柱状图（4 图，由高到低）
   function renderStoreBars(){
     var xytRows = LOCK_DATA.stores.map(function(s){
