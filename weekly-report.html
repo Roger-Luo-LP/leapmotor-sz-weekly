@@ -902,6 +902,7 @@ button:hover { background: #534AB7; }
 .c-c1 { color:#E68C68; } .c-c2 { color:#B13715; }
 .c-d1 { color:#BC637D; } .c-d2 { color:#7A2640; }
 .c-a1 { color:#378ADD; }
+.c-a2 { color:#7AA3F5; }
 .city-rank { color:#9a978f; font-weight:500; font-size:11px; }
 .metric-card .split { display: flex; align-items: stretch; margin-top: 10px; }
 .metric-card .split .abs { flex: 1; }
@@ -1110,7 +1111,7 @@ button:hover { background: #534AB7; }
 
 &lt;script&gt;
 const COLORS = {
-  A10: &#x27;#2F6FED&#x27;, A05: &#x27;#7B61FF&#x27;,
+  A10: &#x27;#2F6FED&#x27;, A05: &#x27;#7AA3F5&#x27;,
   B27: &#x27;#15A67A&#x27;, B25: &#x27;#6FD3A6&#x27;, LAFA5: &#x27;#0B7A56&#x27;,
   C27: &#x27;#F2622E&#x27;, C26: &#x27;#FBA45F&#x27;, C01: &#x27;#B5370C&#x27;,
   D19: &#x27;#7A5CE0&#x27;, D99: &#x27;#C0A9F0&#x27;,
@@ -7216,6 +7217,7 @@ function renderMetrics() {
   const grandTotal = d.reduce((s,r)=&gt;s+total(r),0);
   const byModel = {};
   MODEL_KEYS.forEach(k=&gt;byModel[k]=d.reduce((s,r)=&gt;s+(r[k]||0),0));
+  const A=(byModel.A10||0)+(byModel.A05||0);
   const B=(byModel.B27||0)+(byModel.B25||0)+(byModel.LAFA5||0);
   const C=(byModel.C27||0)+(byModel.C26||0);
   const D=(byModel.D19||0)+(byModel.D99||0);
@@ -7228,10 +7230,11 @@ function renderMetrics() {
   document.getElementById(&#x27;metricsRow&#x27;).innerHTML = `
     &lt;div class=&quot;metric-card m-total&quot;&gt;&lt;div class=&quot;label&quot;&gt;总销量&lt;/div&gt;&lt;div class=&quot;value&quot;&gt;${grandTotal}&lt;/div&gt;&lt;div class=&quot;sub&quot;&gt;${d.filter(r=&gt;r.total&gt;0).length} 个门店在售${rkTotal}&lt;/div&gt;&lt;/div&gt;
     &lt;div class=&quot;metric-card m-a&quot;&gt;&lt;div class=&quot;label&quot;&gt;A系 销量&lt;/div&gt;&lt;div class=&quot;split&quot;&gt;
-      &lt;div class=&quot;abs&quot;&gt;&lt;div class=&quot;value&quot;&gt;${byModel.A10}&lt;/div&gt;&lt;/div&gt;
-      &lt;div class=&quot;pct&quot;&gt;&lt;div class=&quot;value&quot;&gt;${pct(byModel.A10,grandTotal)}&lt;/div&gt;&lt;div class=&quot;cap&quot;&gt;占比&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;abs&quot;&gt;&lt;div class=&quot;value&quot;&gt;${A}&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;pct&quot;&gt;&lt;div class=&quot;value&quot;&gt;${pct(A,grandTotal)}&lt;/div&gt;&lt;div class=&quot;cap&quot;&gt;占比&lt;/div&gt;&lt;/div&gt;
     &lt;/div&gt;&lt;div class=&quot;sub&quot;&gt;
       &lt;span class=&quot;sub-line c-a1&quot;&gt;A10：${byModel.A10}${rk(&#x27;A10&#x27;)}&lt;/span&gt;
+      &lt;span class=&quot;sub-line c-a2&quot;&gt;A05：${byModel.A05}${rk(&#x27;A05&#x27;)}&lt;/span&gt;
     &lt;/div&gt;&lt;/div&gt;
     &lt;div class=&quot;metric-card m-b&quot;&gt;&lt;div class=&quot;label&quot;&gt;B系 销量&lt;/div&gt;&lt;div class=&quot;split&quot;&gt;
       &lt;div class=&quot;abs&quot;&gt;&lt;div class=&quot;value&quot;&gt;${B}&lt;/div&gt;&lt;/div&gt;
