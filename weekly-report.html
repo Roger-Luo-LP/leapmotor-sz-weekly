@@ -8215,7 +8215,7 @@ function syncStoreFilter() {
 </section>
 <script>
 (function(){
-      var LOCK_DATA = {"bench": {"华南": {"stores": 104, "eff": 21.1, "lock": 19.5, "del": 18.0, "batch": 18.0}, "深圳": {"stores": 12, "eff": 44.4, "lock": 40.8, "del": 32.7, "batch": 33.2}}, "xyt": {"stores": 6, "eff": 47.2, "lockAct": 283, "lockTgt": 677, "lock": 41.1, "del": 38.7, "batch": 36.1, "W": [104, 109, 0, 0, 0]}, "stores": [{"name": "深圳体验中心杰鹏车城店", "eff": 4.5, "lock": 38.8, "del": 28.3, "batch": 41.7, "W": [10, 9, 0, 0, 0], "lockAct": 27}, {"name": "深圳体验中心龙华中心店", "eff": 7.2, "lock": 37.5, "del": 36.0, "batch": 25.5, "W": [14, 14, 0, 0, 0], "lockAct": 43}, {"name": "深圳零跑中心万国城旗舰店", "eff": 7.7, "lock": 42.2, "del": 45.2, "batch": 36.8, "W": [18, 12, 0, 0, 0], "lockAct": 46}, {"name": "深圳零跑中心光明车城店", "eff": 9.8, "lock": 45.3, "del": 42.4, "batch": 44.0, "W": [19, 28, 0, 0, 0], "lockAct": 59}, {"name": "深圳零跑中心宝运达汽车城店", "eff": 10.2, "lock": 44.9, "del": 43.0, "batch": 37.7, "W": [23, 26, 0, 0, 0], "lockAct": 61}, {"name": "深圳零跑中心远望车城店", "eff": 7.8, "lock": 36.0, "del": 32.5, "batch": 30.7, "W": [20, 20, 0, 0, 0], "lockAct": 47}]};
+      var LOCK_DATA = {"bench": {"华南": {"stores": 104, "eff": 21.1, "lock": 19.5, "del": 18.0, "batch": 18.0}, "深圳": {"stores": 12, "eff": 44.4, "lock": 40.8, "del": 32.7, "batch": 33.2}}, "xyt": {"stores": 6, "eff": 47.2, "lockAct": 283, "lockTgt": 677, "lock": 41.1, "del": 38.7, "batch": 36.1, "W": [107, 109, 129]}, "stores": [{"name": "深圳体验中心杰鹏车城店", "eff": 4.5, "lock": 38.8, "del": 28.3, "batch": 41.7, "W": [11, 9, 14], "lockAct": 27}, {"name": "深圳体验中心龙华中心店", "eff": 7.2, "lock": 37.5, "del": 36.0, "batch": 25.5, "W": [15, 14, 23], "lockAct": 43}, {"name": "深圳零跑中心万国城旗舰店", "eff": 7.7, "lock": 42.2, "del": 45.2, "batch": 36.8, "W": [18, 12, 24], "lockAct": 46}, {"name": "深圳零跑中心光明车城店", "eff": 9.8, "lock": 45.3, "del": 42.4, "batch": 44.0, "W": [20, 28, 21], "lockAct": 59}, {"name": "深圳零跑中心宝运达汽车城店", "eff": 10.2, "lock": 44.9, "del": 43.0, "batch": 37.7, "W": [23, 26, 27], "lockAct": 61}, {"name": "深圳零跑中心远望车城店", "eff": 7.8, "lock": 36.0, "del": 32.5, "batch": 30.7, "W": [20, 20, 20], "lockAct": 47}]};
   // 各门店 交付/批售/库存/深度 实绩（来源：城市经理简报 2026-08-10 门店明细）
       var STORES_ACTUAL = {"深圳体验中心杰鹏车城店": {"short": "杰鹏", "del": 17, "batch": 25, "stock": 74, "depth": 2.13}, "深圳体验中心龙华中心店": {"short": "龙华", "del": 36, "batch": 24, "stock": 119, "depth": 1.55}, "深圳零跑中心万国城旗舰店": {"short": "万国城", "del": 42, "batch": 35, "stock": 77, "depth": 1.06}, "深圳零跑中心光明车城店": {"short": "光明", "del": 50, "batch": 51, "stock": 132, "depth": 1.48}, "深圳零跑中心宝运达汽车城店": {"short": "宝运达", "del": 55, "batch": 46, "stock": 184, "depth": 2.15}, "深圳零跑中心远望车城店": {"short": "远望", "del": 37, "batch": 31, "stock": 141, "depth": 1.98}};
   function storeShort(n){
@@ -8571,13 +8571,29 @@ var SIX_DEFAULT = "W33";
     function rVal(name){ if(name==='潜客环比(WOW)') return (xytWow>=0?'+':'')+xytWow+'%'; var i=RC.indexOf(name); return (xr[i]!=null? xr[i].toFixed(2):'—')+'%'; }
     function rSz(name){ if(name==='潜客环比(WOW)') return (szWow>=0?'+':'')+szWow+'%'; var i=RC.indexOf(name); return (sr[i]!=null? sr[i].toFixed(2):'—')+'%'; }
 
+    var leadTitle, leadDetail;
+    if(lead.v > lead.sz){
+      leadTitle = lead.k+'达成率'+(lead.v>lead.hn?'领先大区':'高于全市');
+      leadDetail = lead.k+'达成率 <b>'+lead.v.toFixed(1)+'%</b>，高于深圳均值 '+lead.sz.toFixed(1)+'%（'+p1(lead.v-lead.sz)+'pp）'+(lead.v>lead.hn?('、华南大区 '+lead.hn.toFixed(1)+'%（'+p1(lead.v-lead.hn)+'pp）'):'')+'。';
+    } else {
+      leadTitle = lead.k+'达成率落后全市幅度最小';
+      leadDetail = lead.k+'达成率 <b>'+lead.v.toFixed(1)+'%</b>，低于深圳均值 '+lead.sz.toFixed(1)+'%（'+p1(lead.v-lead.sz)+'pp），三维度中相对深圳落后幅度最小（仍待追平）。';
+    }
     var hi = [
-      {_pol:'hi', tag:lead.k, title:lead.k+'达成率'+(lead.v>lead.hn?'领先大区':'高于全市'), detail:lead.k+'达成率 <b>'+lead.v.toFixed(1)+'%</b>，高于深圳均值 '+lead.sz.toFixed(1)+'%（'+p1(lead.v-lead.sz)+'pp）'+(lead.v>lead.hn?('、华南大区 '+lead.hn.toFixed(1)+'%（'+p1(lead.v-lead.hn)+'pp）'):'')+'。'},
+      {_pol:'hi', tag:lead.k, title:leadTitle, detail:leadDetail},
       {_pol:'hi', tag:bestB.tag, title:bestB.title, detail:bestB.detail},
       {_pol:'hi', tag:'六量六率', title:bestSix.k+'优于全市', detail:bestSix.k+' <b>'+rVal(bestSix.k)+'</b>，好于深圳市平均 '+rSz(bestSix.k)+'（'+(bestSix.g>=0?'+':'')+bestSix.g.toFixed(2)+'pp），到店后成交/转化效率更高。'}
     ];
+    var lagTitle, lagDetail;
+    if(lag.v < lag.sz){
+      lagTitle = lag.k+'达成率'+(lag.v<lag.hn?'落后大区':'低于全市');
+      lagDetail = lag.k+'达成率 <b>'+lag.v.toFixed(1)+'%</b>，低于深圳均值 '+lag.sz.toFixed(1)+'%（'+p1(lag.v-lag.sz)+'pp）'+(lag.v<lag.hn?('、华南大区 '+lag.hn.toFixed(1)+'%（'+p1(lag.v-lag.hn)+'pp）'):'')+'。';
+    } else {
+      lagTitle = lag.k+'达成率领先全市幅度最小';
+      lagDetail = lag.k+'达成率 <b>'+lag.v.toFixed(1)+'%</b>，高于深圳均值 '+lag.sz.toFixed(1)+'%（+'+(lag.v-lag.sz).toFixed(1)+'pp），三维度中相对深圳领先幅度最小（锁单/批售/交付均反超深圳）。';
+    }
     var lo = [
-      {_pol:'lo', tag:lag.k, title:lag.k+'达成率'+(lag.v<lag.hn?'落后大区':'低于全市'), detail:lag.k+'达成率 <b>'+lag.v.toFixed(1)+'%</b>，低于深圳均值 '+lag.sz.toFixed(1)+'%（'+p1(lag.v-lag.sz)+'pp）'+(lag.v<lag.hn?('、华南大区 '+lag.hn.toFixed(1)+'%（'+p1(lag.v-lag.hn)+'pp）'):'')+'。'},
+      {_pol:'lo', tag:lag.k, title:lagTitle, detail:lagDetail},
       {_pol:'lo', tag:worstE.tag, title:worstE.title, detail:worstE.detail},
       {_pol:'lo', tag:'六量六率', title:worstSix.k+'弱于全市', detail:worstSix.k+' <b>'+rVal(worstSix.k)+'</b>，弱于深圳市平均 '+rSz(worstSix.k)+'（'+(worstSix.g>=0?'+':'')+worstSix.g.toFixed(2)+'pp），需补强该环节。'}
     ];
