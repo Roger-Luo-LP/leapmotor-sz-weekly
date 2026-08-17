@@ -8172,6 +8172,8 @@ function syncStoreFilter() {
     .pp-mtx td.pp-store{text-align:left;font-weight:600;position:sticky;left:0;background:#fff;z-index:1}
     .pp-mtx tr.pp-grp td{background:#eef2ff;font-weight:700;text-align:left;color:#1e3a8a}
     .pp-mtx tr.pp-gtotal td{background:#e6ffed;font-weight:700}
+    .pp-mtx tr.pp-region td{background:#fff7ed;font-weight:700;color:#9a3412}
+    .pp-tbl tr.pp-region td{background:#fff7ed;font-weight:700;color:#9a3412}
     .pp-mtx td.pp-tot{font-weight:700;background:rgba(0,0,0,0.02)}
     .pp-note{font-size:12px;color:#94a3b8;margin:8px 0 0}
     .pp-stacked-wrap{display:flex;flex-direction:column;gap:16px;align-items:stretch}
@@ -9001,7 +9003,8 @@ var SIX_DEFAULT = "W33";
       if(g.isAvg){
         s += '<line x1="'+barX+'" y1="'+(y-5)+'" x2="'+(barX+barMax)+'" y2="'+(y-5)+'" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5 3"></line>';
       }
-      s += '<text x="0" y="'+(y+rowH/2+4)+'" fill="'+(g.isAvg?'#0f172a':'#334155')+'" font-weight="700">'+escAttr(g.name)+(g.isAvg?'（基准）':'')+'</text>';
+      var suffix = g.isAvg ? (g.region ? '（对标）' : '（基准）') : '';
+      s += '<text x="0" y="'+(y+rowH/2+4)+'" fill="'+(g.isAvg?(g.region?'#ea580c':'#0f172a'):'#334155')+'" font-weight="700">'+escAttr(g.name)+suffix+'</text>';
       var x = barX;
       g.segs.forEach(function(seg){
         var bw = (seg.pct / 100) * barMax;
@@ -9029,14 +9032,16 @@ var SIX_DEFAULT = "W33";
     orderedChs.forEach(function(ch, i){ tbl += '<th><span style="color:'+chColor(i)+'">●</span>'+escAttr(ch)+'</th>'; });
     tbl += '<th>合计</th></tr></thead><tbody>';
     groups.forEach(function(g){
-      tbl += '<tr><td class="ch">'+(g.isAvg?'<b>'+escAttr(g.name)+'（基准）</b>':escAttr(g.name))+'</td>';
+      var suffix = g.isAvg ? (g.region ? '（对标）' : '（基准）') : '';
+      var tlab = g.isAvg ? '<b'+(g.region?' style="color:#ea580c"':'')+'>'+escAttr(g.name)+suffix+'</b>' : escAttr(g.name);
+      tbl += '<tr><td class="ch">'+tlab+'</td>';
       g.segs.forEach(function(seg){
         tbl += '<td>'+seg.pct.toFixed(1)+'%<span class="v">'+fmtInt(seg.value)+'</span></td>';
       });
       tbl += '<td>'+fmtInt(g.total)+'</td></tr>';
     });
     tbl += '</tbody></table>';
-    legend += '<p class="pp-note">深圳市（基准）行为全市渠道占比，可与三大集团对比；右侧表为各集团各渠道的占比与'+(metricLabel||'有效潜客')+'（台），鼠标移至色块亦可查看明细。</p>';
+    legend += '<p class="pp-note">深圳市（基准）与华南大区（对标）行为渠道占比基准，可与三大集团对比；右侧表为各集团各渠道的占比与'+(metricLabel||'有效潜客')+'（台），鼠标移至色块亦可查看明细。</p>';
     return '<div class="pp-stacked-wrap"><div class="pp-stacked-left">'+s+'</div>'+tbl+'</div>' + legend;
   }
 
@@ -9094,6 +9099,14 @@ var SIX_DEFAULT = "W33";
       segs.forEach(function(seg){ seg.pct = total>0 ? seg.value/total*100 : 0; seg.fill = chColor(seg.idx); });
       return {name:g, segs:segs, total:total};
     });
+    // 华南大区（对标基准）：与深圳市并列作为大区/城市基准，置于集团之上
+    var hnSegs = orderedChs.map(function(ch, i){
+      var v = sumScope('华南', ppWeek, ch, '全部')[metric];
+      return {ch:ch, value:v, idx:i};
+    }).filter(function(seg){ return seg.value>0; });
+    var hnTotal = hnSegs.reduce(function(a,seg){ return a+seg.value; }, 0);
+    hnSegs.forEach(function(seg){ seg.pct = hnTotal>0 ? seg.value/hnTotal*100 : 0; seg.fill = chColor(seg.idx); });
+    groups.push({name:'华南大区', segs:hnSegs, total:hnTotal, isAvg:true, region:true});
     var szSegs = orderedChs.map(function(ch, i){
       var v = sumScope('深圳市', ppWeek, ch, '全部')[metric];
       return {ch:ch, value:v, idx:i};
@@ -9127,29 +9140,10 @@ var SIX_DEFAULT = "W33";
 
     var qikeItems = rows.map(function(r){ return {label:r.ch, value:r.v[0], disp:fmtInt(r.v[0])}; })
       .sort(function(a,b){ return b.value-a.value; });
-    // 各集团渠道占比（按有效潜客）：渠道按全市有效潜客降序排列，保证三段条形对齐
-    var chTotals = SIX_CHANNELS.map(function(ch){
-      return {ch:ch, total: sumScope('深圳市', ppWeek, ch, '全部')[0]};
-    }).filter(function(c){ return c.total>0; })
-      .sort(function(a,b){ return b.total-a.total; });
-    var orderedChs = chTotals.map(function(c){ return c.ch; });
-    var groups = GORD.map(function(g){
-      var segs = orderedChs.map(function(ch, i){
-        var v = sumScope(g, ppWeek, ch, '全部')[0];
-        return {ch:ch, value:v, idx:i};
-      }).filter(function(seg){ return seg.value>0; });
-      var total = segs.reduce(function(a,seg){ return a+seg.value; }, 0);
-      segs.forEach(function(seg){ seg.pct = total>0 ? seg.value/total*100 : 0; seg.fill = chColor(seg.idx); });
-      return {name:g, segs:segs, total:total};
-    });
-    // 深圳市基准（全市渠道占比，作为三大集团的均值参照）
-    var szSegs = orderedChs.map(function(ch, i){
-      var v = sumScope('深圳市', ppWeek, ch, '全部')[0];
-      return {ch:ch, value:v, idx:i};
-    }).filter(function(seg){ return seg.value>0; });
-    var szTotal = szSegs.reduce(function(a,seg){ return a+seg.value; }, 0);
-    szSegs.forEach(function(seg){ seg.pct = szTotal>0 ? seg.value/szTotal*100 : 0; seg.fill = chColor(seg.idx); });
-    groups.push({name:'深圳市', segs:szSegs, total:szTotal, isAvg:true});
+    // 各集团渠道占比（按有效潜客）：复用 buildGroups(0)，自动包含华南大区（对标）与深圳市（基准）
+    var gb = buildGroups(0);
+    var orderedChs = gb.orderedChs;
+    var groups = gb.groups;
     document.getElementById('pp-chart-qike').innerHTML = stackedGroups(groups, orderedChs);
 
     renderConv();
@@ -9177,6 +9171,12 @@ var SIX_DEFAULT = "W33";
       h += '<td class="num rate-cell '+wcls+'">'+(r.wow==null?'—':(r.wow>=0?'+':'')+r.wow.toFixed(2)+'%')+'</td>';
       h += '</tr>';
     });
+    var hnV = sumScope('华南', ppWeek, '全部','全部');
+    var hnR = calcRates(hnV);
+    h += '<tr class="pp-total pp-region"><td>华南大区（对标）</td>';
+    for(var i=0;i<6;i++) h += '<td class="num">'+fmtInt(hnV[i])+'</td>';
+    hnR.forEach(function(rv,idx){ h += '<td class="num rate-cell">'+fmtP2(rv)+'</td>'; });
+    h += '<td class="num">—</td></tr>';
     h += '<tr class="pp-total"><td>深圳市合计</td>';
     for(var i=0;i<6;i++) h += '<td class="num">'+fmtInt(szV[i])+'</td>';
     szRates.forEach(function(rv,idx){ h += '<td class="num rate-cell">'+fmtP2(rv)+'</td>'; });
@@ -9253,6 +9253,16 @@ var SIX_DEFAULT = "W33";
         h += '</tr>';
       });
     });
+    h += '<tr class="pp-region"><td>华南大区（对标）</td>';
+    SIX_CHANNELS.forEach(function(ch){
+      var c = sumScope('华南', ppWeek, ch, '全部');
+      var val = M.pct ? calcRates(c)[M.idx] : c[M.idx];
+      h += '<td class="num" style="'+bg(val)+'">'+disp(val)+'</td>';
+    });
+    var hnV = sumScope('华南', ppWeek, '全部','全部');
+    var hnTot = M.pct ? calcRates(hnV)[M.idx] : hnV[M.idx];
+    h += '<td class="num pp-tot" style="'+bg(hnTot)+'">'+disp(hnTot)+'</td>';
+    h += '</tr>';
     h += '<tr class="pp-gtotal"><td>深圳市合计</td>';
     SIX_CHANNELS.forEach(function(ch){
       var c = sumScope('深圳市', ppWeek, ch, '全部');
