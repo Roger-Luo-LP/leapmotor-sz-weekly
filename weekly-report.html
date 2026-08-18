@@ -949,6 +949,7 @@ button:hover { background: #534AB7; }
 .data-table .m-pct { font-size: 10px; color: #9A9A93; margin-left: 3px; font-weight: 400; vertical-align: baseline; }
 .data-table .m-pct.dash { color: #C9C9C2; }
 .data-table .group-total-row .m-pct { color: #C8853A; }
+.data-table .area-row .m-pct { color: #C8853A; }
 .data-table .store-row:hover .m-pct, .data-table .group-total-row:hover .m-pct { color: #7A7A72; }
 
 .legend-bar { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; font-size: 12px; color: #5F5E5A; }
@@ -6766,14 +6767,14 @@ function renderTable(data) {
     }
   });
 
-  // 小区行（跨集团，集团内占比不适用，显示 —；深圳市占比=占全市）
+  // 小区行（跨集团，集团内占比不适用，显示 —；数字旁标注深圳内占比=该区域该车型/深圳市该车型合计；深圳市占比列=区域占全市全量）
   [&#x27;深圳北&#x27;,&#x27;深圳南&#x27;].forEach(a =&gt; {
     const at = aTotals[a];
     if(at.total &gt; 0){
       const szPct = gtAll.total ? +(at.total/gtAll.total*100).toFixed(1) : 0;
       rows += `&lt;tr class=&quot;area-row&quot;&gt;
         &lt;td&gt;${a}&lt;/td&gt;
-        ${CLASS_KEYS.map(k =&gt; cellDash(at[k])).join(&#x27;&#x27;)}
+        ${CLASS_KEYS.map(k =&gt; cell(at[k], pct(at[k], cityModelTotals[k]))).join(&#x27;&#x27;)}
         &lt;td&gt;&lt;b&gt;${at.total}&lt;/b&gt;&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;${szPct}%&lt;/td&gt;
       &lt;/tr&gt;`;
     }
