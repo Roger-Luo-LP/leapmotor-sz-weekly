@@ -6897,10 +6897,10 @@ function renderTable(data) {
     const stores = groupMap[g] || [];
     stores.forEach(r =&gt; {
       const t = total(r);
-      // 门店维度：每车型占比 = 该店该车型 / 所属集团该车型合计（集团内占比）
+      // 门店维度：每车型占比 = 该店该车型 / 该店全量（门店内占比）—— 修复 2026-08-25：原误用&quot;所属集团该车型合计&quot;做分母，导致杰鹏车城 D99=2 显示 25%（2/8=集团合计）而非 5.1%（2/39=该店全量）
       rows += `&lt;tr class=&quot;store-row&quot;&gt;
         &lt;td&gt;${r.name}&lt;/td&gt;
-        ${CLASS_KEYS.map(k =&gt; cell(r[k], pct(r[k], gModelTotals[g] &amp;&amp; gModelTotals[g][k]))).join(&#x27;&#x27;)}
+        ${CLASS_KEYS.map(k =&gt; cell(r[k], pct(r[k], t))).join(&#x27;&#x27;)}
         &lt;td&gt;&lt;b&gt;${t}&lt;/b&gt;&lt;/td&gt;&lt;td&gt;${r.internal}%&lt;/td&gt;&lt;td&gt;${r.szRatio}%&lt;/td&gt;
       &lt;/tr&gt;`;
       CLASS_KEYS.forEach(k =&gt; { gTotals[g][k]+=r[k]; gtAll[k]+=r[k]; });
