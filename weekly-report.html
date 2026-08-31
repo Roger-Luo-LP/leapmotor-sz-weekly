@@ -1076,7 +1076,7 @@ const MODEL_LABELS = [&#x27;A10&#x27;,&#x27;A05&#x27;,&#x27;2027B系&#x27;,&#x27
 // 仅用于分类展示（车型分布/堆叠/热力/明细表），排除 T03、C01（二者只计入总数，不统计分类）
 const CLASS_KEYS = MODEL_KEYS.filter(k =&gt; k !== &#x27;T03&#x27; &amp;&amp; k !== &#x27;C01&#x27;);
 const CLASS_LABELS = CLASS_KEYS.map(k =&gt; MODEL_LABELS[MODEL_KEYS.indexOf(k)]);
-const CLASS_LABELS_ALL = CLASS_LABELS.concat([&#x27;全系&#x27;]);
+const CLASS_LABELS_ALL = CLASS_LABELS.concat([&#x27;全系&#x27;,&#x27;ABC占比&#x27;]);
 // 车型 -&gt; 所属系（用于排行榜分 ABCD 四列）
 const SERIES_OF = { A10:&#x27;A&#x27;, A05:&#x27;A&#x27;, B27:&#x27;B&#x27;, B25:&#x27;B&#x27;, LAFA5:&#x27;B&#x27;, C27:&#x27;C&#x27;, C26:&#x27;C&#x27;, D19:&#x27;D&#x27;, D99:&#x27;D&#x27; };
 const GROUP_ORDER = [&#x27;新易腾集团&#x27;,&#x27;标特集团&#x27;,&#x27;九兴集团&#x27;];
@@ -7013,12 +7013,19 @@ function updateCharts() {
   });
   // 全系行：所有车型按集团汇总，归一化为集团占比
   const allRaw = GROUP_ORDER.map((g,gi)=&gt; gmRaw.reduce((s,row)=&gt;s+row[gi],0));
-  groupModelChart._raw = gmRaw.concat([allRaw]);
+  // ABC 行：仅统计除 D19/D99 以外的车型（A/B/C 系 + Lafa5），按集团汇总归一化为集团占比
+  const ABC_EXCLUDE = {&#x27;D19&#x27;:1,&#x27;D99&#x27;:1};
+  const abcRaw = GROUP_ORDER.map((g,gi)=&gt; gmRaw.reduce((s,row,mi)=&gt; s + (ABC_EXCLUDE[CLASS_KEYS[mi]] ? 0 : row[gi]), 0));
+  groupModelChart._raw = gmRaw.concat([allRaw, abcRaw]);
   const allTot = allRaw.reduce((a,b)=&gt;a+b,0) || 1;
   const allPct = allRaw.map(v=&gt;+(v/allTot*100).toFixed(2));
   const allDiff = +(100 - allPct.slice(0,-1).reduce((a,b)=&gt;a+b,0)).toFixed(2);
   allPct[allPct.length-1] = allDiff&lt;0 ? 0 : allDiff;
-  GROUP_ORDER.forEach((g,gi)=&gt;{ groupModelChart.data.datasets[gi].data = gmPct.map(p=&gt;p[gi]).concat([allPct[gi]]); });
+  const abcTot = abcRaw.reduce((a,b)=&gt;a+b,0) || 1;
+  const abcPct = abcRaw.map(v=&gt;+(v/abcTot*100).toFixed(2));
+  const abcDiff = +(100 - abcPct.slice(0,-1).reduce((a,b)=&gt;a+b,0)).toFixed(2);
+  abcPct[abcPct.length-1] = abcDiff&lt;0 ? 0 : abcDiff;
+  GROUP_ORDER.forEach((g,gi)=&gt;{ groupModelChart.data.datasets[gi].data = gmPct.map(p=&gt;p[gi]).concat([allPct[gi], abcPct[gi]]); });
   groupModelChart.data.labels = CLASS_LABELS_ALL;
   groupModelChart.update();
   makeLegend(&#x27;modelLegend&#x27;, GROUP_ORDER.map((g,gi)=&gt;({label:g,color:GROUP_COLORS[g]})));
