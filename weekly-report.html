@@ -249,6 +249,7 @@
       <button class="tab-btn" data-tab="store" data-page-node-id="IVNXevPWMI9Dc5ZGKfx1de">门店分析</button>
       <button class="tab-btn" data-tab="person" data-page-node-id="Y6NPjet21zK1MqDv8PMfF9">人员情况</button>
       <button class="tab-btn" data-tab="prospect" data-page-node-id="6KgLmsYNB8tVFbh3nVpLL4">潜客分析</button>
+      <button class="tab-btn" data-tab="tools">大区工具看板</button>
     </div>
 
     <section class="tab-pane active" id="tab-lock" data-page-node-id="WVfMe9nNV4GQpE9pmqfrX8">
@@ -7945,6 +7946,93 @@ function syncStoreFilter() {
       <span data-page-node-id="3VHAcwWKJUOsYLRH75rc9m"><label data-page-node-id="yioiyICOfeV1let81KJ1Y7">矩阵指标</label><select id="pp-metric" data-page-node-id="OVjxh014wktmv3bzMOWGTV"><option value="qike" data-page-node-id="RN8HCHp7wcBQy8NuPmbwIp">有效潜客</option><option value="lock" data-page-node-id="MtsqlXfbdLgZC0t811cIZB">锁单</option><option value="rate" data-page-node-id="tCxmXMPILB3mUqsR6scNUr">潜客锁单率</option></select></span>
     </div>
     <div id="pp-matrix" data-page-node-id="VWEROI1xzFoRorKvGjnRFg"></div>
+  </div>
+</section>
+
+<section class="tab-pane" id="tab-tools">
+  <style>
+    #tab-tools .tools-head { margin:4px 0 6px; }
+    #tab-tools .tools-title { font-size:22px; font-weight:800; color:var(--main); display:flex; align-items:center; gap:10px; }
+    #tab-tools .tools-title .bar { width:6px; height:24px; background:var(--leap-green); border-radius:3px; display:inline-block; }
+    #tab-tools .tools-sub { font-size:13px; color:var(--muted); margin:10px 0 22px; line-height:1.7; }
+    #tab-tools .tool-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:18px; }
+    #tab-tools .tool-card { background:var(--card); border:1px solid var(--border); border-top:4px solid #00a651; border-radius:12px; padding:20px 22px; transition:all .15s; display:flex; flex-direction:column; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+    #tab-tools .tool-card:hover { box-shadow:0 6px 20px rgba(0,0,0,.08); transform:translateY(-2px); }
+    #tab-tools .tool-badge { display:inline-block; align-self:flex-start; font-size:12px; font-weight:700; padding:4px 10px; border-radius:6px; letter-spacing:.3px; }
+    #tab-tools .tool-name { font-size:17px; font-weight:700; color:var(--main); margin:14px 0 6px; }
+    #tab-tools .tool-desc { font-size:13.5px; color:var(--muted); line-height:1.7; flex:1; }
+    #tab-tools .tool-foot { margin-top:18px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    #tab-tools .tool-link { display:inline-flex; align-items:center; gap:6px; background:var(--leap-green); color:#fff; text-decoration:none; font-size:13px; font-weight:600; padding:9px 16px; border-radius:8px; transition:all .15s; white-space:nowrap; }
+    #tab-tools .tool-link:hover { background:#008c45; }
+    #tab-tools .tool-host { font-size:11px; color:#9aa0a6; word-break:break-all; text-align:right; max-width:52%; line-height:1.4; }
+    @media (max-width:560px){ #tab-tools .tool-grid{ grid-template-columns:1fr; } }
+  </style>
+  <div class="tools-head">
+    <div class="tools-title"><span class="bar"></span>大区工具看板</div>
+    <div class="tools-sub">汇总华南大区日常运营分析看板，按业务场景分类。点击「打开看板」在新标签页查看详情。</div>
+  </div>
+  <div class="tool-grid">
+
+    <div class="tool-card" style="border-top-color:#3b82f6">
+      <span class="tool-badge" style="background:rgba(59,130,246,.10);color:#3b82f6">【潜客看板】</span>
+      <div class="tool-name">潜客分析看板</div>
+      <div class="tool-desc">分析潜客情况，洞察有效潜客结构与转化漏斗。</div>
+      <div class="tool-foot">
+        <a class="tool-link" href="https://01e43646424c46049c0281f954b5d6d5.bj3.agentos-app.net/" target="_blank" rel="noopener noreferrer">打开看板 →</a>
+        <span class="tool-host">agentos-app.net</span>
+      </div>
+    </div>
+
+    <div class="tool-card" style="border-top-color:#00a651">
+      <span class="tool-badge" style="background:rgba(0,166,81,.10);color:#00a651">【四轮驱动看板】</span>
+      <div class="tool-name">车型占比看板</div>
+      <div class="tool-desc">分析车型占比，掌握各车系结构分布。</div>
+      <div class="tool-foot">
+        <a class="tool-link" href="https://dorameimeimon.github.io/leapmotor-south-dashboard/" target="_blank" rel="noopener noreferrer">打开看板 →</a>
+        <span class="tool-host">dorameimeimon.github.io</span>
+      </div>
+    </div>
+
+    <div class="tool-card" style="border-top-color:#0ea5e9">
+      <span class="tool-badge" style="background:rgba(14,165,233,.10);color:#0ea5e9">【四轮驱动看板】</span>
+      <div class="tool-name">目标达成看板</div>
+      <div class="tool-desc">各车系车型目标达成情况追踪。</div>
+      <div class="tool-foot">
+        <a class="tool-link" href="https://www.workbuddy.link/p/ErygiaFEXLoJD83lEKSccc?source=2" target="_blank" rel="noopener noreferrer">打开看板 →</a>
+        <span class="tool-host">workbuddy.link</span>
+      </div>
+    </div>
+
+    <div class="tool-card" style="border-top-color:#f59e0b">
+      <span class="tool-badge" style="background:rgba(245,158,11,.12);color:#d97706">【试驾勤奋度】</span>
+      <div class="tool-name">试驾过程看板</div>
+      <div class="tool-desc">分析过程指标情况，评估试驾勤奋度。</div>
+      <div class="tool-foot">
+        <a class="tool-link" href="https://dorameimeimon.github.io/leapmotor-test-drive-dashboard/" target="_blank" rel="noopener noreferrer">打开看板 →</a>
+        <span class="tool-host">dorameimeimon.github.io</span>
+      </div>
+    </div>
+
+    <div class="tool-card" style="border-top-color:#8b5cf6">
+      <span class="tool-badge" style="background:rgba(139,92,246,.10);color:#8b5cf6">【外呼质量】</span>
+      <div class="tool-name">外呼质量看板</div>
+      <div class="tool-desc">华南区域门店外呼质量分析报告。</div>
+      <div class="tool-foot">
+        <a class="tool-link" href="https://3be36b86bc5d416493a37fd3257cfde7.app.workbuddy.link" target="_blank" rel="noopener noreferrer">打开看板 →</a>
+        <span class="tool-host">app.workbuddy.link</span>
+      </div>
+    </div>
+
+    <div class="tool-card" style="border-top-color:#ef4444">
+      <span class="tool-badge" style="background:rgba(239,68,68,.10);color:#ef4444">【返利预估】</span>
+      <div class="tool-name">返利估算器</div>
+      <div class="tool-desc">9月华南门店返利估算器。</div>
+      <div class="tool-foot">
+        <a class="tool-link" href="https://f91dbd367e084bbc81b2b1795354538c.app.workbuddy.link/" target="_blank" rel="noopener noreferrer">打开看板 →</a>
+        <span class="tool-host">app.workbuddy.link</span>
+      </div>
+    </div>
+
   </div>
 </section>
 <script>
