@@ -9,6 +9,7 @@
       --bg: #f4f6f8; --card: #fff; --main: #1f2937; --muted: #6b7280; --border: #e5e7eb;
       --blue: #3b82f6; --green: #10b981; --yellow: #f59e0b; --red: #ef4444;
       --leap-green: #00a651;
+      --sticky-top: 56px;
     }
     * { box-sizing: border-box; }
     body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--main); }
@@ -74,13 +75,13 @@
     .insight-card p { margin: 0; font-size: 13px; line-height: 1.6; color: rgba(255,255,255,.92); }
     .insight-card .strong { color: #fff; font-weight: 600; }
     @media (max-width: 640px) { .insights-grid { grid-template-columns: 1fr; } }
-    .tabs { display:flex; gap:10px; margin:28px 0 4px; flex-wrap:wrap; }
+    .tabs { display:flex; gap:10px; margin:28px 0 4px; flex-wrap:wrap; position:sticky; top:0; z-index:90; background:var(--bg); padding:6px 0; box-shadow:0 3px 6px -3px rgba(0,0,0,.18); }
     .tab-btn { background:var(--card); border:1px solid var(--border); color:var(--muted); font-size:14px; font-weight:600; padding:11px 22px; border-radius:10px; cursor:pointer; transition:all .15s; font-family:inherit; }
     .tab-btn:hover { border-color:var(--leap-green); color:var(--leap-green); }
     .tab-btn.active { background:var(--leap-green); border-color:var(--leap-green); color:#fff; }
     .tab-pane { display:none; }
     .tab-pane.active { display:block; }
-    .subtabs { display:flex; gap:8px; margin:18px 0 6px; flex-wrap:wrap; }
+    .subtabs { display:flex; gap:8px; margin:18px 0 6px; flex-wrap:wrap; position:sticky; top:var(--sticky-top); z-index:85; background:var(--bg); padding:6px 0; }
     .subtab-btn { background:var(--card); border:1px solid var(--border); color:var(--muted); font-size:13px; font-weight:600; padding:8px 18px; border-radius:9px; cursor:pointer; transition:all .15s; font-family:inherit; }
     .subtab-btn:hover { border-color:var(--leap-green); color:var(--leap-green); }
     .subtab-btn.active { background:var(--leap-green); border-color:var(--leap-green); color:#fff; }
@@ -105,7 +106,8 @@
     .r-neu{ color:#334155; font-weight:600; }
     .drill-hint{ font-size:12px; color:var(--muted); margin:6px 2px 14px; }
 
-    .filter-bar { display:flex; align-items:center; gap:18px; flex-wrap:wrap; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:12px 18px; margin:18px 0 4px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+    .filter-bar { display:flex; align-items:center; gap:18px; flex-wrap:wrap; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:12px 18px; margin:18px 0 4px; box-shadow:0 1px 3px rgba(0,0,0,.04); position:sticky; top:var(--sticky-top); z-index:80; }
+    #tab-lock .filter-bar { top:108px; }
     .filter-label { font-size:14px; font-weight:700; color:var(--main); }
     .filter-item { font-size:13px; color:var(--muted); display:flex; align-items:center; gap:7px; }
     .filter-item select { font-family:inherit; font-size:13px; padding:6px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; color:var(--main); cursor:pointer; min-width:130px; }
@@ -228,7 +230,7 @@
   .store-report .tag{ display:inline-block; font-size:11px; padding:1px 8px; border-radius:10px; background:#e0e7ff; color:#3730a3; margin-right:4px; }
   .store-report .tag.r{ background:#fee2e2; color:#991b1b; }
   .store-report .tag.g{ background:#d1fae5; color:#065f46; }
-  .sr-sel{ margin:12px 0; font-size:13px; }
+  .sr-sel{ margin:12px 0; font-size:13px; position:sticky; top:var(--sticky-top); z-index:80; background:var(--bg); padding:6px 0; }
   .sr-sel select{ padding:7px 12px; border-radius:8px; border:1px solid #cbd5e1; font-size:13px; min-width:220px; }
 </style>
 </head>
@@ -8070,7 +8072,8 @@ function syncStoreFilter() {
   <div class="section-title" data-page-node-id="7h1gjh5A0X9QunxjWJLNR1">潜客分析 · 渠道维度</div>
   <div class="sub-title" data-page-node-id="PA8BeIO3PIEy51yrI8aF6H">数据口径：深圳市 14 家门店（含平湖万达，不含信义汽车城）；潜客＝门店有效潜客；转化率以「深圳市均值」为基准（≥绿 / ＜红）。周期随下方选择。</div>
   <style>
-    .pp-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:14px 0 6px}
+    .pp-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:14px 0 6px;position:sticky;top:var(--sticky-top);z-index:80;background:var(--bg);padding:8px 0 6px;box-shadow:0 3px 6px -4px rgba(0,0,0,.15)}
+    #sub-matrix .pp-bar{ top:112px; }
     .pp-bar label{font-size:13px;color:#475569;margin-right:4px}
     .pp-bar select{font-size:13px;padding:5px 8px;border:1px solid #d6deea;border-radius:8px;background:#fff;color:#0f172a}
     .pp-subtabs{display:flex;gap:6px;margin:10px 0 4px}
