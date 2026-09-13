@@ -1132,8 +1132,8 @@ button:hover { background: #534AB7; }
 .table-section { background: #fff; border-radius: 12px; padding: 20px; border: 0.5px solid #D3D1C7; margin-bottom: 20px; }
 .table-section h3 { font-size: 14px; font-weight: 500; color: #2C2C2A; margin-bottom: 16px; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.data-table th { background: #F1EFE8; text-align: center; padding: 10px 12px; font-weight: 500; color: #5F5E5A; border-bottom: 0.5px solid #D3D1C7; white-space: nowrap; position: sticky; top: 0; }
-.data-table th:first-child { text-align: left; position: sticky; left: 0; z-index: 2; background: #F1EFE8; min-width: 220px; }
+.data-table th { background: #F1EFE8; text-align: center; padding: 10px 12px; font-weight: 500; color: #5F5E5A; border-bottom: 0.5px solid #D3D1C7; white-space: nowrap; position: sticky; top: 64px; }
+.data-table th:first-child { text-align: left; position: sticky; top: 64px; left: 0; z-index: 2; background: #F1EFE8; min-width: 220px; }
 .data-table td { padding: 9px 12px; border-bottom: 0.5px solid #F1EFE8; text-align: center; }
 .data-table td:first-child { text-align: left; font-weight: 400; position: sticky; left: 0; z-index: 1; }
 .data-table tr:hover td { background: #FAFAF9; }
@@ -8329,7 +8329,8 @@ var LOCK_DATA = {"bench": {"华南": {"stores": 104, "eff": 30.0, "lock": 30.0, 
 
 /*ORDER_RESIZE*/
   function resizeOrderFrame(){ var f=document.getElementById('orderFrame'); if(!f) return;
-    function setH(){ try{ if(f.contentDocument&&f.contentDocument.body){ f.style.height=(f.contentDocument.body.scrollHeight+40)+'px'; } }catch(e){}
+    function setH(){ try{ f.style.display='block'; f.style.width='100%'; f.style.border='0'; f.style.overflow='auto';
+        var h=Math.max(600, Math.round(window.innerHeight-160)); f.style.height=h+'px'; }catch(e){}
       try{ f.contentWindow.dispatchEvent(new Event('resize')); }catch(e){} }
     setH(); setTimeout(setH,300); setTimeout(setH,900); setTimeout(setH,1800); }
   (function(){ var f=document.getElementById('orderFrame'); if(f){ f.addEventListener('load',resizeOrderFrame); } })();
