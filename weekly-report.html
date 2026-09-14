@@ -8076,7 +8076,7 @@ function syncStoreFilter() {
       </div>
     </section>
 <section class="tab-pane" id="tab-prospect" data-page-node-id="i6TZDCMo1iwMoPe0ygpzz4">
-  <div class="section-title" data-page-node-id="7h1gjh5A0X9QunxjWJLNR1">潜客分析 · 渠道维度</div>
+  <div class="section-title" data-page-node-id="7h1gjh5A0X9QunxjWJLNR1">潜客分析</div>
   <div class="sub-title" data-page-node-id="PA8BeIO3PIEy51yrI8aF6H">数据口径：深圳市 14 家门店（含平湖万达，不含信义汽车城）；潜客＝门店有效潜客；转化率以「深圳市均值」为基准（≥绿 / ＜红）。周期随下方选择。</div>
   <style>
     .pp-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:14px 0 6px;position:sticky;top:var(--sticky-top);z-index:80;background:var(--bg);padding:8px 0 6px;box-shadow:0 3px 6px -4px rgba(0,0,0,.15)}
@@ -8133,6 +8133,7 @@ function syncStoreFilter() {
   <div class="pp-bar" data-page-node-id="5FG6EVPBl1u2aSwQ31AtZp">
     <span data-page-node-id="QGOX7ekFWl0VdoOUhzoQpM"><label data-page-node-id="VrYxAzrg1dVEfHYzIUuMV7">周期类型</label><select id="pp-ptype" data-page-node-id="UBs4Q9t7OobEI6E2MXiHGs"><option value="week" data-page-node-id="mbU4Q9FuBoXgDzFGn9mJpn">周度</option><option value="month" selected data-page-node-id="ta5d0619Hr8rW94RgBIx4B">月度</option></select></span>
     <span data-page-node-id="U5ak4z69jq1jVlCTMJcS1a"><label data-page-node-id="wOrZKRssHz8Qt7XkN0leJa">周期</label><select id="pp-period" data-page-node-id="hvlehXOZBUK7tnQFhcpvjH"></select></span>
+    <span><label>分析维度</label><select class="pp-dim-sel"><option value="ch" selected>渠道</option><option value="cs">车型</option></select></span>
   </div>
 
   <div class="pp-subtabs" data-page-node-id="079mfvjJCNvSxCiTnjNKes">
@@ -8142,8 +8143,8 @@ function syncStoreFilter() {
 
   <div class="sub-pane active" id="sub-overview" data-page-node-id="DOB4kfEdmmqlKQpGVHiRxm">
     <div class="pp-kpi" id="pp-kpi" data-page-node-id="uh9umdacRfiftGQWTIGZet"></div>
-    <div class="pp-chart full" data-page-node-id="JHBLtiSQbr9tHx1kbw83d6"><h4 data-page-node-id="oxJndWgjsrz1lWPQsflt9E">各集团渠道占比（按有效潜客）</h4><div id="pp-chart-qike" data-page-node-id="D99mZ98YUYGTZCUzWdG96r"></div></div>
-    <div class="pp-chart full" data-page-node-id="phUnSBMK52lVkz6y5IehrS"><h4 data-page-node-id="OnU2qsuXNDJaZiqTBmnZKP">各集团渠道占比（按锁单）</h4><div id="pp-chart-conv" data-page-node-id="WEAuZkDWrIUk88VMzZoCFa"></div><p class="pp-note" data-page-node-id="WBb6TKiDyRhwKtOwie2Orf">数据源：六量六率大表「当期净增锁单数」（按渠道大类，v&#91;5&#93;）。占比＝该集团各渠道锁单 / 该集团锁单合计；深圳市（基准）行为全市各渠道锁单占比。对比上方「按有效潜客」图，可直观看出各集团渠道结构在「流量→成交」环节是否扭曲（例如某渠道潜客占比高但锁单占比低，提示转化漏斗在该渠道泄漏）。</p></div>
+    <div class="pp-chart full" data-page-node-id="JHBLtiSQbr9tHx1kbw83d6"><h4 id="pp-h-qike" data-page-node-id="oxJndWgjsrz1lWPQsflt9E">各集团渠道占比（按有效潜客）</h4><div id="pp-chart-qike" data-page-node-id="D99mZ98YUYGTZCUzWdG96r"></div></div>
+    <div class="pp-chart full" data-page-node-id="phUnSBMK52lVkz6y5IehrS"><h4 id="pp-h-conv" data-page-node-id="OnU2qsuXNDJaZiqTBmnZKP">各集团渠道占比（按锁单）</h4><div id="pp-chart-conv" data-page-node-id="WEAuZkDWrIUk88VMzZoCFa"></div><p id="pp-conv-note" class="pp-note" data-page-node-id="WBb6TKiDyRhwKtOwie2Orf">数据源：六量六率大表「当期净增锁单数」（按渠道大类，v&#91;5&#93;）。占比＝该集团各渠道锁单 / 该集团锁单合计；深圳市（基准）行为全市各渠道锁单占比。对比上方「按有效潜客」图，可直观看出各集团渠道结构在「流量→成交」环节是否扭曲（例如某渠道潜客占比高但锁单占比低，提示转化漏斗在该渠道泄漏）。</p></div>
     <div id="pp-detail" data-page-node-id="JHj5OBNMFB0w7BaeS8Fqt9"></div>
     <div id="pp-analysis" data-page-node-id="xu375ed4clE3RlBmWOmCWg"></div>
   </div>
@@ -8151,6 +8152,7 @@ function syncStoreFilter() {
   <div class="sub-pane" id="sub-matrix" data-page-node-id="XY6oLdXsmEjezp7Bx5s38I">
     <div class="pp-bar" data-page-node-id="cA6NpgLGmG86LQYVCSVWQY">
       <span data-page-node-id="3VHAcwWKJUOsYLRH75rc9m"><label data-page-node-id="yioiyICOfeV1let81KJ1Y7">矩阵指标</label><select id="pp-metric" data-page-node-id="OVjxh014wktmv3bzMOWGTV"><option value="qike" data-page-node-id="RN8HCHp7wcBQy8NuPmbwIp">有效潜客</option><option value="lock" data-page-node-id="MtsqlXfbdLgZC0t811cIZB">锁单</option><option value="rate" data-page-node-id="tCxmXMPILB3mUqsR6scNUr">潜客锁单率</option></select></span>
+      <span><label>分析维度</label><select class="pp-dim-sel"><option value="ch" selected>渠道</option><option value="cs">车型</option></select></span>
     </div>
     <div id="pp-matrix" data-page-node-id="VWEROI1xzFoRorKvGjnRFg"></div>
   </div>
@@ -9037,7 +9039,7 @@ var SIX_DEFAULT = "W37";
   document.getElementById('sd-reset').addEventListener('click', function(){ document.getElementById('sd-ch').value='全部'; renderStoreDiag(); });
 
 
-/* ===== 潜客分析 tab（新增）===== */
+/* ===== 潜客分析 tab（维度可切换：渠道 / 车型）===== */
 (function(){
   if(typeof SIX==='undefined' || typeof SIX_CHANNELS==='undefined') return;
 
@@ -9066,11 +9068,18 @@ var SIX_DEFAULT = "W37";
   function fmtP2(v){ return v==null?'—':v.toFixed(2)+'%'; }
   function rcls(v, bench){ if(v==null||bench==null) return ''; return v>=bench?'r-good':'r-bad'; }
 
-  // 渠道配色（与图例一致）：按深圳市有效潜客降序排好后沿用
-  var CH_PALETTE = ['#4f8cff','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899','#84cc16','#f97316','#64748b'];
+  // 维度：ch=渠道 / cs=车型（数据行同时含 ch 与 cs 两个字段）
+  var PP_DIM = 'ch';
+  function dimKey(){ return PP_DIM; }
+  function dimList(){ return PP_DIM==='ch' ? SIX_CHANNELS : SIX_MODELS; }
+  function dimLabel(){ return PP_DIM==='ch' ? '渠道' : '车型'; }
+  function selFor(d){ return PP_DIM==='ch' ? {ch:d, cs:'全部'} : {ch:'全部', cs:d}; }
+
+  // 维度配色（与图例一致）：按深圳市有效潜客降序排好后沿用
+  var CH_PALETTE = ['#4f8cff','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899','#84cc16','#f97316','#64748b','#14b8a6','#a855f7','#eab308','#0ea5e9'];
   function chColor(idx){ return CH_PALETTE[idx % CH_PALETTE.length]; }
 
-  // 横向 100% 堆积图：每个集团一行，按某指标（潜客/锁单）占比切分渠道；右侧附「集团×渠道占比」数据表
+  // 横向 100% 堆积图：每个集团一行，按某指标（潜客/锁单）占比切分维度；右侧附「集团×维度占比」数据表
   function escAttr(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function stackedGroups(groups, orderedChs, metricLabel){
     var labW = 80, barX = labW + 10, barMax = 780, rowH = 38, pad = 10, rightPad = 96;
@@ -9079,7 +9088,6 @@ var SIX_DEFAULT = "W37";
     var s = '<svg viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMinYMin meet" style="font-family:inherit;font-size:12px">';
     groups.forEach(function(g, idx){
       var y = pad + idx*rowH;
-      // 深圳市基准行：上方加分隔虚线
       if(g.isAvg){
         s += '<line x1="'+barX+'" y1="'+(y-5)+'" x2="'+(barX+barMax)+'" y2="'+(y-5)+'" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5 3"></line>';
       }
@@ -9089,9 +9097,9 @@ var SIX_DEFAULT = "W37";
       g.segs.forEach(function(seg){
         var bw = (seg.pct / 100) * barMax;
         var pctTxt = seg.pct.toFixed(1)+'%';
-        var tip = escAttr(g.name)+' · '+escAttr(seg.ch)+'\n占比 '+pctTxt+'\n'+(metricLabel||'有效潜客')+' '+fmtInt(seg.value)+' 台';
+        var tip = escAttr(g.name)+' · '+escAttr(seg.dim)+'\n占比 '+pctTxt+'\n'+(metricLabel||'有效潜客')+' '+fmtInt(seg.value)+' 台';
         s += '<rect x="'+x.toFixed(2)+'" y="'+(y+6)+'" width="'+bw.toFixed(2)+'" height="'+(rowH-14)+'" fill="'+seg.fill+'" '
-           + 'data-grp="'+escAttr(g.name)+'" data-ch="'+escAttr(seg.ch)+'" data-pct="'+pctTxt+'" data-val="'+fmtInt(seg.value)+'">'
+           + 'data-grp="'+escAttr(g.name)+'" data-dim="'+escAttr(seg.dim)+'" data-pct="'+pctTxt+'" data-val="'+fmtInt(seg.value)+'">'
            + '<title>'+tip+'</title></rect>';
         if(bw >= 22){
           s += '<text x="'+(x+bw/2).toFixed(2)+'" y="'+(y+rowH/2+4)+'" fill="#ffffff" font-weight="600" text-anchor="middle" pointer-events="none">'+pctTxt+'</text>';
@@ -9107,8 +9115,8 @@ var SIX_DEFAULT = "W37";
       legend += '<span class="pp-leg"><i style="background:'+chColor(i)+'"></i>'+ch+'</span>';
     });
     legend += '</div>';
-    // 右侧数据表：集团 × 渠道占比（每行 = 一个集团，列 = 渠道），数值直接可见
-    var tbl = '<table class="pp-mtx-mini"><thead><tr><th class="ch">集团＼渠道</th>';
+    // 右侧数据表：集团 × 维度占比（每行 = 一个集团，列 = 维度），数值直接可见
+    var tbl = '<table class="pp-mtx-mini"><thead><tr><th class="ch">集团＼'+dimLabel()+'</th>';
     orderedChs.forEach(function(ch, i){ tbl += '<th><span style="color:'+chColor(i)+'">●</span>'+escAttr(ch)+'</th>'; });
     tbl += '<th>合计</th></tr></thead><tbody>';
     groups.forEach(function(g){
@@ -9121,7 +9129,7 @@ var SIX_DEFAULT = "W37";
       tbl += '<td>'+fmtInt(g.total)+'</td></tr>';
     });
     tbl += '</tbody></table>';
-    legend += '<p class="pp-note">深圳市（基准）与华南大区（对标）行为渠道占比基准，可与三大集团对比；右侧表为各集团各渠道的占比与'+(metricLabel||'有效潜客')+'（台），鼠标移至色块亦可查看明细。</p>';
+    legend += '<p class="pp-note">深圳市（基准）与华南大区（对标）行为'+dimLabel()+'占比基准，可与三大集团对比；右侧表为各集团各'+dimLabel()+'的占比与'+(metricLabel||'有效潜客')+'（台），鼠标移至色块亦可查看明细。</p>';
     return '<div class="pp-stacked-wrap"><div class="pp-stacked-left">'+s+'</div>'+tbl+'</div>' + legend;
   }
 
@@ -9151,45 +9159,51 @@ var SIX_DEFAULT = "W37";
     return s;
   }
 
-  function chAgg(ch, week){
-    var v = sumScope('深圳市', week, ch, '全部');
+  // 维度聚合：按 PP_DIM 当前维度拆分深圳市各维度项的六量六率与环比
+  function dimAgg(d, week){
+    var s = selFor(d);
+    var v = sumScope('深圳市', week, s.ch, s.cs);
     var rates = calcRates(v);
-    var pv = sumScope('深圳市', prevPeriodKey(week), ch, '全部');
+    var pv = sumScope('深圳市', prevPeriodKey(week), s.ch, s.cs);
     var wow = pv[0]>0 ? +(((v[0]-pv[0])/pv[0])*100).toFixed(2) : null;
-    return {ch:ch, v:v, rates:rates, wow:wow};
+    return {dim:d, v:v, rates:rates, wow:wow};
   }
-  function channelRows(week){
-    return SIX_CHANNELS.map(function(ch){ return chAgg(ch, week); })
+  function dimRows(week){
+    return dimList().map(function(d){ return dimAgg(d, week); })
       .filter(function(r){ return r.v[0]>0; });
   }
 
-  // 构建「各集团渠道占比」堆积图所用的 groups：metric=0 有效潜客，metric=5 锁单
+  // 构建「各集团维度占比」堆积图所用的 groups：metric=0 有效潜客，metric=5 锁单
   function buildGroups(metric){
-    var chTotals = SIX_CHANNELS.map(function(ch){
-      return {ch:ch, total: sumScope('深圳市', ppWeek, ch, '全部')[metric]};
+    var chTotals = dimList().map(function(d){
+      var s = selFor(d);
+      return {dim:d, total: sumScope('深圳市', ppWeek, s.ch, s.cs)[metric]};
     }).filter(function(c){ return c.total>0; })
       .sort(function(a,b){ return b.total-a.total; });
-    var orderedChs = chTotals.map(function(c){ return c.ch; });
+    var orderedChs = chTotals.map(function(c){ return c.dim; });
     var groups = GORD.map(function(g){
-      var segs = orderedChs.map(function(ch, i){
-        var v = sumScope(g, ppWeek, ch, '全部')[metric];
-        return {ch:ch, value:v, idx:i};
+      var segs = orderedChs.map(function(d, i){
+        var s = selFor(d);
+        var v = sumScope(g, ppWeek, s.ch, s.cs)[metric];
+        return {dim:d, value:v, idx:i};
       }).filter(function(seg){ return seg.value>0; });
       var total = segs.reduce(function(a,seg){ return a+seg.value; }, 0);
       segs.forEach(function(seg){ seg.pct = total>0 ? seg.value/total*100 : 0; seg.fill = chColor(seg.idx); });
       return {name:g, segs:segs, total:total};
     });
     // 华南大区（对标基准）：与深圳市并列作为大区/城市基准，置于集团之上
-    var hnSegs = orderedChs.map(function(ch, i){
-      var v = sumScope('华南', ppWeek, ch, '全部')[metric];
-      return {ch:ch, value:v, idx:i};
+    var hnSegs = orderedChs.map(function(d, i){
+      var s = selFor(d);
+      var v = sumScope('华南', ppWeek, s.ch, s.cs)[metric];
+      return {dim:d, value:v, idx:i};
     }).filter(function(seg){ return seg.value>0; });
     var hnTotal = hnSegs.reduce(function(a,seg){ return a+seg.value; }, 0);
     hnSegs.forEach(function(seg){ seg.pct = hnTotal>0 ? seg.value/hnTotal*100 : 0; seg.fill = chColor(seg.idx); });
     groups.push({name:'华南大区', segs:hnSegs, total:hnTotal, isAvg:true, region:true});
-    var szSegs = orderedChs.map(function(ch, i){
-      var v = sumScope('深圳市', ppWeek, ch, '全部')[metric];
-      return {ch:ch, value:v, idx:i};
+    var szSegs = orderedChs.map(function(d, i){
+      var s = selFor(d);
+      var v = sumScope('深圳市', ppWeek, s.ch, s.cs)[metric];
+      return {dim:d, value:v, idx:i};
     }).filter(function(seg){ return seg.value>0; });
     var szTotal = szSegs.reduce(function(a,seg){ return a+seg.value; }, 0);
     szSegs.forEach(function(seg){ seg.pct = szTotal>0 ? seg.value/szTotal*100 : 0; seg.fill = chColor(seg.idx); });
@@ -9203,7 +9217,7 @@ var SIX_DEFAULT = "W37";
   }
 
   function renderOverview(){
-    var rows = channelRows(ppWeek);
+    var rows = dimRows(ppWeek);
     var szV = sumScope('深圳市', ppWeek, '全部','全部');
     var szPrev = sumScope('深圳市', ppPrev(), '全部','全部');
     var szRates = calcRates(szV);
@@ -9218,9 +9232,9 @@ var SIX_DEFAULT = "W37";
       + ppCard('潜客环比', wt, periodLabel(ppWeek)+' vs '+periodLabel(ppPrev()), wcls);
     document.getElementById('pp-kpi').innerHTML = kpi;
 
-    var qikeItems = rows.map(function(r){ return {label:r.ch, value:r.v[0], disp:fmtInt(r.v[0])}; })
+    var qikeItems = rows.map(function(r){ return {label:r.dim, value:r.v[0], disp:fmtInt(r.v[0])}; })
       .sort(function(a,b){ return b.value-a.value; });
-    // 各集团渠道占比（按有效潜客）：复用 buildGroups(0)，自动包含华南大区（对标）与深圳市（基准）
+    // 各集团维度占比（按有效潜客）：复用 buildGroups(0)，自动包含华南大区（对标）与深圳市（基准）
     var gb = buildGroups(0);
     var orderedChs = gb.orderedChs;
     var groups = gb.groups;
@@ -9228,7 +9242,7 @@ var SIX_DEFAULT = "W37";
 
     renderConv();
 
-    document.getElementById('pp-detail').innerHTML = buildChannelTable(rows, szRates, szV);
+    document.getElementById('pp-detail').innerHTML = buildDimTable(rows, szRates, szV);
     document.getElementById('pp-analysis').innerHTML = buildAnalysis(rows, szRates, szV, wow);
   }
 
@@ -9236,15 +9250,15 @@ var SIX_DEFAULT = "W37";
     return '<div class="pp-kpi-card '+cls+'"><div class="pp-kpi-t">'+t+'</div><div class="pp-kpi-v">'+v+'</div><div class="pp-kpi-s">'+sub+'</div></div>';
   }
 
-  function buildChannelTable(rows, szRates, szV){
+  function buildDimTable(rows, szRates, szV){
     var sorted = rows.slice().sort(function(a,b){ return b.v[0]-a.v[0]; });
     var h = '<div class="table-wrap"><table class="pp-tbl"><thead><tr>'
-      + '<th>渠道</th><th class="num">有效潜客</th><th class="num">邀约</th><th class="num">核销</th><th class="num">到店</th><th class="num">试驾</th><th class="num">锁单</th>'
+      + '<th>'+dimLabel()+'</th><th class="num">有效潜客</th><th class="num">邀约</th><th class="num">核销</th><th class="num">到店</th><th class="num">试驾</th><th class="num">锁单</th>'
       + '<th class="num">排程核销率</th><th class="num">潜客到店率</th><th class="num">到店试驾率</th><th class="num">到店锁单率</th><th class="num">试驾锁单率</th><th class="num">潜客锁单率</th><th class="num">潜客环比</th>'
       + '</tr></thead><tbody>';
     sorted.forEach(function(r){
       var v=r.v, rt=r.rates;
-      h += '<tr><td class="pp-ch">'+r.ch+'</td>';
+      h += '<tr><td class="pp-ch">'+r.dim+'</td>';
       for(var i=0;i<6;i++) h += '<td class="num">'+fmtInt(v[i])+'</td>';
       rt.forEach(function(rv,idx){ h += '<td class="num rate-cell '+rcls(rv, szRates[idx])+'">'+fmtP2(rv)+'</td>'; });
       var wcls = r.wow==null?'r-neu':(r.wow>=0?'r-good':'r-bad');
@@ -9266,6 +9280,7 @@ var SIX_DEFAULT = "W37";
   }
 
   function buildAnalysis(rows, szRates, szV, wow){
+    var dl = dimLabel();
     var byLock = rows.slice().sort(function(a,b){return b.v[5]-a.v[5];});
     var byQike = rows.slice().sort(function(a,b){return b.v[0]-a.v[0];});
     var byRate = rows.filter(function(r){return r.rates[5]!=null;}).sort(function(a,b){return a.rates[5]-b.rates[5];});
@@ -9273,18 +9288,19 @@ var SIX_DEFAULT = "W37";
     var weak = byRate.filter(function(r){return r.v[0]>=20;})[0];
     var grow = rows.filter(function(r){return r.v[5]>=2 && r.wow!=null;}).sort(function(a,b){return (b.wow||0)-(a.wow||0);})[0];
     var parts = [];
-    parts.push('主力成交渠道：<b>'+top.ch+'</b> 锁单 '+top.v[5]+' 台（占全市锁单 '+Math.round(top.v[5]/szV[5]*100)+'%）');
-    if(flow.ch!==top.ch) parts.push('最大流量入口：<b>'+flow.ch+'</b> 有效潜客 '+flow.v[0]+'（占全市 '+Math.round(flow.v[0]/szV[0]*100)+'%）');
-    if(weak) parts.push('转化最弱：<b>'+weak.ch+'</b> 潜客 '+weak.v[0]+' 仅锁单 '+weak.v[5]+' 台（潜客锁单率 '+fmtP2(weak.rates[5])+'）');
-    if(grow) parts.push('<b>'+grow.ch+'</b> 潜客环比 '+(grow.wow>=0?'+':'')+grow.wow+'%（增速最快）');
+    parts.push('主力成交'+dl+'：<b>'+top.dim+'</b> 锁单 '+top.v[5]+' 台（占全市锁单 '+Math.round(top.v[5]/szV[5]*100)+'%）');
+    if(flow.dim!==top.dim) parts.push('最大流量入口：<b>'+flow.dim+'</b> 有效潜客 '+flow.v[0]+'（占全市 '+Math.round(flow.v[0]/szV[0]*100)+'%）');
+    if(weak) parts.push('转化最弱：<b>'+weak.dim+'</b> 潜客 '+weak.v[0]+' 仅锁单 '+weak.v[5]+' 台（潜客锁单率 '+fmtP2(weak.rates[5])+'）');
+    if(grow) parts.push('<b>'+grow.dim+'</b> 潜客环比 '+(grow.wow>=0?'+':'')+grow.wow+'%（增速最快）');
     return '<div class="pp-analysis">'+parts.join('；')+'。</div>';
   }
 
   function renderMatrix(){
     var metric = document.getElementById('pp-metric').value;
     var M = PP_METRICS.filter(function(m){return m.k===metric;})[0];
-    function cell(store, ch){
-      var v = sumScope(store, ppWeek, ch, '全部');
+    function cell(store, d){
+      var s=selFor(d);
+      var v = sumScope(store, ppWeek, s.ch, s.cs);
       if(M.pct){ return calcRates(v)[M.idx]; }
       return v[M.idx];
     }
@@ -9294,7 +9310,7 @@ var SIX_DEFAULT = "W37";
       return v[M.idx];
     }
     var maxv=0;
-    PSS.forEach(function(s){ SIX_CHANNELS.forEach(function(ch){ var c=cell(s,ch); if(c!=null && c>maxv) maxv=c; }); });
+    PSS.forEach(function(s){ dimList().forEach(function(d){ var c=cell(s,d); if(c!=null && c>maxv) maxv=c; }); });
     PSS.forEach(function(s){ var t=storeTotal(s); if(t!=null && t>maxv) maxv=t; });
     if(maxv<=0) maxv=1;
     function bg(v){
@@ -9305,26 +9321,26 @@ var SIX_DEFAULT = "W37";
     function disp(v){ if(v==null) return '—'; return M.pct? v.toFixed(2)+'%' : fmtInt(v); }
 
     var h = '<div class="table-wrap" style="overflow-x:auto"><table class="pp-mtx"><thead><tr><th>集团 / 门店</th>';
-    SIX_CHANNELS.forEach(function(ch){ h+='<th class="num">'+ch+'</th>'; });
+    dimList().forEach(function(d){ h+='<th class="num">'+d+'</th>'; });
     h += '<th class="num pp-tot">合计</th></tr></thead><tbody>';
 
     GORD.forEach(function(g){
       var stores = PSS.filter(function(s){ return grpOf(s)===g; });
       if(!stores.length) return;
-      var gch = {}; SIX_CHANNELS.forEach(function(ch){ gch[ch]=0; });
+      var gch = {}; dimList().forEach(function(d){ gch[d]=0; });
       var gTot=0;
       stores.forEach(function(s){
-        SIX_CHANNELS.forEach(function(ch){ var c=cell(s,ch); if(!M.pct && c!=null) gch[ch]+=c; });
+        dimList().forEach(function(d){ var c=cell(s,d); if(!M.pct && c!=null) gch[d]+=c; });
         var st=storeTotal(s); if(!M.pct && st!=null) gTot+=st;
       });
       h += '<tr class="pp-grp"><td>'+g+'集团</td>';
-      SIX_CHANNELS.forEach(function(ch){ h += M.pct? '<td></td>' : '<td class="num">'+fmtInt(gch[ch])+'</td>'; });
+      dimList().forEach(function(d){ h += M.pct? '<td></td>' : '<td class="num">'+fmtInt(gch[d])+'</td>'; });
       h += '<td class="num pp-tot">'+(M.pct?'—':fmtInt(gTot))+'</td></tr>';
       stores.forEach(function(s){
         h += '<tr><td class="pp-store">'+shortName(s)+'</td>';
         var rowSum = M.pct? null : 0;
-        SIX_CHANNELS.forEach(function(ch){
-          var c = cell(s,ch);
+        dimList().forEach(function(d){
+          var c = cell(s,d);
           h += '<td class="num" style="'+bg(c)+'">'+disp(c)+'</td>';
           if(!M.pct && c!=null) rowSum += c;
         });
@@ -9334,8 +9350,9 @@ var SIX_DEFAULT = "W37";
       });
     });
     h += '<tr class="pp-region"><td>华南大区（对标）</td>';
-    SIX_CHANNELS.forEach(function(ch){
-      var c = sumScope('华南', ppWeek, ch, '全部');
+    dimList().forEach(function(d){
+      var s=selFor(d);
+      var c = sumScope('华南', ppWeek, s.ch, s.cs);
       var val = M.pct ? calcRates(c)[M.idx] : c[M.idx];
       h += '<td class="num" style="'+bg(val)+'">'+disp(val)+'</td>';
     });
@@ -9344,8 +9361,9 @@ var SIX_DEFAULT = "W37";
     h += '<td class="num pp-tot" style="'+bg(hnTot)+'">'+disp(hnTot)+'</td>';
     h += '</tr>';
     h += '<tr class="pp-gtotal"><td>深圳市合计</td>';
-    SIX_CHANNELS.forEach(function(ch){
-      var c = sumScope('深圳市', ppWeek, ch, '全部');
+    dimList().forEach(function(d){
+      var s=selFor(d);
+      var c = sumScope('深圳市', ppWeek, s.ch, s.cs);
       var val = M.pct ? calcRates(c)[M.idx] : c[M.idx];
       h += '<td class="num" style="'+bg(val)+'">'+disp(val)+'</td>';
     });
@@ -9354,11 +9372,25 @@ var SIX_DEFAULT = "W37";
     h += '<td class="num pp-tot" style="'+bg(szTot)+'">'+disp(szTot)+'</td>';
     h += '</tr>';
     h += '</tbody></table></div>';
-    h += '<p class="pp-note">单元格 = 各门店在各渠道的'+M.label+'；颜色越深数值越大。'+M.label+'合计行为该门店 / 全市汇总（率指标集团行不汇总）。</p>';
+    h += '<p class="pp-note">单元格 = 各门店在各'+dimLabel()+'的'+M.label+'；颜色越深数值越大。'+M.label+'合计行为该门店 / 全市汇总（率指标集团行不汇总）。</p>';
     document.getElementById('pp-matrix').innerHTML = h;
   }
 
   function renderAll(){ renderOverview(); renderMatrix(); }
+
+  // 维度联动刷新：标题 / 子标签文字 / 图表标题与说明
+  function updateDimUI(){
+    var dl = dimLabel();
+    var hQ = document.getElementById('pp-h-qike'); if(hQ) hQ.textContent = '各集团'+dl+'占比（按有效潜客）';
+    var hC = document.getElementById('pp-h-conv'); if(hC) hC.textContent = '各集团'+dl+'占比（按锁单）';
+    var note = document.getElementById('pp-conv-note');
+    if(note) note.innerHTML = '数据源：六量六率大表「当期净增锁单数」（按'+dl+'大类，v&#91;5&#93;）。占比＝该集团各'+dl+'锁单 / 该集团锁单合计；深圳市（基准）行为全市各'+dl+'锁单占比。对比上方「按有效潜客」图，可直观看出各集团'+dl+'结构在「流量→成交」环节是否扭曲（例如某'+dl+'潜客占比高但锁单占比低，提示转化漏斗在该'+dl+'泄漏）。';
+    var b1 = document.querySelector('#tab-prospect .pp-subtab[data-sub="overview"]');
+    var b2 = document.querySelector('#tab-prospect .pp-subtab[data-sub="matrix"]');
+    if(b1) b1.textContent = dl+'总览';
+    if(b2) b2.textContent = '门店 × '+dl;
+    document.querySelectorAll('.pp-dim-sel').forEach(function(el){ el.value = PP_DIM; });
+  }
 
   // 周期控件
   var ppt = document.getElementById('pp-ptype');
@@ -9376,6 +9408,9 @@ var SIX_DEFAULT = "W37";
   }
   ppt.addEventListener('change', function(){ ppWeek=latestOf(ppt.value); fillPeriod(); renderAll(); });
   ppp.addEventListener('change', function(){ ppWeek=ppp.value; renderAll(); });
+  document.querySelectorAll('.pp-dim-sel').forEach(function(el){
+    el.addEventListener('change', function(){ PP_DIM=this.value; updateDimUI(); renderAll(); });
+  });
   document.getElementById('pp-metric').addEventListener('change', renderMatrix);
 
   // 子标签切换（独立，不干扰其它 tab）
@@ -9389,21 +9424,22 @@ var SIX_DEFAULT = "W37";
     });
   });
 
-  // 初始渲染（默认当月数据：月度最新月）
-  ppWeek = latestOf('month'); fillPeriod(); renderAll();
+  // 初始渲染（默认当月数据：月度最新月；默认渠道维度）
+  ppWeek = latestOf('month'); fillPeriod(); updateDimUI(); renderAll();
 
-  // 渠道占比图悬停提示（事件委托，重渲染后仍有效）
+  // 维度占比图悬停提示（事件委托，重渲染后仍有效）
   (function(){
     var box = document.getElementById('pp-chart-qike');
     if(!box) return;
     var tip = document.createElement('div'); tip.className='pp-tip'; tip.style.display='none'; document.body.appendChild(tip);
     box.addEventListener('mousemove', function(e){
       var t = e.target;
-      if(t && t.tagName && t.tagName.toLowerCase()==='rect' && t.getAttribute && t.getAttribute('data-ch')){
-        var grp=t.getAttribute('data-grp'), ch=t.getAttribute('data-ch'), pct=t.getAttribute('data-pct'), val=t.getAttribute('data-val');
+      if(t && t.tagName && t.tagName.toLowerCase()==='rect' && t.getAttribute && t.getAttribute('data-dim')){
+        var grp=t.getAttribute('data-grp'), dim=t.getAttribute('data-dim'), pct=t.getAttribute('data-pct'), val=t.getAttribute('data-val');
+        var dl = (PP_DIM==='cs') ? '车型' : '渠道';
         tip.innerHTML='<span class="pp-tip-ch">'+grp+'</span>'
-          + '<div class="pp-tip-row">渠道<b>'+ch+'</b></div>'
-          + '<div class="pp-tip-row">渠道占比<b>'+pct+'</b></div>'
+          + '<div class="pp-tip-row">'+dl+'<b>'+dim+'</b></div>'
+          + '<div class="pp-tip-row">'+dl+'占比<b>'+pct+'</b></div>'
           + '<div class="pp-tip-row">有效潜客<b>'+val+'</b></div>';
         tip.style.display='block';
         var tw=tip.offsetWidth, th=tip.offsetHeight;
