@@ -8130,10 +8130,10 @@ function syncStoreFilter() {
               <option value="0" data-page-node-id="QcEGA3HzXBlAgrYDXzWdHS">排程核销率</option>
               <option value="1" data-page-node-id="PHQzSzXxeO14Ia2Sw443KH">潜客到店率</option>
               <option value="2" data-page-node-id="a8LP9YCvqIzEvaeULa1iE6">到店试驾率</option>
-              <option value="3" data-page-node-id="uI1FR9EX2VGp1tlQQlqsnl">到店锁单率</option>
-              <option value="4" data-page-node-id="SnYbH9iDeVD1THxO1dcmy0">试驾锁单率</option>
-              <option value="5" selected data-page-node-id="3LtuXlM9drW0vRFl0HrBOk">潜客锁单率</option>
-              <option value="6" data-page-node-id="TdRt0921QkShiDrv">潜客试驾率</option>
+              <option value="3" data-page-node-id="TdRt0921QkShiDrv">潜客试驾率</option>
+              <option value="4" data-page-node-id="uI1FR9EX2VGp1tlQQlqsnl">到店锁单率</option>
+              <option value="5" data-page-node-id="SnYbH9iDeVD1THxO1dcmy0">试驾锁单率</option>
+              <option value="6" selected data-page-node-id="3LtuXlM9drW0vRFl0HrBOk">潜客锁单率</option>
             </optgroup>
             <optgroup label="六量（绝对值）" data-page-node-id="BcjGkMaDRkhlUZw69b6H3u">
               <option value="10" data-page-node-id="IYbX0k3Ny0iQRe0VStfAVq">门店有效潜客2</option>
@@ -8158,7 +8158,7 @@ function syncStoreFilter() {
       <div id="six-group-table" data-page-node-id="FRNkJ4BYd0xHkUck54qjjo"></div>
       <div class="sub-title" data-page-node-id="0IfPk6DVEtCQ3ej6AlT6RU">深圳全部门店明细（对比深圳市平均，可按集团 / 门店筛选）</div>
       <div id="six-store-table" data-page-node-id="pqRsDa0jW9da0JdTAg23qX"></div>
-      <p class="six-note" data-page-node-id="uLHDGj9SC1jBbug26AxoF0">说明：数据取自《深圳市-六量六率大表》（<span id="six-week-ref" data-page-node-id="lzYsMcbLBiobI4ztOMiLyx"></span>，周度=各周实绩、月度=当月各周合计）。六量 = 门店有效潜客2 / 邀约排程数 / 排程核销数 / 到店数 / 试驾数 / 当期净增锁单数；六率 = 排程核销率(核销/邀约)、潜客到店率(到店/潜客2)、到店试驾率(试驾/到店)、到店锁单率(锁单/到店)、潜客试驾率(试驾/潜客2)、潜客锁单率(锁单/潜客2)、潜客环比(WOW，当期 vs 上一周期)。各转化率以「深圳市平均（同口径）」为基准着色（≥深圳绿、&lt;深圳红）；潜客环比为正绿、为负红。深圳市平均行为基准参考。</p>
+      <p class="six-note" data-page-node-id="uLHDGj9SC1jBbug26AxoF0">说明：数据取自《深圳市-六量六率大表》（<span id="six-week-ref" data-page-node-id="lzYsMcbLBiobI4ztOMiLyx"></span>，周度=各周实绩、月度=当月各周合计）。六量 = 门店有效潜客2 / 邀约排程数 / 排程核销数 / 到店数 / 试驾数 / 当期净增锁单数；六率 = 排程核销率(核销/邀约)、潜客到店率(到店/潜客2)、到店试驾率(试驾/到店)、潜客试驾率(试驾/潜客2)、到店锁单率(锁单/到店)、试驾锁单率(锁单/试驾)、潜客锁单率(锁单/潜客2)、潜客环比(WOW，当期 vs 上一周期)。各转化率以「深圳市平均（同口径）」为基准着色（≥深圳绿、&lt;深圳红）；潜客环比为正绿、为负红。深圳市平均行为基准参考。</p>
 </section>
 
     
@@ -8537,10 +8537,10 @@ var SIX_DEFAULT = "W38";
     '深圳零跑中心南山嘉进隆店':'南山'
   };
   var COLS = ['潜客2','邀约','核销','到店','试驾','锁单'];
-  var RATE_COLS = ['排程核销率','潜客到店率','到店试驾率','到店锁单率','试驾锁单率','潜客锁单率','潜客试驾率'];
+  var RATE_COLS = ['排程核销率','潜客到店率','到店试驾率','潜客试驾率','到店锁单率','试驾锁单率','潜客锁单率'];
 
   function div(a,b){ return (b&&b>0) ? +(a/b*100).toFixed(2) : null; }
-  function calcRates(v){ return [div(v[2],v[1]), div(v[3],v[0]), div(v[4],v[3]), div(v[5],v[3]), div(v[5],v[4]), div(v[5],v[0]), div(v[4],v[0])]; }
+  function calcRates(v){ return [div(v[2],v[1]), div(v[3],v[0]), div(v[4],v[3]), div(v[4],v[0]), div(v[5],v[3]), div(v[5],v[4]), div(v[5],v[0])]; }
   function fmtInt(n){ return n.toLocaleString(); }
   function fmtPct(v){ return v==null?'—':v.toFixed(2)+'%'; }
   function sumScope(scope, week, chSel, csSel){
@@ -8790,7 +8790,7 @@ var SIX_DEFAULT = "W38";
     var svp = sumScope('深圳市', PREV, '全部', '全部');
     var xytWow = xvp[0]>0 ? +(((xv[0]-xvp[0])/xvp[0])*100).toFixed(2) : null;
     var szWow  = svp[0]>0 ? +(((sv[0]-svp[0])/svp[0])*100).toFixed(2) : null;
-    var RC = ['排程核销率','潜客到店率','到店试驾率','到店锁单率','试驾锁单率','潜客锁单率','潜客试驾率'];
+    var RC = ['排程核销率','潜客到店率','到店试驾率','潜客试驾率','到店锁单率','试驾锁单率','潜客锁单率'];
     var sixGaps = RC.map(function(rc,i){ return {k:rc, g:+((xr[i]||0)-(sr[i]||0)).toFixed(2)}; });
     sixGaps.push({k:'潜客环比(WOW)', g:+((xytWow||0)-(szWow||0)).toFixed(2)});
     var bestSix = sixGaps.slice().sort(function(a,b){return b.g-a.g;})[0];
@@ -8856,17 +8856,17 @@ var SIX_DEFAULT = "W38";
       var hi=[], lo=[];
       if(lockPct>szB.lock) hi.push({w:lockPct-szB.lock, t:'锁单达成 <b>'+lockPct.toFixed(1)+'%</b> 高于深圳均值 '+szB.lock.toFixed(1)+'%（+'+(lockPct-szB.lock).toFixed(1)+'pp）'});
       if(batchPct>szB.batch) hi.push({w:batchPct-szB.batch, t:'批售达成 <b>'+batchPct.toFixed(1)+'%</b> 高于深圳均值 '+szB.batch.toFixed(1)+'%（+'+(batchPct-szB.batch).toFixed(1)+'pp）'});
-      if(rates[3]!=null&&szRates[3]!=null&&rates[3]>=szRates[3]) hi.push({w:rates[3]-szRates[3], t:'到店锁单率 <b>'+rates[3].toFixed(2)+'%</b> 优于深圳均值 '+szRates[3].toFixed(2)+'%（+'+(rates[3]-szRates[3]).toFixed(2)+'pp）'});
-      if(rates[4]!=null&&szRates[4]!=null&&rates[4]>=szRates[4]) hi.push({w:rates[4]-szRates[4], t:'试驾锁单率 <b>'+rates[4].toFixed(2)+'%</b> 优于深圳均值 '+szRates[4].toFixed(2)+'%（+'+(rates[4]-szRates[4]).toFixed(2)+'pp）'});
-      if(rates[5]!=null&&szRates[5]!=null&&rates[5]>=szRates[5]) hi.push({w:rates[5]-szRates[5], t:'潜客锁单率 <b>'+rates[5].toFixed(2)+'%</b> 优于深圳均值 '+szRates[5].toFixed(2)+'%（+'+(rates[5]-szRates[5]).toFixed(2)+'pp）'});
+      if(rates[4]!=null&&szRates[4]!=null&&rates[4]>=szRates[4]) hi.push({w:rates[4]-szRates[4], t:'到店锁单率 <b>'+rates[4].toFixed(2)+'%</b> 优于深圳均值 '+szRates[4].toFixed(2)+'%（+'+(rates[4]-szRates[4]).toFixed(2)+'pp）'});
+      if(rates[5]!=null&&szRates[5]!=null&&rates[5]>=szRates[5]) hi.push({w:rates[5]-szRates[5], t:'试驾锁单率 <b>'+rates[5].toFixed(2)+'%</b> 优于深圳均值 '+szRates[5].toFixed(2)+'%（+'+(rates[5]-szRates[5]).toFixed(2)+'pp）'});
+      if(rates[6]!=null&&szRates[6]!=null&&rates[6]>=szRates[6]) hi.push({w:rates[6]-szRates[6], t:'潜客锁单率 <b>'+rates[6].toFixed(2)+'%</b> 优于深圳均值 '+szRates[6].toFixed(2)+'%（+'+(rates[6]-szRates[6]).toFixed(2)+'pp）'});
       if(mom>0) hi.push({w:mom/3, t:'最新周(W'+_n+') 锁单 '+_prev+'→'+_latest+'，环比 <b>+'+mom+'%</b> 回升'});
 
       if(s.lockTgt>0 && lockPct<hnB.lock) lo.push({w:hnB.lock-lockPct, t:'锁单达成 <b>'+lockPct.toFixed(1)+'%</b> 低于华南均值 '+hnB.lock.toFixed(1)+'%、深圳 '+szB.lock.toFixed(1)+'%'});
       else if(s.lockTgt>0 && lockPct<szB.lock) lo.push({w:szB.lock-lockPct, t:'锁单达成 <b>'+lockPct.toFixed(1)+'%</b> 低于深圳均值 '+szB.lock.toFixed(1)+'%（-'+(szB.lock-lockPct).toFixed(1)+'pp）'});
       if(s.lockTgt>0 && delPct<szB.del) lo.push({w:szB.del-delPct, t:'交付达成 <b>'+delPct.toFixed(1)+'%</b> 低于深圳均值 '+szB.del.toFixed(1)+'%（-'+(szB.del-delPct).toFixed(1)+'pp）'});
-      if(rates[3]!=null&&szRates[3]!=null&&rates[3]<szRates[3]) lo.push({w:szRates[3]-rates[3], t:'到店锁单率 <b>'+rates[3].toFixed(2)+'%</b> 弱于深圳均值 '+szRates[3].toFixed(2)+'%（-'+(szRates[3]-rates[3]).toFixed(2)+'pp）'});
-      if(rates[4]!=null&&szRates[4]!=null&&rates[4]<szRates[4]) lo.push({w:szRates[4]-rates[4], t:'试驾锁单率 <b>'+rates[4].toFixed(2)+'%</b> 弱于深圳均值 '+szRates[4].toFixed(2)+'%（-'+(szRates[4]-rates[4]).toFixed(2)+'pp）'});
-      if(rates[5]!=null&&szRates[5]!=null&&rates[5]<szRates[5]) lo.push({w:szRates[5]-rates[5], t:'潜客锁单率 <b>'+rates[5].toFixed(2)+'%</b> 弱于深圳均值 '+szRates[5].toFixed(2)+'%（-'+(szRates[5]-rates[5]).toFixed(2)+'pp）'});
+      if(rates[4]!=null&&szRates[4]!=null&&rates[4]<szRates[4]) lo.push({w:szRates[4]-rates[4], t:'到店锁单率 <b>'+rates[4].toFixed(2)+'%</b> 弱于深圳均值 '+szRates[4].toFixed(2)+'%（-'+(szRates[4]-rates[4]).toFixed(2)+'pp）'});
+      if(rates[5]!=null&&szRates[5]!=null&&rates[5]<szRates[5]) lo.push({w:szRates[5]-rates[5], t:'试驾锁单率 <b>'+rates[5].toFixed(2)+'%</b> 弱于深圳均值 '+szRates[5].toFixed(2)+'%（-'+(szRates[5]-rates[5]).toFixed(2)+'pp）'});
+      if(rates[6]!=null&&szRates[6]!=null&&rates[6]<szRates[6]) lo.push({w:szRates[6]-rates[6], t:'潜客锁单率 <b>'+rates[6].toFixed(2)+'%</b> 弱于深圳均值 '+szRates[6].toFixed(2)+'%（-'+(szRates[6]-rates[6]).toFixed(2)+'pp）'});
       if(_latest<_prev) lo.push({w:_prev-_latest, t:'最新周(W'+_n+') 锁单回落 '+_prev+'→'+_latest+'（<b>-'+Math.abs(mom)+'%</b>）'});
       hi.sort(function(a,b){return b.w-a.w;}); lo.sort(function(a,b){return b.w-a.w;});
       var hiTxt = hi.length ? hi.slice(0,2).map(function(h,i){ return (i+1)+'、'+h.t; }).join('<br>') : '本期无显著正面表现。';
@@ -8889,11 +8889,11 @@ var SIX_DEFAULT = "W38";
         sixCol = ''
           + '<div class="sd-kv"><span class="k">潜客2</span><span class="v">'+fmtInt(v[0])+'　<span class="'+wcls+'">'+(wow==null?'':wtxt)+'</span></span></div>'
           + '<div class="sd-kv"><span class="k">潜客到店率</span><span class="v"><span class="'+rc(rates[1],szRates[1])+'">'+(rates[1]==null?'—':rates[1].toFixed(2)+'%')+'</span></span></div>'
-          + '<div class="sd-kv"><span class="k">到店试驾率</span><span class="v"><span class="'+rc(rates[2],szRates[2])+'">'+(rates[2]==null?'—':rates[2].toFixed(2)+'%')+'</span></span></div>'
-          + '<div class="sd-kv"><span class="k">到店锁单率</span><span class="v"><span class="'+rc(rates[3],szRates[3])+'">'+(rates[3]==null?'—':rates[3].toFixed(2)+'%')+'</span></span></div>'
-          + '<div class="sd-kv"><span class="k">试驾锁单率</span><span class="v"><span class="'+rc(rates[4],szRates[4])+'">'+(rates[4]==null?'—':rates[4].toFixed(2)+'%')+'</span></span></div>'
-          + '<div class="sd-kv"><span class="k">潜客锁单率</span><span class="v"><span class="'+rc(rates[5],szRates[5])+'">'+(rates[5]==null?'—':rates[5].toFixed(2)+'%')+'</span></span></div>'
-          + '<div class="sd-kv"><span class="k">潜客试驾率</span><span class="v"><span class="'+rc(rates[6],szRates[6])+'">'+(rates[6]==null?'—':rates[6].toFixed(2)+'%')+'</span></span></div>';
+          + '<div class="sd-kv"><span class="k">到店试驾率</span><span class="v"><span class="'+rc(rates[2],szRates[2])+'">'+(rates[2]==null?'—':rates[2].toFixed(2)+'%')+'</span></span></div>'          + '<div class="sd-kv"><span class="k">潜客试驾率</span><span class="v"><span class="'+rc(rates[3],szRates[3])+'">'+(rates[3]==null?'—':rates[3].toFixed(2)+'%')+'</span></span></div>';
+
+          + '<div class="sd-kv"><span class="k">到店锁单率</span><span class="v"><span class="'+rc(rates[4],szRates[4])+'">'+(rates[4]==null?'—':rates[4].toFixed(2)+'%')+'</span></span></div>'
+          + '<div class="sd-kv"><span class="k">试驾锁单率</span><span class="v"><span class="'+rc(rates[5],szRates[5])+'">'+(rates[5]==null?'—':rates[5].toFixed(2)+'%')+'</span></span></div>'
+          + '<div class="sd-kv"><span class="k">潜客锁单率</span><span class="v"><span class="'+rc(rates[6],szRates[6])+'">'+(rates[6]==null?'—':rates[6].toFixed(2)+'%')+'</span></span></div>'
       }
 
       // ---- 车型结论（按各店锁单结构自动给出，始终全部车型，受渠道筛选影响） ----
@@ -9225,7 +9225,7 @@ var SIX_DEFAULT = "W38";
     {k:'qike', label:'有效潜客', idx:0, pct:false},
     {k:'lock', label:'锁单', idx:5, pct:false},
     {k:'rate', label:'潜客锁单率', idx:5, pct:true},
-    {k:'tdrate', label:'潜客试驾率', idx:6, pct:true}
+    {k:'tdrate', label:'潜客试驾率', idx:3, pct:true}
   ];
 
   function fmtP2(v){ return v==null?'—':v.toFixed(2)+'%'; }
@@ -9417,7 +9417,7 @@ var SIX_DEFAULT = "W38";
     var sorted = rows.slice().sort(function(a,b){ return b.v[0]-a.v[0]; });
     var h = '<div class="table-wrap"><table class="pp-tbl"><thead><tr>'
       + '<th>'+dimLabel()+'</th><th class="num">有效潜客</th><th class="num">邀约</th><th class="num">核销</th><th class="num">到店</th><th class="num">试驾</th><th class="num">锁单</th>'
-      + '<th class="num">排程核销率</th><th class="num">潜客到店率</th><th class="num">到店试驾率</th><th class="num">到店锁单率</th><th class="num">试驾锁单率</th><th class="num">潜客锁单率</th><th class="num">潜客试驾率</th><th class="num">潜客环比</th>'
+      + '<th class="num">排程核销率</th><th class="num">潜客到店率</th><th class="num">到店试驾率</th><th class="num">潜客试驾率</th><th class="num">到店锁单率</th><th class="num">试驾锁单率</th><th class="num">潜客锁单率</th><th class="num">潜客环比</th>'
       + '</tr></thead><tbody>';
     sorted.forEach(function(r){
       var v=r.v, rt=r.rates;
@@ -9446,14 +9446,14 @@ var SIX_DEFAULT = "W38";
     var dl = dimLabel();
     var byLock = rows.slice().sort(function(a,b){return b.v[5]-a.v[5];});
     var byQike = rows.slice().sort(function(a,b){return b.v[0]-a.v[0];});
-    var byRate = rows.filter(function(r){return r.rates[5]!=null;}).sort(function(a,b){return a.rates[5]-b.rates[5];});
+    var byRate = rows.filter(function(r){return r.rates[6]!=null;}).sort(function(a,b){return a.rates[6]-b.rates[6];});
     var top = byLock[0], flow = byQike[0];
     var weak = byRate.filter(function(r){return r.v[0]>=20;})[0];
     var grow = rows.filter(function(r){return r.v[5]>=2 && r.wow!=null;}).sort(function(a,b){return (b.wow||0)-(a.wow||0);})[0];
     var parts = [];
     parts.push('主力成交'+dl+'：<b>'+top.dim+'</b> 锁单 '+top.v[5]+' 台（占全市锁单 '+Math.round(top.v[5]/szV[5]*100)+'%）');
     if(flow.dim!==top.dim) parts.push('最大流量入口：<b>'+flow.dim+'</b> 有效潜客 '+flow.v[0]+'（占全市 '+Math.round(flow.v[0]/szV[0]*100)+'%）');
-    if(weak) parts.push('转化最弱：<b>'+weak.dim+'</b> 潜客 '+weak.v[0]+' 仅锁单 '+weak.v[5]+' 台（潜客锁单率 '+fmtP2(weak.rates[5])+'）');
+    if(weak) parts.push('转化最弱：<b>'+weak.dim+'</b> 潜客 '+weak.v[0]+' 仅锁单 '+weak.v[5]+' 台（潜客锁单率 '+fmtP2(weak.rates[6])+'）');
     if(grow) parts.push('<b>'+grow.dim+'</b> 潜客环比 '+(grow.wow>=0?'+':'')+grow.wow+'%（增速最快）');
     return '<div class="pp-analysis">'+parts.join('；')+'。</div>';
   }
