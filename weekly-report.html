@@ -8133,6 +8133,7 @@ function syncStoreFilter() {
               <option value="3" data-page-node-id="uI1FR9EX2VGp1tlQQlqsnl">到店锁单率</option>
               <option value="4" data-page-node-id="SnYbH9iDeVD1THxO1dcmy0">试驾锁单率</option>
               <option value="5" selected data-page-node-id="3LtuXlM9drW0vRFl0HrBOk">潜客锁单率</option>
+              <option value="6" data-page-node-id="TdRt0921QkShiDrv">潜客试驾率</option>
             </optgroup>
             <optgroup label="六量（绝对值）" data-page-node-id="BcjGkMaDRkhlUZw69b6H3u">
               <option value="10" data-page-node-id="IYbX0k3Ny0iQRe0VStfAVq">门店有效潜客2</option>
@@ -8157,7 +8158,7 @@ function syncStoreFilter() {
       <div id="six-group-table" data-page-node-id="FRNkJ4BYd0xHkUck54qjjo"></div>
       <div class="sub-title" data-page-node-id="0IfPk6DVEtCQ3ej6AlT6RU">深圳全部门店明细（对比深圳市平均，可按集团 / 门店筛选）</div>
       <div id="six-store-table" data-page-node-id="pqRsDa0jW9da0JdTAg23qX"></div>
-      <p class="six-note" data-page-node-id="uLHDGj9SC1jBbug26AxoF0">说明：数据取自《深圳市-六量六率大表》（<span id="six-week-ref" data-page-node-id="lzYsMcbLBiobI4ztOMiLyx"></span>，周度=各周实绩、月度=当月各周合计）。六量 = 门店有效潜客2 / 邀约排程数 / 排程核销数 / 到店数 / 试驾数 / 当期净增锁单数；六率 = 排程核销率(核销/邀约)、潜客到店率(到店/潜客2)、到店试驾率(试驾/到店)、到店锁单率(锁单/到店)、潜客锁单率(锁单/潜客2)、潜客环比(WOW，当期 vs 上一周期)。各转化率以「深圳市平均（同口径）」为基准着色（≥深圳绿、&lt;深圳红）；潜客环比为正绿、为负红。深圳市平均行为基准参考。</p>
+      <p class="six-note" data-page-node-id="uLHDGj9SC1jBbug26AxoF0">说明：数据取自《深圳市-六量六率大表》（<span id="six-week-ref" data-page-node-id="lzYsMcbLBiobI4ztOMiLyx"></span>，周度=各周实绩、月度=当月各周合计）。六量 = 门店有效潜客2 / 邀约排程数 / 排程核销数 / 到店数 / 试驾数 / 当期净增锁单数；六率 = 排程核销率(核销/邀约)、潜客到店率(到店/潜客2)、到店试驾率(试驾/到店)、到店锁单率(锁单/到店)、潜客试驾率(试驾/潜客2)、潜客锁单率(锁单/潜客2)、潜客环比(WOW，当期 vs 上一周期)。各转化率以「深圳市平均（同口径）」为基准着色（≥深圳绿、&lt;深圳红）；潜客环比为正绿、为负红。深圳市平均行为基准参考。</p>
 </section>
 
     
@@ -8311,7 +8312,7 @@ function syncStoreFilter() {
 
   <div class="sub-pane" id="sub-matrix" data-page-node-id="XY6oLdXsmEjezp7Bx5s38I">
     <div class="pp-bar" data-page-node-id="cA6NpgLGmG86LQYVCSVWQY">
-      <span data-page-node-id="3VHAcwWKJUOsYLRH75rc9m"><label data-page-node-id="yioiyICOfeV1let81KJ1Y7">矩阵指标</label><select id="pp-metric" data-page-node-id="OVjxh014wktmv3bzMOWGTV"><option value="qike" data-page-node-id="RN8HCHp7wcBQy8NuPmbwIp">有效潜客</option><option value="lock" data-page-node-id="MtsqlXfbdLgZC0t811cIZB">锁单</option><option value="rate" data-page-node-id="tCxmXMPILB3mUqsR6scNUr">潜客锁单率</option></select></span>
+      <span data-page-node-id="3VHAcwWKJUOsYLRH75rc9m"><label data-page-node-id="yioiyICOfeV1let81KJ1Y7">矩阵指标</label><select id="pp-metric" data-page-node-id="OVjxh014wktmv3bzMOWGTV"><option value="qike" data-page-node-id="RN8HCHp7wcBQy8NuPmbwIp">有效潜客</option><option value="lock" data-page-node-id="MtsqlXfbdLgZC0t811cIZB">锁单</option><option value="rate" data-page-node-id="tCxmXMPILB3mUqsR6scNUr">潜客锁单率</option><option value="tdrate" data-page-node-id="TdRtPpMtrx0921">潜客试驾率</option></select></span>
       <span><label>分析维度</label><select class="pp-dim-sel"><option value="ch" selected>渠道</option><option value="cs">车型</option></select></span>
     </div>
     <div id="pp-matrix" data-page-node-id="VWEROI1xzFoRorKvGjnRFg"></div>
@@ -8536,10 +8537,10 @@ var SIX_DEFAULT = "W38";
     '深圳零跑中心南山嘉进隆店':'南山'
   };
   var COLS = ['潜客2','邀约','核销','到店','试驾','锁单'];
-  var RATE_COLS = ['排程核销率','潜客到店率','到店试驾率','到店锁单率','试驾锁单率','潜客锁单率'];
+  var RATE_COLS = ['排程核销率','潜客到店率','到店试驾率','到店锁单率','试驾锁单率','潜客锁单率','潜客试驾率'];
 
   function div(a,b){ return (b&&b>0) ? +(a/b*100).toFixed(2) : null; }
-  function calcRates(v){ return [div(v[2],v[1]), div(v[3],v[0]), div(v[4],v[3]), div(v[5],v[3]), div(v[5],v[4]), div(v[5],v[0])]; }
+  function calcRates(v){ return [div(v[2],v[1]), div(v[3],v[0]), div(v[4],v[3]), div(v[5],v[3]), div(v[5],v[4]), div(v[5],v[0]), div(v[4],v[0])]; }
   function fmtInt(n){ return n.toLocaleString(); }
   function fmtPct(v){ return v==null?'—':v.toFixed(2)+'%'; }
   function sumScope(scope, week, chSel, csSel){
@@ -8789,7 +8790,7 @@ var SIX_DEFAULT = "W38";
     var svp = sumScope('深圳市', PREV, '全部', '全部');
     var xytWow = xvp[0]>0 ? +(((xv[0]-xvp[0])/xvp[0])*100).toFixed(2) : null;
     var szWow  = svp[0]>0 ? +(((sv[0]-svp[0])/svp[0])*100).toFixed(2) : null;
-    var RC = ['排程核销率','潜客到店率','到店试驾率','到店锁单率','试驾锁单率','潜客锁单率'];
+    var RC = ['排程核销率','潜客到店率','到店试驾率','到店锁单率','试驾锁单率','潜客锁单率','潜客试驾率'];
     var sixGaps = RC.map(function(rc,i){ return {k:rc, g:+((xr[i]||0)-(sr[i]||0)).toFixed(2)}; });
     sixGaps.push({k:'潜客环比(WOW)', g:+((xytWow||0)-(szWow||0)).toFixed(2)});
     var bestSix = sixGaps.slice().sort(function(a,b){return b.g-a.g;})[0];
@@ -8891,7 +8892,8 @@ var SIX_DEFAULT = "W38";
           + '<div class="sd-kv"><span class="k">到店试驾率</span><span class="v"><span class="'+rc(rates[2],szRates[2])+'">'+(rates[2]==null?'—':rates[2].toFixed(2)+'%')+'</span></span></div>'
           + '<div class="sd-kv"><span class="k">到店锁单率</span><span class="v"><span class="'+rc(rates[3],szRates[3])+'">'+(rates[3]==null?'—':rates[3].toFixed(2)+'%')+'</span></span></div>'
           + '<div class="sd-kv"><span class="k">试驾锁单率</span><span class="v"><span class="'+rc(rates[4],szRates[4])+'">'+(rates[4]==null?'—':rates[4].toFixed(2)+'%')+'</span></span></div>'
-          + '<div class="sd-kv"><span class="k">潜客锁单率</span><span class="v"><span class="'+rc(rates[5],szRates[5])+'">'+(rates[5]==null?'—':rates[5].toFixed(2)+'%')+'</span></span></div>';
+          + '<div class="sd-kv"><span class="k">潜客锁单率</span><span class="v"><span class="'+rc(rates[5],szRates[5])+'">'+(rates[5]==null?'—':rates[5].toFixed(2)+'%')+'</span></span></div>'
+          + '<div class="sd-kv"><span class="k">潜客试驾率</span><span class="v"><span class="'+rc(rates[6],szRates[6])+'">'+(rates[6]==null?'—':rates[6].toFixed(2)+'%')+'</span></span></div>';
       }
 
       // ---- 车型结论（按各店锁单结构自动给出，始终全部车型，受渠道筛选影响） ----
@@ -9222,7 +9224,8 @@ var SIX_DEFAULT = "W38";
   var PP_METRICS = [
     {k:'qike', label:'有效潜客', idx:0, pct:false},
     {k:'lock', label:'锁单', idx:5, pct:false},
-    {k:'rate', label:'潜客锁单率', idx:5, pct:true}
+    {k:'rate', label:'潜客锁单率', idx:5, pct:true},
+    {k:'tdrate', label:'潜客试驾率', idx:6, pct:true}
   ];
 
   function fmtP2(v){ return v==null?'—':v.toFixed(2)+'%'; }
@@ -9414,7 +9417,7 @@ var SIX_DEFAULT = "W38";
     var sorted = rows.slice().sort(function(a,b){ return b.v[0]-a.v[0]; });
     var h = '<div class="table-wrap"><table class="pp-tbl"><thead><tr>'
       + '<th>'+dimLabel()+'</th><th class="num">有效潜客</th><th class="num">邀约</th><th class="num">核销</th><th class="num">到店</th><th class="num">试驾</th><th class="num">锁单</th>'
-      + '<th class="num">排程核销率</th><th class="num">潜客到店率</th><th class="num">到店试驾率</th><th class="num">到店锁单率</th><th class="num">试驾锁单率</th><th class="num">潜客锁单率</th><th class="num">潜客环比</th>'
+      + '<th class="num">排程核销率</th><th class="num">潜客到店率</th><th class="num">到店试驾率</th><th class="num">到店锁单率</th><th class="num">试驾锁单率</th><th class="num">潜客锁单率</th><th class="num">潜客试驾率</th><th class="num">潜客环比</th>'
       + '</tr></thead><tbody>';
     sorted.forEach(function(r){
       var v=r.v, rt=r.rates;
