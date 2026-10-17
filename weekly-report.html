@@ -8367,12 +8367,13 @@ function getFilteredStoreData(opts) {
   let d = Object.values(recs);
   if (gf !== &#x27;all&#x27;) d = d.filter(r =&gt; r.group === gf);
   if (!ignoreStore &amp;&amp; sf !== &#x27;all&#x27;) d = d.filter(r =&gt; r.name === sf);
-  const grand = d.reduce((s,r)=&gt;s+r.total,0);
+  // 深圳市占比分母：当前时间筛选下、全部门店（忽略集团/门店筛选）的深圳总销量
+  const grandShenzhen = rawOrders.filter(o =&gt; timeMatch(o)).length;
   const gTot = {}; d.forEach(r =&gt; { gTot[r.group] = (gTot[r.group]||0) + r.total; });
   d.forEach(r =&gt; {
     const gt = gTot[r.group] || 1;
     r.internal = gt ? +(r.total/gt*100).toFixed(2) : 0;        // 集团内占比（占所属集团）
-    r.szRatio  = grand ? +(r.total/grand*100).toFixed(2) : 0;  // 深圳市占比（占全市）
+    r.szRatio  = grandShenzhen ? +(r.total/grandShenzhen*100).toFixed(2) : 0;  // 深圳市占比（占全市总销量）
   });
   return d;
 }
@@ -8706,7 +8707,8 @@ function updateCharts() {
   makeLegend(&#x27;storePctLegend&#x27;,CLASS_KEYS.map((k,i)=&gt;({label:CLASS_LABELS[i],color:COLORS[k]})));
 
   // --- Group Charts ---
-  const grandTotal = d2.reduce((s,r)=&gt;s+r.total,0);
+  // 集团维度口径分母统一为深圳全市总销量（时间窗口内、全部门店），避免被集团/门店筛选缩小
+  const grandTotal = rawOrders.filter(o =&gt; timeMatch(o)).length;
   const gd = buildGroupRecords(d2, grandTotal);
   // 仅取三个集团，按 新易腾→标特→九兴 顺序；横轴为各集团内车型占比（百分比堆积）
   const gGroups = gd.filter(g =&gt; GROUP_ORDER.includes(g.name))
@@ -8838,6 +8840,8 @@ function renderTable(data) {
     gModelTotals[g][b] = (gModelTotals[g][b] || 0) + 1;
     cityModelTotals[b] = (cityModelTotals[b] || 0) + 1;
   });
+  // 深圳市占比统一分母：当前时间筛选下、全部门店的深圳总销量（不受集团/门店筛选影响）
+  const szGrand = rawOrders.filter(o =&gt; timeMatch(o)).length;
   const pct = (v, den) =&gt; den ? +(v / den * 100).toFixed(1) : 0;
   const cell = (v, p) =&gt; `&lt;td&gt;${v}&lt;span class=&quot;m-pct&quot;&gt;${p}%&lt;/span&gt;&lt;/td&gt;`;
   const cellDash = (v) =&gt; `&lt;td&gt;${v}&lt;span class=&quot;m-pct dash&quot;&gt;—&lt;/span&gt;&lt;/td&gt;`;
@@ -8882,7 +8886,7 @@ function renderTable(data) {
     // 集团合计行：每车型占比 = 该集团该车型 / 深圳市三集团该车型合计（深圳市三集团占比）
     if(stores.length){
       const gt = gTotals[g];
-      const szPct = gtAll.total ? +(gt.total/gtAll.total*100).toFixed(1) : 0;
+      const szPct = szGrand ? +(gt.total/szGrand*100).toFixed(1) : 0;
       rows += `&lt;tr class=&quot;group-total-row&quot;&gt;
         &lt;td&gt;${gt.name}&lt;/td&gt;
         ${CLASS_KEYS.map(k =&gt; cell(gt[k], pct(gt[k], cityModelTotals[k]))).join(&#x27;&#x27;)}
@@ -8895,7 +8899,7 @@ function renderTable(data) {
   [&#x27;深圳北&#x27;,&#x27;深圳南&#x27;].forEach(a =&gt; {
     const at = aTotals[a];
     if(at.total &gt; 0){
-      const szPct = gtAll.total ? +(at.total/gtAll.total*100).toFixed(1) : 0;
+      const szPct = szGrand ? +(at.total/szGrand*100).toFixed(1) : 0;
       rows += `&lt;tr class=&quot;area-row&quot;&gt;
         &lt;td&gt;${a}&lt;/td&gt;
         ${CLASS_KEYS.map(k =&gt; cell(at[k], pct(at[k], cityModelTotals[k]))).join(&#x27;&#x27;)}
@@ -8908,7 +8912,7 @@ function renderTable(data) {
   rows += `&lt;tr class=&quot;grand-total-row&quot;&gt;
     &lt;td&gt;${gtAll.name}&lt;/td&gt;
     ${CLASS_KEYS.map(k =&gt; cellDash(gtAll[k])).join(&#x27;&#x27;)}
-    &lt;td&gt;&lt;b&gt;${gtAll.total}&lt;/b&gt;&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;100.0%&lt;/td&gt;
+    &lt;td&gt;&lt;b&gt;${gtAll.total}&lt;/b&gt;&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;${pct(gtAll.total, szGrand)}%&lt;/td&gt;
   &lt;/tr&gt;`;
 
   const table = document.getElementById(&#x27;dataTable&#x27;);
