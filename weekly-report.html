@@ -248,7 +248,7 @@
       <button class="tab-btn" data-tab="order">销售车型分析</button>
 <!--ORDER_BTN_END-->
       <button class="tab-btn" data-tab="six" data-page-node-id="SvoSFPWtMzMxXJvKJVUkKq">六量六率分析</button>
-      <button class="tab-btn" data-tab="store" data-page-node-id="IVNXevPWMI9Dc5ZGKfx1de">门店分析</button>
+      <!-- GROUP_ANALYSIS_BTN --><button class="tab-btn" data-tab="group">集团分析</button><button class="tab-btn" data-tab="store" data-page-node-id="IVNXevPWMI9Dc5ZGKfx1de">门店分析</button>
       <button class="tab-btn" data-tab="person" data-page-node-id="Y6NPjet21zK1MqDv8PMfF9">人员情况</button>
       <button class="tab-btn" data-tab="prospect" data-page-node-id="6KgLmsYNB8tVFbh3nVpLL4">潜客分析</button>
       <button class="tab-btn" data-tab="tools">大区工具看板</button>
@@ -10082,7 +10082,241 @@ function syncStoreFilter() {
     
     
 
-    <section class="tab-pane" id="tab-store" data-page-node-id="JB45UH5uxkXRzMabQX5xql">
+    <!-- GROUP_ANALYSIS_START -->
+<section class="tab-pane" id="tab-group"><div class="grp-wrap">
+<style>
+.grp-wrap{max-width:1120px;margin:0 auto;padding:8px 4px 60px;font-size:14px;line-height:1.6;color:#222}
+.grp-wrap h1{font-size:23px;font-weight:700;color:#1a1a1a;border-bottom:3px solid #2b6cb0;padding-bottom:10px;margin:0 0 6px}
+.grp-wrap .ga-sub{color:#666;font-size:13px;margin-bottom:18px}
+.grp-wrap h2{font-size:18px;font-weight:700;margin:30px 0 12px;padding-left:10px;border-left:4px solid #2b6cb0;color:#1a1a1a}
+.grp-wrap h3{font-size:15px;font-weight:700;margin:16px 0 8px;color:#333}
+.grp-wrap .ga-note{background:#f5f8fc;border:1px solid #dce6f2;border-radius:6px;padding:10px 14px;color:#3a4a5a;font-size:13px;margin:10px 0}
+.grp-wrap .ga-tip{background:#f0f7f0;border:1px solid #cfe8cf;border-radius:6px;padding:12px 16px;margin:12px 0;color:#21532a}
+.grp-wrap .ga-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:8px 0 4px}
+.grp-wrap .ga-kpi{border:1px solid #e3e8ef;border-radius:8px;padding:12px 8px;text-align:center;background:#fafbfc}
+.grp-wrap .ga-kpi-name{font-size:12px;color:#555;font-weight:600}
+.grp-wrap .ga-kpi-val{font-size:25px;font-weight:800;margin:4px 0}
+.grp-wrap .ga-kpi-sub{font-size:11px;color:#888}
+.grp-wrap table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.grp-wrap th,.grp-wrap td{border:1px solid #e3e8ef;padding:6px 9px;text-align:left}
+.grp-wrap th{background:#f0f4f9;font-weight:700;color:#334}
+.grp-wrap td.ga-num{text-align:right;font-variant-numeric:tabular-nums}
+.grp-wrap tr.ga-hl{background:#fff4e6}
+.grp-wrap tr.ga-hl td{font-weight:700}
+.grp-wrap .ga-up{color:#1a7f37}
+.grp-wrap .ga-down{color:#c0392b}
+.grp-wrap .ga-good{color:#1a7f37;font-weight:600}
+.grp-wrap .ga-bad{color:#c0392b;font-weight:600}
+.grp-wrap .ga-warn{color:#d99a00;font-weight:600}
+.grp-wrap .ga-fn-row{display:flex;align-items:center;margin:5px 0}
+.grp-wrap .ga-fn-lab{width:92px;font-size:13px;color:#444;flex-shrink:0}
+.grp-wrap .ga-fn-wrap{flex:1;background:#eef2f7;border-radius:4px;overflow:hidden;height:25px}
+.grp-wrap .ga-fn-bar{height:100%;background:#2b6cb0;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;border-radius:4px;min-width:34px}
+.grp-wrap .ga-fn-rate{width:150px;text-align:right;font-size:12px;color:#666;flex-shrink:0}
+.grp-wrap .ga-mini-bar{height:13px;background:#eef2f7;border-radius:3px;overflow:hidden;display:inline-block;width:90px;vertical-align:middle}
+.grp-wrap .ga-mini-bar>div{height:100%}
+.grp-wrap .ga-mini-lab{font-size:12px;color:#555;margin-left:5px;vertical-align:middle}
+.grp-wrap .ga-grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grp-wrap .ga-root{background:#fff8f3;border:1px solid #f0d9c4;border-radius:8px;padding:14px 18px;margin:12px 0}
+.grp-wrap .ga-root b{color:#b5490b}
+.grp-wrap ul.ga-clean{margin:8px 0 8px 20px}
+.grp-wrap ul.ga-clean li{margin:6px 0}
+.grp-wrap .ga-divider{border:0;border-top:2px dashed #cbd5e1;margin:38px 0 30px}
+.grp-wrap .ga-badge{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:#2b6cb0;border-radius:4px;padding:2px 9px;margin-left:8px;vertical-align:middle}
+</style>
+<div class="ga-note" style="margin-top:4px"><b>口径说明：</b>本页聚焦新易腾 7 店，下方并列呈现 <b>11 月 MTD（截至 11/15）</b> 与 <b>最新周 W46（11.09–11.15）</b> 两份分析。过程数据来自六量六率大表（周维度 W46 / 月维度 M202611），达成数据来自城市经理简报（11 月累计口径），两套口径周期不同，已分别标注。转化率类对标华南大区与深圳市，颜色表示相对华南的优劣。</div>
+<h1>11 月 MTD（截至 11/15） · 新易腾 7 店 根因分析<span class="ga-badge">11月MTD</span></h1>
+<div class="ga-sub">统计周期：11 月 MTD（截至 11/15）｜分析对象：新易腾 7 店（杰鹏/龙华/万国城/光明/宝运达/远望/观澜湖）｜数据来源：周/月维度六量六率大表（过程）+ 城市经理简报（达成）+ 门店整车订单（车型）｜生成日期 2026-11-16</div>
+<h2>一、核心结论</h2>
+<div class="ga-kpis">
+<div class="ga-kpi"><div class="ga-kpi-name">锁单达成</div><div class="ga-kpi-val" style="color:#d99a00">39.6%</div><div class="ga-kpi-sub">达成 267 / 目标 674</div></div>
+<div class="ga-kpi"><div class="ga-kpi-name">交付达成</div><div class="ga-kpi-val" style="color:#d99a00">35.6%</div><div class="ga-kpi-sub">11月MTD累计口径</div></div>
+<div class="ga-kpi"><div class="ga-kpi-name">批售达成</div><div class="ga-kpi-val" style="color:#2e8b57">39.1%</div><div class="ga-kpi-sub">11月MTD累计口径</div></div>
+<div class="ga-kpi"><div class="ga-kpi-name">潜客锁单率</div><div class="ga-kpi-val" style="color:#d99a00">2.8%</div><div class="ga-kpi-sub">华南 3.0%</div></div>
+<div class="ga-kpi"><div class="ga-kpi-name">到店锁单率</div><div class="ga-kpi-val" style="color:#d99a00">21.9%</div><div class="ga-kpi-sub">华南 24.7%</div></div>
+</div>
+<div class="ga-tip"><b>一句话结论：</b>新易腾 7 店11 月 MTD（截至 11/15）锁单 <b>267</b> 单，潜客 <b>9,577</b>；锁单达成率 <b>39.6%</b>（华南 39.8%、深圳市 34.6%，<b>集团领先深圳市平均</b>）。过程端：潜客到店率 <b>12.7%</b> 优于华南 12.1%，但到店锁单率 <b>21.9%</b> 低于华南 24.7%（-2.8pppp），试驾锁单率 36.0% 低于华南 39.0%。<b>瓶颈在「到店→试驾→锁单」的临门一脚，而非线索量</b>；车系上 D 系（潜锁 1.7%）、渠道上区域活动（潜锁 0.4%）是结构性拖累。</div>
+<h2>二、达成概览（门店级 · 11月MTD累计口径）</h2>
+<p>新易腾 7 店中，光明（61 单 / 50.4%）、宝运达（51 / 41.5%）、远望（47 / 40.9%）锁单达成领先；观澜湖（7 / 28.0%）、杰鹏（22 / 29.7%）落后。达成口径为简报「当期净增锁单实际 ÷ 目标」。</p>
+<table><thead><tr><th>门店</th><th>销售人数</th><th>锁单目标</th><th>锁单达成</th><th>达成率</th><th>店效(单/人)</th></tr></thead><tbody>
+<tr><td>光明</td><td class="ga-num">15</td><td class="ga-num">121</td><td class="ga-num">61</td><td class="ga-num" style="color:#1a7f37;font-weight:600">50.4%</td><td class="ga-num">4.1</td></tr>
+<tr><td>宝运达</td><td class="ga-num">16</td><td class="ga-num">123</td><td class="ga-num">51</td><td class="ga-num" style="color:#1a7f37;font-weight:600">41.5%</td><td class="ga-num">3.2</td></tr>
+<tr><td>远望</td><td class="ga-num">13</td><td class="ga-num">115</td><td class="ga-num">47</td><td class="ga-num" style="color:#1a7f37;font-weight:600">40.9%</td><td class="ga-num">3.6</td></tr>
+<tr><td>龙华</td><td class="ga-num">11</td><td class="ga-num">94</td><td class="ga-num">37</td><td class="ga-num" style="color:#d99a00;font-weight:600">39.4%</td><td class="ga-num">3.4</td></tr>
+<tr><td>万国城</td><td class="ga-num">15</td><td class="ga-num">122</td><td class="ga-num">42</td><td class="ga-num" style="color:#d99a00;font-weight:600">34.4%</td><td class="ga-num">2.8</td></tr>
+<tr><td>杰鹏</td><td class="ga-num">10</td><td class="ga-num">74</td><td class="ga-num">22</td><td class="ga-num" style="color:#c0392b;font-weight:600">29.7%</td><td class="ga-num">2.2</td></tr>
+<tr><td>观澜湖</td><td class="ga-num">6</td><td class="ga-num">25</td><td class="ga-num">7</td><td class="ga-num" style="color:#c0392b;font-weight:600">28.0%</td><td class="ga-num">1.2</td></tr>
+<tr class="ga-hl"><td>集团合计</td><td class="ga-num">86</td><td class="ga-num">674</td><td class="ga-num">267</td><td class="ga-num">39.6%</td><td class="ga-num">3.1</td></tr>
+</tbody></table>
+<h2>三、六量六率过程诊断（漏斗 + 对标）</h2>
+<div>
+<div class="ga-fn-row"><div class="ga-fn-lab">门店有效潜客</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:100.0%">9,577</div></div><div class="ga-fn-rate"></div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">邀约排程</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:13.3%">1,270</div></div><div class="ga-fn-rate"></div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">排程核销</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:7.8%">746</div></div><div class="ga-fn-rate">核销率 58.7%</div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">到店</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:12.7%">1,220</div></div><div class="ga-fn-rate">潜客到店率 12.7%</div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">试驾</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:7.7%">742</div></div><div class="ga-fn-rate">到店试驾率 60.8%</div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">锁单</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:2.8%">267</div></div><div class="ga-fn-rate">到店锁单率 21.9%</div></div>
+</div>
+<div class="ga-note">漏斗宽度以「门店有效潜客」为 100% 基准。到店锁单率=锁单/到店；试驾锁单率=锁单/试驾；潜客到店率=到店/潜客；排程核销率=核销/邀约。周维度与月维度数据周期不同，已分别标注。</div>
+<div class="ga-grid2"><div>
+<h3>新易腾 vs 华南 / 深圳市（关键率）</h3>
+<table><thead><tr><th>指标</th><th>新易腾</th><th>深圳市</th><th>华南</th><th>差距(vs华南)</th></tr></thead><tbody>
+<tr><td>潜客到店率</td><td class="ga-num">12.7%</td><td class="ga-num">11.7%</td><td class="ga-num">12.1%</td><td class="ga-num ga-good">+0.6pp</td></tr>
+<tr><td>到店试驾率</td><td class="ga-num">60.8%</td><td class="ga-num">65.5%</td><td class="ga-num">63.3%</td><td class="ga-num ga-bad">-2.5pp</td></tr>
+<tr><td>到店锁单率</td><td class="ga-num">21.9%</td><td class="ga-num">21.3%</td><td class="ga-num">24.7%</td><td class="ga-num ga-bad">-2.8pp</td></tr>
+<tr><td>试驾锁单率</td><td class="ga-num">36.0%</td><td class="ga-num">32.5%</td><td class="ga-num">39.0%</td><td class="ga-num ga-bad">-3.0pp</td></tr>
+<tr><td>潜客锁单率</td><td class="ga-num">2.8%</td><td class="ga-num">2.5%</td><td class="ga-num">3.0%</td><td class="ga-num ga-bad">-0.2pp</td></tr>
+<tr><td>排程核销率</td><td class="ga-num">58.7%</td><td class="ga-num">55.7%</td><td class="ga-num">51.1%</td><td class="ga-num ga-good">+7.6pp</td></tr>
+</tbody></table></div><div>
+<h3>缺口测算（若追平华南平均）</h3><ul class="ga-clean">
+<li>到店锁单率追平 24.7% → 可多锁 <b>34</b> 单（1,220×24.7%−267）</li>
+<li>潜客锁单率追平 3.0% → 可多锁 <b>20</b> 单</li>
+<li>新易腾潜客量 9,577，11月MTD到店 1,220，提升转化是性价比最高的抓手。</li>
+</ul></div></div>
+<h2>四、车型维度（按车系归并）</h2>
+<p>按 A/B/C/D/Lafa5 归并（含未分类剔除）。11月MTD：C 系潜客锁单率 3.5%、A 系 2.8% 表现较好；D 系 1.7%、B 系 2.9% 偏低，Lafa5 体量小但潜锁 4.4% 最高。</p>
+<table><thead><tr><th>车系</th><th>潜客</th><th>锁单（MTD）</th><th>潜客锁单率</th><th>到店锁单率</th><th>试驾锁单率</th></tr></thead><tbody>
+<tr><td><b>A系</b></td><td class="ga-num">3,345</td><td class="ga-num">92</td><td><div class="ga-mini-bar"><div style="width:1%;background:#d99a00"></div></div><span class="ga-mini-lab">2.8%</span></td><td><div class="ga-mini-bar"><div style="width:10%;background:#d99a00"></div></div><span class="ga-mini-lab">24.1%</span></td><td class="ga-num">42.6%</td></tr>
+<tr><td><b>B系</b></td><td class="ga-num">1,277</td><td class="ga-num">37</td><td><div class="ga-mini-bar"><div style="width:1%;background:#d99a00"></div></div><span class="ga-mini-lab">2.9%</span></td><td><div class="ga-mini-bar"><div style="width:7%;background:#c0392b"></div></div><span class="ga-mini-lab">18.6%</span></td><td class="ga-num">29.8%</td></tr>
+<tr><td><b>C系</b></td><td class="ga-num">2,900</td><td class="ga-num">102</td><td><div class="ga-mini-bar"><div style="width:1%;background:#1a7f37"></div></div><span class="ga-mini-lab">3.5%</span></td><td><div class="ga-mini-bar"><div style="width:10%;background:#d99a00"></div></div><span class="ga-mini-lab">24.5%</span></td><td class="ga-num">36.7%</td></tr>
+<tr><td><b>D系</b></td><td class="ga-num">1,575</td><td class="ga-num">26</td><td><div class="ga-mini-bar"><div style="width:0%;background:#c0392b"></div></div><span class="ga-mini-lab">1.7%</span></td><td><div class="ga-mini-bar"><div style="width:6%;background:#c0392b"></div></div><span class="ga-mini-lab">15.1%</span></td><td class="ga-num">24.3%</td></tr>
+<tr><td><b>Lafa5系</b></td><td class="ga-num">227</td><td class="ga-num">10</td><td><div class="ga-mini-bar"><div style="width:1%;background:#1a7f37"></div></div><span class="ga-mini-lab">4.4%</span></td><td><div class="ga-mini-bar"><div style="width:12%;background:#1a7f37"></div></div><span class="ga-mini-lab">29.4%</span></td><td class="ga-num">58.8%</td></tr>
+</tbody></table>
+<h2>五、渠道维度</h2>
+<p>垂媒会员（占潜客 48.2%）+ 新媒体（24.8%）合计约 73%，但潜客锁单率仅 3.0%/1.9%，属「大水漫灌」低质线索；区域活动潜客 1,004 却仅锁 4 单（0.4%）为最大低效黑洞；自然到店潜锁 8.5% 最高但到店锁单率仅 8.1%；官方渠道潜锁 4.1%、到店锁 60.8% 质量最优但占比仅 7.9%。</p>
+<table><thead><tr><th>渠道</th><th>潜客占比</th><th>潜客</th><th>到店</th><th>锁单</th><th>潜客锁单率</th><th>到店锁单率</th><th>排程核销率</th></tr></thead><tbody>
+<tr><td><b>垂媒会员</b></td><td><div class="ga-mini-bar"><div style="width:80%;background:#5b8def"></div></div><span class="ga-mini-lab">48.2%</span></td><td class="ga-num">4,612</td><td class="ga-num">368</td><td class="ga-num">138</td><td class="ga-num ga-good">3.0%</td><td class="ga-num">37.5%</td><td class="ga-num">56.7%</td></tr>
+<tr><td><b>垂媒增量</b></td><td><div class="ga-mini-bar"><div style="width:4%;background:#5b8def"></div></div><span class="ga-mini-lab">2.3%</span></td><td class="ga-num">220</td><td class="ga-num">61</td><td class="ga-num">5</td><td class="ga-num ga-bad">2.3%</td><td class="ga-num">8.2%</td><td class="ga-num">64.4%</td></tr>
+<tr><td><b>新媒体</b></td><td><div class="ga-mini-bar"><div style="width:41%;background:#5b8def"></div></div><span class="ga-mini-lab">24.8%</span></td><td class="ga-num">2,371</td><td class="ga-num">137</td><td class="ga-num">44</td><td class="ga-num ga-bad">1.9%</td><td class="ga-num">32.1%</td><td class="ga-num">66.5%</td></tr>
+<tr><td><b>自然到店</b></td><td><div class="ga-mini-bar"><div style="width:9%;background:#5b8def"></div></div><span class="ga-mini-lab">5.2%</span></td><td class="ga-num">494</td><td class="ga-num">520</td><td class="ga-num">42</td><td class="ga-num ga-good">8.5%</td><td class="ga-num">8.1%</td><td class="ga-num">61.6%</td></tr>
+<tr><td><b>区域活动</b></td><td><div class="ga-mini-bar"><div style="width:17%;background:#5b8def"></div></div><span class="ga-mini-lab">10.5%</span></td><td class="ga-num">1,004</td><td class="ga-num">34</td><td class="ga-num">4</td><td class="ga-num ga-bad">0.4%</td><td class="ga-num">11.8%</td><td class="ga-num">79.3%</td></tr>
+<tr><td><b>官方渠道</b></td><td><div class="ga-mini-bar"><div style="width:13%;background:#5b8def"></div></div><span class="ga-mini-lab">7.9%</span></td><td class="ga-num">760</td><td class="ga-num">51</td><td class="ga-num">31</td><td class="ga-num ga-good">4.1%</td><td class="ga-num">60.8%</td><td class="ga-num">43.0%</td></tr>
+<tr><td><b>老客户转介绍</b></td><td><div class="ga-mini-bar"><div style="width:1%;background:#5b8def"></div></div><span class="ga-mini-lab">0.3%</span></td><td class="ga-num">30</td><td class="ga-num">11</td><td class="ga-num">2</td><td class="ga-num ga-good">6.7%</td><td class="ga-num">18.2%</td><td class="ga-num">71.4%</td></tr>
+<tr><td><b>其他</b></td><td><div class="ga-mini-bar"><div style="width:1%;background:#5b8def"></div></div><span class="ga-mini-lab">0.4%</span></td><td class="ga-num">34</td><td class="ga-num">33</td><td class="ga-num">1</td><td class="ga-num ga-bad">2.9%</td><td class="ga-num">3.0%</td><td class="ga-num">57.4%</td></tr>
+</tbody></table>
+<h2>六、门店转化对标（新易腾 7 店）</h2>
+<p>光明（潜锁 4.0%、到店锁 24.7%）与宝运达（潜锁 3.2%、到店锁 32.1%）为标杆；观澜湖（潜锁 0.9%、到店锁 7.3%）与杰鹏（潜锁 1.8%、到店锁 18.2%）垫底。</p>
+<table><thead><tr><th>门店</th><th>潜客</th><th>到店</th><th>试驾</th><th>锁单</th><th>潜客到店率</th><th>到店锁单率</th><th>试驾锁单率</th><th>潜客锁单率</th></tr></thead><tbody>
+<tr><td>宝运达</td><td class="ga-num">1,603</td><td class="ga-num">159</td><td class="ga-num">103</td><td class="ga-num">51</td><td class="ga-num">9.9%</td><td class="ga-num ga-good">32.1%</td><td class="ga-num ga-good">49.5%</td><td class="ga-num ga-good">3.2%</td></tr>
+<tr><td>光明</td><td class="ga-num">1,541</td><td class="ga-num">247</td><td class="ga-num">133</td><td class="ga-num">61</td><td class="ga-num">16.0%</td><td class="ga-num ga-good">24.7%</td><td class="ga-num ga-good">45.9%</td><td class="ga-num ga-good">4.0%</td></tr>
+<tr><td>龙华</td><td class="ga-num">1,352</td><td class="ga-num">172</td><td class="ga-num">109</td><td class="ga-num">37</td><td class="ga-num">12.7%</td><td class="ga-num ga-bad">21.5%</td><td class="ga-num ga-bad">33.9%</td><td class="ga-num ga-bad">2.7%</td></tr>
+<tr><td>远望</td><td class="ga-num">1,588</td><td class="ga-num">221</td><td class="ga-num">133</td><td class="ga-num">47</td><td class="ga-num">13.9%</td><td class="ga-num ga-bad">21.3%</td><td class="ga-num ga-bad">35.3%</td><td class="ga-num ga-good">3.0%</td></tr>
+<tr><td>万国城</td><td class="ga-num">1,541</td><td class="ga-num">204</td><td class="ga-num">117</td><td class="ga-num">42</td><td class="ga-num">13.2%</td><td class="ga-num ga-bad">20.6%</td><td class="ga-num ga-bad">35.9%</td><td class="ga-num ga-bad">2.7%</td></tr>
+<tr><td>杰鹏</td><td class="ga-num">1,214</td><td class="ga-num">121</td><td class="ga-num">88</td><td class="ga-num">22</td><td class="ga-num">10.0%</td><td class="ga-num ga-bad">18.2%</td><td class="ga-num ga-bad">25.0%</td><td class="ga-num ga-bad">1.8%</td></tr>
+<tr class="ga-hl"><td>观澜湖</td><td class="ga-num">738</td><td class="ga-num">96</td><td class="ga-num">59</td><td class="ga-num">7</td><td class="ga-num">13.0%</td><td class="ga-num ga-bad">7.3%</td><td class="ga-num ga-bad">11.9%</td><td class="ga-num ga-bad">0.9%</td></tr>
+<tr class="ga-hl"><td>集团合计</td><td class="ga-num">9,577</td><td class="ga-num">1,220</td><td class="ga-num">742</td><td class="ga-num">267</td><td class="ga-num">12.7%</td><td class="ga-num">21.9%</td><td class="ga-num">36.0%</td><td class="ga-num">2.8%</td></tr>
+</tbody></table>
+<h2>七、根因总结</h2>
+<div class="ga-root"><ul class="ga-clean">
+<li><b>根因1 · 到店转化能力偏弱（主因）：</b>到店锁单率 21.9% 低于华南 24.7%（-2.8pp）、试驾锁单率 36.0% 低于华南 39.0%；潜客到店率 12.7% 反而优于华南 12.1%——问题集中在「临门一脚」的接待、试驾体验与逼单。</li>
+<li><b>根因2 · 车系结构短板：</b>D 系潜客 1,575 仅锁 26 单（潜锁 1.7%、到店锁 15.1%、试驾锁 24.3% 三项垫底）；B 系到店锁 18.6% 偏低。C 系量质最佳（102 单 / 潜锁 3.5%）。</li>
+<li><b>根因3 · 渠道「量大质低」：</b>垂媒会员+新媒体占潜客约 73% 但潜锁仅 1.9%–3.0%；区域活动潜客 1,004 锁 4 单（0.4%）为最大低效项；自然到店到店锁单率 8.1%（到店不成交）。</li>
+<li><b>根因4 · 门店严重分化：</b>观澜湖潜锁 0.9%/到店锁 7.3%、杰鹏潜锁 1.8%，与光明（4.0%/24.7%）、宝运达（3.2%/32.1%）差距悬殊，拖拽集团整体。</li>
+</ul></div>
+<h2>八、行动建议</h2><ul class="ga-clean">
+<li><b>抓转化（优先级最高）：</b>将「到店锁单率/试驾锁单率」设为门店红线，对标华南 24.7%/39.0%；组织光明、宝运达的接待与逼单话术在 7 店复制，重点驻店辅导观澜湖、杰鹏。</li>
+<li><b>D 系专项：</b>针对 D19/D99 做竞品话术、金融/置换方案与试驾卖点专项，复盘到店锁单率仅 15.1% 的原因。</li>
+<li><b>渠道提质：</b>垂媒会员/新媒体线索分级清洗 + 标准邀约 SOP（当前核销率 58.7%）；区域活动重新评估 ROI，压缩低效投放；自然到店强化「到店即接待、试驾即逼单」。</li>
+<li><b>观澜湖专项复盘：</b>核查本周 1 单异常的客流/人员/录入原因，明确责任人与改善时限。</li>
+</ul>
+<hr class="ga-divider">
+<h1>最新周 W46（11.09–11.15） · 新易腾 7 店 根因分析<span class="ga-badge">最新周</span></h1>
+<div class="ga-sub">统计周期：最新周 W46（11.09–11.15）｜分析对象：新易腾 7 店（杰鹏/龙华/万国城/光明/宝运达/远望/观澜湖）｜数据来源：周/月维度六量六率大表（过程）+ 城市经理简报（达成）+ 门店整车订单（车型）｜生成日期 2026-11-16</div>
+<h2>一、核心结论</h2>
+<div class="ga-kpis">
+<div class="ga-kpi"><div class="ga-kpi-name">锁单达成</div><div class="ga-kpi-val" style="color:#d99a00">39.6%</div><div class="ga-kpi-sub">达成 267 / 目标 674</div></div>
+<div class="ga-kpi"><div class="ga-kpi-name">交付达成</div><div class="ga-kpi-val" style="color:#d99a00">35.6%</div><div class="ga-kpi-sub">11月MTD累计口径</div></div>
+<div class="ga-kpi"><div class="ga-kpi-name">批售达成</div><div class="ga-kpi-val" style="color:#2e8b57">39.1%</div><div class="ga-kpi-sub">11月MTD累计口径</div></div>
+<div class="ga-kpi"><div class="ga-kpi-name">潜客锁单率</div><div class="ga-kpi-val" style="color:#c0392b">2.5%</div><div class="ga-kpi-sub">华南 3.3%</div></div>
+<div class="ga-kpi"><div class="ga-kpi-name">到店锁单率</div><div class="ga-kpi-val" style="color:#c0392b">22.3%</div><div class="ga-kpi-sub">华南 29.1%</div></div>
+</div>
+<div class="ga-tip"><b>一句话结论：</b>新易腾 7 店 最新周 W46（11.09–11.15）（11.09–11.15）锁单 <b>121</b> 单、潜客 <b>4,867</b>；到店锁单率 <b>22.3%</b>，较华南 29.1% 低 <b>6.8pp</b>，试驾锁单率 37.8% 较华南低 9.2pp——<b>本周转化缺口较 MTD 进一步扩大</b>。门店层面严重分化：观澜湖新城店单周仅 <b>1 单</b>（到店锁单率 2.5%），宝运达（36.2%）、光明（28.9%）则显著优于集团；车系上 C 系环比 +6、D 系 +9 回暖，A 系 -11 下滑。</div>
+<h2>二、达成概览（门店级 · 11月MTD累计口径）</h2>
+<p>新易腾 7 店中，光明（61 单 / 50.4%）、宝运达（51 / 41.5%）、远望（47 / 40.9%）锁单达成领先；观澜湖（7 / 28.0%）、杰鹏（22 / 29.7%）落后。达成口径为简报「当期净增锁单实际 ÷ 目标」。</p>
+<table><thead><tr><th>门店</th><th>销售人数</th><th>锁单目标</th><th>锁单达成</th><th>达成率</th><th>店效(单/人)</th></tr></thead><tbody>
+<tr><td>光明</td><td class="ga-num">15</td><td class="ga-num">121</td><td class="ga-num">61</td><td class="ga-num" style="color:#1a7f37;font-weight:600">50.4%</td><td class="ga-num">4.1</td></tr>
+<tr><td>宝运达</td><td class="ga-num">16</td><td class="ga-num">123</td><td class="ga-num">51</td><td class="ga-num" style="color:#1a7f37;font-weight:600">41.5%</td><td class="ga-num">3.2</td></tr>
+<tr><td>远望</td><td class="ga-num">13</td><td class="ga-num">115</td><td class="ga-num">47</td><td class="ga-num" style="color:#1a7f37;font-weight:600">40.9%</td><td class="ga-num">3.6</td></tr>
+<tr><td>龙华</td><td class="ga-num">11</td><td class="ga-num">94</td><td class="ga-num">37</td><td class="ga-num" style="color:#d99a00;font-weight:600">39.4%</td><td class="ga-num">3.4</td></tr>
+<tr><td>万国城</td><td class="ga-num">15</td><td class="ga-num">122</td><td class="ga-num">42</td><td class="ga-num" style="color:#d99a00;font-weight:600">34.4%</td><td class="ga-num">2.8</td></tr>
+<tr><td>杰鹏</td><td class="ga-num">10</td><td class="ga-num">74</td><td class="ga-num">22</td><td class="ga-num" style="color:#c0392b;font-weight:600">29.7%</td><td class="ga-num">2.2</td></tr>
+<tr><td>观澜湖</td><td class="ga-num">6</td><td class="ga-num">25</td><td class="ga-num">7</td><td class="ga-num" style="color:#c0392b;font-weight:600">28.0%</td><td class="ga-num">1.2</td></tr>
+<tr class="ga-hl"><td>集团合计</td><td class="ga-num">86</td><td class="ga-num">674</td><td class="ga-num">267</td><td class="ga-num">39.6%</td><td class="ga-num">3.1</td></tr>
+</tbody></table>
+<h2>三、六量六率过程诊断（漏斗 + 对标）</h2>
+<div>
+<div class="ga-fn-row"><div class="ga-fn-lab">门店有效潜客</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:100.0%">4,867</div></div><div class="ga-fn-rate"></div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">邀约排程</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:11.3%">550</div></div><div class="ga-fn-rate"></div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">排程核销</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:6.7%">325</div></div><div class="ga-fn-rate">核销率 59.1%</div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">到店</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:11.2%">543</div></div><div class="ga-fn-rate">潜客到店率 11.2%</div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">试驾</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:6.6%">320</div></div><div class="ga-fn-rate">到店试驾率 58.9%</div></div>
+<div class="ga-fn-row"><div class="ga-fn-lab">锁单</div><div class="ga-fn-wrap"><div class="ga-fn-bar" style="width:2.5%">121</div></div><div class="ga-fn-rate">到店锁单率 22.3%</div></div>
+</div>
+<div class="ga-note">漏斗宽度以「门店有效潜客」为 100% 基准。到店锁单率=锁单/到店；试驾锁单率=锁单/试驾；潜客到店率=到店/潜客；排程核销率=核销/邀约。周维度与月维度数据周期不同，已分别标注。</div>
+<div class="ga-grid2"><div>
+<h3>新易腾 vs 华南 / 深圳市（关键率）</h3>
+<table><thead><tr><th>指标</th><th>新易腾</th><th>深圳市</th><th>华南</th><th>差距(vs华南)</th></tr></thead><tbody>
+<tr><td>潜客到店率</td><td class="ga-num">11.2%</td><td class="ga-num">10.0%</td><td class="ga-num">11.4%</td><td class="ga-num ga-bad">-0.2pp</td></tr>
+<tr><td>到店试驾率</td><td class="ga-num">58.9%</td><td class="ga-num">65.0%</td><td class="ga-num">61.9%</td><td class="ga-num ga-bad">-3.0pp</td></tr>
+<tr><td>到店锁单率</td><td class="ga-num">22.3%</td><td class="ga-num">23.1%</td><td class="ga-num">29.1%</td><td class="ga-num ga-bad">-6.8pp</td></tr>
+<tr><td>试驾锁单率</td><td class="ga-num">37.8%</td><td class="ga-num">35.6%</td><td class="ga-num">47.0%</td><td class="ga-num ga-bad">-9.2pp</td></tr>
+<tr><td>潜客锁单率</td><td class="ga-num">2.5%</td><td class="ga-num">2.3%</td><td class="ga-num">3.3%</td><td class="ga-num ga-bad">-0.8pp</td></tr>
+<tr><td>排程核销率</td><td class="ga-num">59.1%</td><td class="ga-num">55.4%</td><td class="ga-num">50.9%</td><td class="ga-num ga-good">+8.2pp</td></tr>
+</tbody></table></div><div>
+<h3>缺口测算（若追平华南平均）</h3><ul class="ga-clean">
+<li>到店锁单率追平 29.1% → 可多锁 <b>37</b> 单（543×29.1%−121）</li>
+<li>潜客锁单率追平 3.3% → 可多锁 <b>40</b> 单</li>
+<li>新易腾潜客量 4,867，本周到店 543，提升转化是性价比最高的抓手。</li>
+</ul></div></div>
+<h2>四、车型维度（按车系归并）</h2>
+<p>按 A/B/C/D/Lafa5 归并（含未分类剔除）。本周 W46：C 系锁单 51 单（环比 +6）、D 系 16 单（环比 +9）回暖，A 系 33 单（环比 -11）下滑；D 系潜锁仍仅 1.6% 垫底。</p>
+<table><thead><tr><th>车系</th><th>潜客</th><th>锁单（W46，环比W45）</th><th>潜客锁单率</th><th>到店锁单率</th><th>试驾锁单率</th></tr></thead><tbody>
+<tr><td><b>A系</b></td><td class="ga-num">1,614</td><td class="ga-num">33 <span class="ga-down">▼11</span></td><td><div class="ga-mini-bar"><div style="width:0%;background:#c0392b"></div></div><span class="ga-mini-lab">2.0%</span></td><td><div class="ga-mini-bar"><div style="width:8%;background:#c0392b"></div></div><span class="ga-mini-lab">19.9%</span></td><td class="ga-num">35.9%</td></tr>
+<tr><td><b>B系</b></td><td class="ga-num">660</td><td class="ga-num">19 <span class="ga-up">▲5</span></td><td><div class="ga-mini-bar"><div style="width:1%;background:#d99a00"></div></div><span class="ga-mini-lab">2.9%</span></td><td><div class="ga-mini-bar"><div style="width:8%;background:#c0392b"></div></div><span class="ga-mini-lab">20.4%</span></td><td class="ga-num">38.0%</td></tr>
+<tr><td><b>C系</b></td><td class="ga-num">1,357</td><td class="ga-num">51 <span class="ga-up">▲6</span></td><td><div class="ga-mini-bar"><div style="width:1%;background:#1a7f37"></div></div><span class="ga-mini-lab">3.8%</span></td><td><div class="ga-mini-bar"><div style="width:12%;background:#d99a00"></div></div><span class="ga-mini-lab">28.8%</span></td><td class="ga-num">42.1%</td></tr>
+<tr><td><b>D系</b></td><td class="ga-num">994</td><td class="ga-num">16 <span class="ga-up">▲9</span></td><td><div class="ga-mini-bar"><div style="width:0%;background:#c0392b"></div></div><span class="ga-mini-lab">1.6%</span></td><td><div class="ga-mini-bar"><div style="width:8%;background:#c0392b"></div></div><span class="ga-mini-lab">19.3%</span></td><td class="ga-num">32.7%</td></tr>
+<tr><td><b>Lafa5系</b></td><td class="ga-num">97</td><td class="ga-num">2 <span class="ga-down">▼3</span></td><td><div class="ga-mini-bar"><div style="width:0%;background:#c0392b"></div></div><span class="ga-mini-lab">2.1%</span></td><td><div class="ga-mini-bar"><div style="width:5%;background:#c0392b"></div></div><span class="ga-mini-lab">11.8%</span></td><td class="ga-num">25.0%</td></tr>
+</tbody></table>
+<h2>五、渠道维度</h2>
+<p>本周垂媒会员（44.9%）+ 新媒体（23.1%）仍占近 68%；区域活动潜客占比骤升至 16.5% 但仅锁 3 单（0.4%）；官方渠道到店锁单率 53.6% 质量最高；自然到店到店锁单率仅 8.7%（到店不成交）。</p>
+<table><thead><tr><th>渠道</th><th>潜客占比</th><th>潜客</th><th>到店</th><th>锁单</th><th>潜客锁单率</th><th>到店锁单率</th><th>排程核销率</th></tr></thead><tbody>
+<tr><td><b>垂媒会员</b></td><td><div class="ga-mini-bar"><div style="width:75%;background:#5b8def"></div></div><span class="ga-mini-lab">44.9%</span></td><td class="ga-num">2,184</td><td class="ga-num">149</td><td class="ga-num">58</td><td class="ga-num ga-bad">2.7%</td><td class="ga-num">38.9%</td><td class="ga-num">55.2%</td></tr>
+<tr><td><b>垂媒增量</b></td><td><div class="ga-mini-bar"><div style="width:4%;background:#5b8def"></div></div><span class="ga-mini-lab">2.1%</span></td><td class="ga-num">103</td><td class="ga-num">25</td><td class="ga-num">2</td><td class="ga-num ga-bad">1.9%</td><td class="ga-num">8.0%</td><td class="ga-num">73.5%</td></tr>
+<tr><td><b>新媒体</b></td><td><div class="ga-mini-bar"><div style="width:38%;background:#5b8def"></div></div><span class="ga-mini-lab">23.1%</span></td><td class="ga-num">1,123</td><td class="ga-num">62</td><td class="ga-num">23</td><td class="ga-num ga-bad">2.0%</td><td class="ga-num">37.1%</td><td class="ga-num">67.5%</td></tr>
+<tr><td><b>自然到店</b></td><td><div class="ga-mini-bar"><div style="width:8%;background:#5b8def"></div></div><span class="ga-mini-lab">4.7%</span></td><td class="ga-num">227</td><td class="ga-num">231</td><td class="ga-num">20</td><td class="ga-num ga-good">8.8%</td><td class="ga-num">8.7%</td><td class="ga-num">64.7%</td></tr>
+<tr><td><b>区域活动</b></td><td><div class="ga-mini-bar"><div style="width:27%;background:#5b8def"></div></div><span class="ga-mini-lab">16.5%</span></td><td class="ga-num">802</td><td class="ga-num">22</td><td class="ga-num">3</td><td class="ga-num ga-bad">0.4%</td><td class="ga-num">13.6%</td><td class="ga-num">82.4%</td></tr>
+<tr><td><b>官方渠道</b></td><td><div class="ga-mini-bar"><div style="width:13%;background:#5b8def"></div></div><span class="ga-mini-lab">7.5%</span></td><td class="ga-num">366</td><td class="ga-num">28</td><td class="ga-num">15</td><td class="ga-num ga-good">4.1%</td><td class="ga-num">53.6%</td><td class="ga-num">41.3%</td></tr>
+<tr><td><b>老客户转介绍</b></td><td><div class="ga-mini-bar"><div style="width:1%;background:#5b8def"></div></div><span class="ga-mini-lab">0.3%</span></td><td class="ga-num">15</td><td class="ga-num">6</td><td class="ga-num">0</td><td class="ga-num ga-bad">0.0%</td><td class="ga-num">0.0%</td><td class="ga-num">50.0%</td></tr>
+<tr><td><b>其他</b></td><td><div class="ga-mini-bar"><div style="width:1%;background:#5b8def"></div></div><span class="ga-mini-lab">0.4%</span></td><td class="ga-num">20</td><td class="ga-num">18</td><td class="ga-num">0</td><td class="ga-num ga-bad">0.0%</td><td class="ga-num">0.0%</td><td class="ga-num">52.0%</td></tr>
+</tbody></table>
+<h2>六、门店转化对标（新易腾 7 店）</h2>
+<p>宝运达（到店锁 36.2%、试驾锁 62.5%）、光明（28.9% / 59.3%）表现突出；观澜湖（到店锁 2.5%、单周 1 单）与杰鹏（17.8%）严重落后，万国城（16.8%）、远望（18.6%）亦低于集团均值。</p>
+<table><thead><tr><th>门店</th><th>潜客</th><th>到店</th><th>试驾</th><th>锁单</th><th>潜客到店率</th><th>到店锁单率</th><th>试驾锁单率</th><th>潜客锁单率</th></tr></thead><tbody>
+<tr><td>宝运达</td><td class="ga-num">750</td><td class="ga-num">69</td><td class="ga-num">40</td><td class="ga-num">25</td><td class="ga-num">9.2%</td><td class="ga-num ga-good">36.2%</td><td class="ga-num ga-good">62.5%</td><td class="ga-num ga-good">3.3%</td></tr>
+<tr><td>光明</td><td class="ga-num">875</td><td class="ga-num">121</td><td class="ga-num">59</td><td class="ga-num">35</td><td class="ga-num">13.8%</td><td class="ga-num ga-good">28.9%</td><td class="ga-num ga-good">59.3%</td><td class="ga-num ga-good">4.0%</td></tr>
+<tr><td>龙华</td><td class="ga-num">659</td><td class="ga-num">71</td><td class="ga-num">38</td><td class="ga-num">17</td><td class="ga-num">10.8%</td><td class="ga-num ga-good">23.9%</td><td class="ga-num ga-good">44.7%</td><td class="ga-num ga-good">2.6%</td></tr>
+<tr><td>远望</td><td class="ga-num">833</td><td class="ga-num">102</td><td class="ga-num">64</td><td class="ga-num">19</td><td class="ga-num">12.2%</td><td class="ga-num ga-bad">18.6%</td><td class="ga-num ga-bad">29.7%</td><td class="ga-num ga-bad">2.3%</td></tr>
+<tr><td>杰鹏</td><td class="ga-num">529</td><td class="ga-num">45</td><td class="ga-num">35</td><td class="ga-num">8</td><td class="ga-num">8.5%</td><td class="ga-num ga-bad">17.8%</td><td class="ga-num ga-bad">22.9%</td><td class="ga-num ga-bad">1.5%</td></tr>
+<tr><td>万国城</td><td class="ga-num">779</td><td class="ga-num">95</td><td class="ga-num">53</td><td class="ga-num">16</td><td class="ga-num">12.2%</td><td class="ga-num ga-bad">16.8%</td><td class="ga-num ga-bad">30.2%</td><td class="ga-num ga-bad">2.1%</td></tr>
+<tr class="ga-hl"><td>观澜湖</td><td class="ga-num">442</td><td class="ga-num">40</td><td class="ga-num">31</td><td class="ga-num">1</td><td class="ga-num">9.0%</td><td class="ga-num ga-bad">2.5%</td><td class="ga-num ga-bad">3.2%</td><td class="ga-num ga-bad">0.2%</td></tr>
+<tr class="ga-hl"><td>集团合计</td><td class="ga-num">4,867</td><td class="ga-num">543</td><td class="ga-num">320</td><td class="ga-num">121</td><td class="ga-num">11.2%</td><td class="ga-num">22.3%</td><td class="ga-num">37.8%</td><td class="ga-num">2.5%</td></tr>
+</tbody></table>
+<h2>七、根因总结</h2>
+<div class="ga-root"><ul class="ga-clean">
+<li><b>根因1 · 本周转化缺口扩大：</b>到店锁单率 22.3% 较华南 29.1% 低 6.8pp（MTD 仅 -2.8pp）、试驾锁单率 37.8% 较华南 47.0% 低 9.2pp——本周转化短板进一步放大。</li>
+<li><b>根因2 · 观澜湖单周塌陷（异常）：</b>潜客 442、到店 40 仅锁 1 单，到店锁单率 2.5%、试驾锁单率 3.2%，显著异常，需核查是否数据录入/客流质量/人员状态问题。</li>
+<li><b>根因3 · 区域活动低效放大：</b>本周区域活动潜客占比骤升至 16.5%（802）却仅锁 3 单（0.4%），环比 MTD 结构更差，活动抓手未转化为成交。</li>
+<li><b>根因4 · A 系下滑 vs C/D 回暖：</b>A 系锁单 44→33（-11）为主要失血点；C 系（+6）、D 系（+9）回暖，D 系潜锁仍仅 1.6% 需持续关注。</li>
+</ul></div>
+<h2>八、行动建议</h2><ul class="ga-clean">
+<li><b>抓转化（优先级最高）：</b>将「到店锁单率/试驾锁单率」设为门店红线，对标华南 24.7%/39.0%；组织光明、宝运达的接待与逼单话术在 7 店复制，重点驻店辅导观澜湖、杰鹏。</li>
+<li><b>D 系专项：</b>针对 D19/D99 做竞品话术、金融/置换方案与试驾卖点专项，复盘到店锁单率仅 15.1% 的原因。</li>
+<li><b>渠道提质：</b>垂媒会员/新媒体线索分级清洗 + 标准邀约 SOP（当前核销率 58.7%）；区域活动重新评估 ROI，压缩低效投放；自然到店强化「到店即接待、试驾即逼单」。</li>
+<li><b>观澜湖专项复盘：</b>核查本周 1 单异常的客流/人员/录入原因，明确责任人与改善时限。</li>
+</ul>
+<div class="ga-foot" style="margin-top:36px;padding-top:14px;border-top:1px solid #e3e8ef;color:#999;font-size:12px">本分析由六量六率大表（周/月）、城市经理简报与门店整车订单数据交叉生成；过程数据已按车系/渠道小计去重累加。达成率为简报「当期净增锁单实际÷目标」口径。生成日期 2026-11-16。</div>
+</div></section>
+<!-- GROUP_ANALYSIS_END --><section class="tab-pane" id="tab-store" data-page-node-id="JB45UH5uxkXRzMabQX5xql">
       <div class="section-title" data-page-node-id="2W9qrsGbWli0KO2DFIPc7Q">门店分析 · 新易腾 6 家门店</div>
       <div class="sub-title" data-page-node-id="EjCWJxNKIxn7nwWUY0Gn6w">选择门店查看其 2026 年 8 月经营诊断（达成 / 六量六率 / 渠道 / 车型 / 趋势 / 改善方案）；默认展示达成率最低的门店</div>
       <div class="sr-sel" data-page-node-id="UVYlcc1uyhhd94lDifsCFC">
